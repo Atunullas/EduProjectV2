@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "QUEST_ANS1")
+@Table(name = "QUESTION_ANS")
 public class QuestAns implements Serializable {
 
 	/**
@@ -39,6 +39,9 @@ public class QuestAns implements Serializable {
 
 	@Column(name = "QTYPE", nullable = false)
 	private String questType;
+
+	@Column(name = "ANSWER", nullable = false)
+	private String answer;
 
 	public Integer getId() {
 		return id;
@@ -94,6 +97,14 @@ public class QuestAns implements Serializable {
 
 	public void setQuestType(String questType) {
 		this.questType = questType;
+	}
+
+	public String getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
 	}
 
 }

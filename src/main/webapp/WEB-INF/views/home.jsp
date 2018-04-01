@@ -13,7 +13,7 @@
 				<div class="navbar-header">
 					<!-- Logo -->
 					<div class="navbar-brand">
-						<a href="index.html">
+						<a href="home.do">
 							<img class="logo" src="static/img/logo.png" alt="logo">
 							<img class="logo-alt" src="static/img/logo-alt.png" alt="logo">
 						</a>
