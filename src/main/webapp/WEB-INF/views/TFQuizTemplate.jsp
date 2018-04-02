@@ -6,11 +6,11 @@
 			<input type="text" value="${questions.question}" disabled>
 		</div>
 		<div>
-			<input type="radio" name="selOpt"> &nbsp;
+			<input type="radio" name="selOpt" value="A"> &nbsp;
 			${questions.optionA}
 		</div>
 		<div>
-			<input type="radio" name="selOpt"> &nbsp;
+			<input type="radio" name="selOpt" value="B"> &nbsp;
 			${questions.optionB}
 		</div>
 		<input type="hidden" name="curQuestionID" value="${questions.id}">

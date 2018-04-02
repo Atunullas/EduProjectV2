@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.eduproject.dao.QuestAnsDao;
 import com.eduproject.dto.QuizDTO;
 import com.eduproject.form.UploadQuestionForm;
+import com.eduproject.model.EQuestType;
 import com.eduproject.model.QuestAns;
 
 @Service
@@ -18,12 +19,21 @@ public class QuestAnsService {
 
 	public void performSave(UploadQuestionForm form) {
 		QuestAns model = new QuestAns();
-		model.setQuestion(form.getQuestion());
-		model.setQuestType(form.getQuestType());
-		model.setOptionA(form.getOptionA());
-		model.setOptionB(form.getOptionB());
-		model.setOptionC(form.getOptionC());
-		model.setOptionD(form.getOptionD());
+		if(EQuestType.TRUE_FALSE.name().equals(form.getQuestType())) {
+			model.setQuestion(form.getQuestion());
+			model.setQuestType(form.getQuestType());
+			model.setOptionA("True");
+			model.setOptionB("False");
+			model.setAnswer(form.getTruFalAns());
+		} else {
+			model.setQuestion(form.getQuestion());
+			model.setQuestType(form.getQuestType());
+			model.setOptionA(form.getOptionA());
+			model.setOptionB(form.getOptionB());
+			model.setOptionC(form.getOptionC());
+			model.setOptionD(form.getOptionD());
+			model.setAnswer(form.getAns());
+		}
 		questAnsDao.performSave(model);
 	}
 

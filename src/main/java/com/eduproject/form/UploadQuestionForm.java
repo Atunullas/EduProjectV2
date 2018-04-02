@@ -13,6 +13,36 @@ public class UploadQuestionForm {
 	private String optionD;
 
 	private String questType;
+	
+	private String qType;
+	
+	private String ans;
+	
+	private String truFalAns;
+	
+	public String getTruFalAns() {
+		return truFalAns;
+	}
+
+	public void setTruFalAns(String truFalAns) {
+		this.truFalAns = truFalAns;
+	}
+
+	public String getAns() {
+		return ans;
+	}
+
+	public void setAns(String ans) {
+		this.ans = ans;
+	}
+
+	public String getqType() {
+		return qType;
+	}
+
+	public void setqType(String qType) {
+		this.qType = qType;
+	}
 
 	public String getQuestion() {
 		return question;

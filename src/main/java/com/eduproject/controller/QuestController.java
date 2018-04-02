@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eduproject.dto.QuizDTO;
+import com.eduproject.form.SubmitAnsForm;
 import com.eduproject.model.EQuestType;
 import com.eduproject.service.QuestAnsService;
 
@@ -19,7 +21,7 @@ public class QuestController {
 	private QuestAnsService questAnsService;
 
 	@RequestMapping(value = { "/startQuest.do", "/nextQuest.do" })
-	public String startQuest(HttpServletRequest request, Model model) {
+	public String startQuest(HttpServletRequest request, @ModelAttribute SubmitAnsForm form, Model model) {
 		String view = "error";
 		String questId = request.getParameter("curQuestionID");
 		Integer questNo = 0;
