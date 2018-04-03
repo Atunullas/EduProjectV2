@@ -1,12 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ include file="commons/header.jsp"%>
+<script>
+$(document).ready(function(){
+	$('input[type="radio"][name="personAlive"]').click(function(){
+		if($('#personAliveYes').is(':checked')){
+			$('#doe').hide();
+		} else{
+			$('#doe').show();
+		}
+	});
+});	
 
-</body>
-</html>
+</script>
+<div class="container section md-padding">
+	<h3>Upload your Personality here</h3>
+	<form name="uploadPersonalityForm" action="savePersonality.do" method="post">
+		Name :<input type="text" name="personName" id="personName">
+		Age :<input type="text" name="personAge" id="personAge">
+		Date of Birth :<input type="text" name="personDOB" id="personDOB">
+		Alive : <input type="radio" name="personAlive" id="personAliveYes" value="true"> Yes 
+		<input type="radio" name="personAlive"  id="personAliveNo" value="false"> No <br>
+		<div id="doe" style="display:none;">
+			Date of Expiry :<input type="text" name="personDOD" id="personDOD">
+		</div>
+		About : <input type="text" name="personAbout" id="personAbout">
+		Upload Picture : <input type="file" name="personPic" id="personPic">
+		<button>Upload</button>
+		<input type="button" onclick="window.location.href ='home.do'" value="Cancel">
+	</form>
+</div>

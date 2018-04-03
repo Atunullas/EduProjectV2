@@ -1,7 +1,8 @@
 package com.eduproject.form;
 
-import java.sql.Blob;
 import java.sql.Date;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class UploadPersonalityForm {
 	private String personName;
@@ -16,7 +17,7 @@ public class UploadPersonalityForm {
 
 	private String personAbout;
 
-	private Blob personPic;
+	private MultipartFile personPic;
 
 	public String getPersonName() {
 		return personName;
@@ -66,11 +67,11 @@ public class UploadPersonalityForm {
 		this.personAbout = personAbout;
 	}
 
-	public Blob getPersonPic() {
+	public MultipartFile getPersonPic() {
 		return personPic;
 	}
 
-	public void setPersonPic(Blob personPic) {
+	public void setPersonPic(MultipartFile personPic) {
 		this.personPic = personPic;
 	}
 

@@ -2,6 +2,7 @@
 <script>
 
 $(document).ready(function(){
+	
 	$('#truFalse').click(function(){
 		if($(this).is(':checked')){
 			$('#options').hide();
@@ -28,7 +29,8 @@ $(document).ready(function(){
 			$('#questType').val('BEST_ANS');
 		}
 	});
-		
+
+	$('#truFalse').click();
 	
 });
 </script>
@@ -46,7 +48,7 @@ $(document).ready(function(){
 	<form name="uploadQuestForm" action="saveUploadQuest.do" method="post">
 		Question : <input type="text" name="question" id="question">
 	
-	<div id="options">
+	<div id="options" style="display:none;">
 		<input type="checkbox" name="ans" value="A">
 		Option A : <input type="text" name="optionA" id="optionA" class="optEmpty">
 		<input type="checkbox" name="ans" value="B">
@@ -57,12 +59,12 @@ $(document).ready(function(){
 		Option D : <input type="text" name="optionD" id="optionD" class="optEmpty">
 	</div>
 	
-	<div id="truFalDiv" style="display:none;">
+	<div id="truFalDiv">
 		<input type="radio" name="truFalAns" value="A">True
 		<input type="radio" name="truFalAns" value="B"> False 
 	</div>
 		
-		<input type="hidden" name="questType" id="questType" value="MUL_ANS">
+		<input type="hidden" name="questType" id="questType" value="TRUE_FALSE">
 		<button>Upload</button>
 		<input type="button" onclick="window.location.href ='home.do'" value="Cancel">
 	</form>

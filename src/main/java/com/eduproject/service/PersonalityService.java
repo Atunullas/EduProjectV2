@@ -1,9 +1,12 @@
 package com.eduproject.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.eduproject.dao.PersonalityDao;
 import com.eduproject.dto.PersonalityDTO;
@@ -15,7 +18,7 @@ public class PersonalityService {
 
 	@Autowired
 	private PersonalityDao personalityDao;
-	
+
 	public void performSave(UploadPersonalityForm form) {
 		Personality model = new Personality();
 		model.setPersonAbout(form.getPersonAbout());
@@ -24,7 +27,16 @@ public class PersonalityService {
 		model.setPersonDOB(form.getPersonDOB());
 		model.setPersonDOD(form.getPersonDOD());
 		model.setPersonName(form.getPersonName());
-		model.setPersonPic(form.getPersonPic());
+		File file = new File("c:\\EduProject\\" + form.getPersonPic().getOriginalFilename());
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+				model.setPersonPic(form.getPersonPic().getOriginalFilename());
+			} catch (IOException e) {
+				e.getMessage();
+			}
+		}
+
 		personalityDao.performSave(model);
 	}
 
@@ -39,7 +51,10 @@ public class PersonalityService {
 			person.setPersonDOB(pers.getPersonDOB());
 			person.setPersonName(pers.getPersonName());
 			person.setPersonDOD(pers.getPersonDOD());
-			person.setPersonPic(pers.getPersonPic());
+			File file = new File("c:\\EduProject\\" + pers.getPersonPic());
+			if (file.exists()) {
+				person.setPersonPic((MultipartFile) file);
+			}
 		}
 		return person;
 	}

@@ -1,7 +1,8 @@
 package com.eduproject.dto;
 
-import java.sql.Blob;
 import java.util.Date;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class PersonalityDTO {
 
@@ -19,7 +20,7 @@ public class PersonalityDTO {
 
 	private String personAbout;
 
-	private Blob personPic;
+	private MultipartFile personPic;
 
 	public Integer getId() {
 		return id;
@@ -77,11 +78,11 @@ public class PersonalityDTO {
 		this.personAbout = personAbout;
 	}
 
-	public Blob getPersonPic() {
+	public MultipartFile getPersonPic() {
 		return personPic;
 	}
 
-	public void setPersonPic(Blob personPic) {
+	public void setPersonPic(MultipartFile personPic) {
 		this.personPic = personPic;
 	}
 

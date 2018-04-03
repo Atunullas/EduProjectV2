@@ -1,7 +1,6 @@
 package com.eduproject.model;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -43,7 +42,7 @@ public class Personality implements Serializable {
 	private String personAbout;
 
 	@Column(name = "PERSON_PIC")
-	private Blob personPic;
+	private String personPic;
 
 	public Integer getId() {
 		return id;
@@ -101,11 +100,11 @@ public class Personality implements Serializable {
 		this.personAbout = personAbout;
 	}
 
-	public Blob getPersonPic() {
+	public String getPersonPic() {
 		return personPic;
 	}
 
-	public void setPersonPic(Blob personPic) {
+	public void setPersonPic(String personPic) {
 		this.personPic = personPic;
 	}
 
