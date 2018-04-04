@@ -2,6 +2,7 @@ package com.eduproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eduproject.form.UploadPersonalityForm;
@@ -35,7 +36,7 @@ public class UploadController {
 	}
 	
 	@RequestMapping(value = "/savePersonality.do")
-	public String saveUploadPersonality(UploadPersonalityForm form) {
+	public String saveUploadPersonality(@ModelAttribute UploadPersonalityForm form) {
 		personalityService.performSave(form);
 		return "uploadQuestForm";
 	}

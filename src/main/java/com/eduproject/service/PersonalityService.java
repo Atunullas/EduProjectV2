@@ -2,6 +2,7 @@ package com.eduproject.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,14 @@ public class PersonalityService {
 	public void performSave(UploadPersonalityForm form) {
 		Personality model = new Personality();
 		model.setPersonAbout(form.getPersonAbout());
-		model.setPersonAge(form.getPersonAge());
-		model.setPersonAlive(form.getPersonAlive());
-		model.setPersonDOB(form.getPersonDOB());
-		model.setPersonDOD(form.getPersonDOD());
+		model.setPersonAge(Integer.valueOf(form.getPersonAge()));
+		model.setPersonAlive(Boolean.valueOf(form.getPersonAlive()));
+		if(form.getPersonDOB()!=null) {
+			model.setPersonDOB(Date.valueOf(form.getPersonDOB()));	
+		}
+		if(form.getPersonDOD()!=null) {
+		model.setPersonDOD(Date.valueOf(form.getPersonDOD()));
+		}
 		model.setPersonName(form.getPersonName());
 		File file = new File("c:\\EduProject\\" + form.getPersonPic().getOriginalFilename());
 		if (!file.exists()) {

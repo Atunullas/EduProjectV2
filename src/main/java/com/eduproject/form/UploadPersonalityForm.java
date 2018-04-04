@@ -1,19 +1,17 @@
 package com.eduproject.form;
 
-import java.sql.Date;
-
 import org.springframework.web.multipart.MultipartFile;
 
 public class UploadPersonalityForm {
 	private String personName;
 
-	private Integer personAge;
+	private String personAge;
 
-	private Date personDOB;
+	private String personDOB;
 
-	private Boolean personAlive;
+	private String personAlive;
 
-	private Date personDOD;
+	private String personDOD;
 
 	private String personAbout;
 
@@ -27,35 +25,35 @@ public class UploadPersonalityForm {
 		this.personName = personName;
 	}
 
-	public Integer getPersonAge() {
+	public String getPersonAge() {
 		return personAge;
 	}
 
-	public void setPersonAge(Integer personAge) {
+	public void setPersonAge(String personAge) {
 		this.personAge = personAge;
 	}
 
-	public Date getPersonDOB() {
+	public String getPersonDOB() {
 		return personDOB;
 	}
 
-	public void setPersonDOB(Date personDOB) {
+	public void setPersonDOB(String personDOB) {
 		this.personDOB = personDOB;
 	}
 
-	public Boolean getPersonAlive() {
+	public String getPersonAlive() {
 		return personAlive;
 	}
 
-	public void setPersonAlive(Boolean personAlive) {
+	public void setPersonAlive(String personAlive) {
 		this.personAlive = personAlive;
 	}
 
-	public Date getPersonDOD() {
+	public String getPersonDOD() {
 		return personDOD;
 	}
 
-	public void setPersonDOD(Date personDOD) {
+	public void setPersonDOD(String personDOD) {
 		this.personDOD = personDOD;
 	}
 
