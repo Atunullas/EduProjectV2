@@ -39,7 +39,7 @@ public class QuestAns implements Serializable {
 
 	@Column(name = "QTYPE", nullable = false)
 	private String questType;
-
+	
 	@Column(name = "ANSWER", nullable = false)
 	private String answer;
 

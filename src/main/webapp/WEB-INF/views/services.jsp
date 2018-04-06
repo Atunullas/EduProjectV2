@@ -8,6 +8,18 @@ $(document).ready(function(){
 });
 
 </script>
+<style>
+
+h1,h2,h3,h4,h5,h6{
+color:white;
+}
+
+p{
+color:#868F9B;
+}
+
+
+</style>
 <div id="service" class="section" style="margin-top:20px;">
 
 		<!-- Container -->

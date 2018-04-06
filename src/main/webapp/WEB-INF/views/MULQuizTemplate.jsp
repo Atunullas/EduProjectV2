@@ -1,4 +1,4 @@
-<%@ include file="commons/header.jsp"%>
+<jsp:include page="commons/header.jsp"></jsp:include>
 <div class="container section md-padding" >
 	<form action="nextQuest.do" method="post">
 		<div>Welcome to Quiz</div>

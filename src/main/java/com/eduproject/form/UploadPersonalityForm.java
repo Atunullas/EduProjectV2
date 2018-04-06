@@ -1,7 +1,5 @@
 package com.eduproject.form;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class UploadPersonalityForm {
 	private String personName;
 
@@ -15,7 +13,7 @@ public class UploadPersonalityForm {
 
 	private String personAbout;
 
-	private MultipartFile personPic;
+	private String personPic;
 
 	public String getPersonName() {
 		return personName;
@@ -65,11 +63,11 @@ public class UploadPersonalityForm {
 		this.personAbout = personAbout;
 	}
 
-	public MultipartFile getPersonPic() {
+	public String getPersonPic() {
 		return personPic;
 	}
 
-	public void setPersonPic(MultipartFile personPic) {
+	public void setPersonPic(String personPic) {
 		this.personPic = personPic;
 	}
 

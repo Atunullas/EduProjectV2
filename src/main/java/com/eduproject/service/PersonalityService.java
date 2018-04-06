@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.eduproject.dao.PersonalityDao;
@@ -28,15 +29,15 @@ public class PersonalityService {
 		if(form.getPersonDOB()!=null) {
 			model.setPersonDOB(Date.valueOf(form.getPersonDOB()));	
 		}
-		if(form.getPersonDOD()!=null) {
+		if(StringUtils.isEmpty(form.getPersonDOD()!=null)) {
 		model.setPersonDOD(Date.valueOf(form.getPersonDOD()));
 		}
 		model.setPersonName(form.getPersonName());
-		File file = new File("c:\\EduProject\\" + form.getPersonPic().getOriginalFilename());
+		File file = new File("c:\\EduProject\\" + form.getPersonPic());
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
-				model.setPersonPic(form.getPersonPic().getOriginalFilename());
+				model.setPersonPic(form.getPersonPic());
 			} catch (IOException e) {
 				e.getMessage();
 			}
@@ -58,7 +59,7 @@ public class PersonalityService {
 			person.setPersonDOD(pers.getPersonDOD());
 			File file = new File("c:\\EduProject\\" + pers.getPersonPic());
 			if (file.exists()) {
-				person.setPersonPic((MultipartFile) file);
+				person.setPersonPic(pers.getPersonPic());
 			}
 		}
 		return person;

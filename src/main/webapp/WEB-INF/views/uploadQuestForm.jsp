@@ -1,4 +1,4 @@
-<%@ include file="commons/header.jsp"%>
+<jsp:include page="commons/header.jsp"></jsp:include>
 <script>
 
 $(document).ready(function(){
@@ -35,18 +35,21 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="container section md-padding">
-	<h3>Upload your Questions here</h3>
-	<h5>Please select your Question Type</h5>
+<div class="container section" style="padding-top: 30px;">
+	<div class="section-header text-center">
+		<h2 class="title white-text">Upload your Questions here</h2>
+		<h5 class="white-text">Please select your Question Type</h5>
+	</div>
+	
 	
 	<ul>
-	<li><input type="radio" name="qType" id="truFalse"> True or False</li>
-	<li><input type="radio" name="qType" id="mulChoice"> Multiple Choice</li>
-	<li><input type="radio" name="qType" id="bstAns"> Best Answer</li>
+	<li class="white-text"><input type="radio" name="qType" id="truFalse"> True or False</li>
+	<li class="white-text"><input type="radio" name="qType" id="mulChoice"> Multiple Choice</li>
+	<li class="white-text"><input type="radio" name="qType" id="bstAns"> Best Answer</li>
 	</ul>
 	
 	<form name="uploadQuestForm" action="saveUploadQuest.do" method="post">
-		Question : <input type="text" name="question" id="question">
+		<span class="white-text">Question : </span><input type="text" name="question" id="question">
 	
 	<div id="options" style="display:none;">
 		<input type="checkbox" name="ans" value="A">
@@ -59,7 +62,7 @@ $(document).ready(function(){
 		Option D : <input type="text" name="optionD" id="optionD" class="optEmpty">
 	</div>
 	
-	<div id="truFalDiv">
+	<div id="truFalDiv" class="white-text">
 		<input type="radio" name="truFalAns" value="A">True
 		<input type="radio" name="truFalAns" value="B"> False 
 	</div>

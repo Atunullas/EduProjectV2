@@ -18,7 +18,7 @@ public class PersonalityController {
 
 	@RequestMapping(value = { "/startPerson.do", "/nextPerson.do" })
 	public String startQuest(HttpServletRequest request, Model model) {
-		String view = "error";
+		String view = "viewPersonality";
 		PersonalityDTO person = personalityService.performFetch(1);
 		model.addAttribute("person", person);
 		return view;

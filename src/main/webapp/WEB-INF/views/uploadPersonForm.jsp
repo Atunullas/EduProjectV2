@@ -10,9 +10,11 @@ $(document).ready(function(){
 	});
 });	
 </script>
-<div class="container section md-padding">
-	<h3>Upload your Personality here</h3>
-	<form action="savePersonality.do" method="post">
+<div class="container section white-text">
+	<div class="section-header text-center">
+		<h3 class="title white-text">Upload your Personality here</h3>
+	</div>
+	<form name="uploadPersonalityForm" action="savePersonality.do" method="post">
 		Name :<input type="text" name="personName" id="personName">
 		Age :<input type="text" name="personAge" id="personAge">
 		Date of Birth :<input type="date" name="personDOB" id="personDOB">
@@ -23,9 +25,9 @@ $(document).ready(function(){
 		</div>
 		About : <input type="text" name="personAbout" id="personAbout">
 		Upload Picture : 	<i class="fa fa-user"></i>
-		<input type="file" name="personPic" id="personPic">
+		<input type="text" name="personPic" id="personPic">
 		<br>
-		<button>Upload</button>
-		<input type="button" onclick="window.location.href ='home.do'" value="Cancel">
+		<button class="main-color">Upload</button>
+		<input class="main-color" type="button" onclick="window.location.href ='home.do'" value="Cancel">
 	</form>
 </div>
