@@ -1,33 +1,77 @@
 <jsp:include page="commons/header.jsp"></jsp:include>
 <script>
-$(document).ready(function(){
-	$('input[type="radio"][name="personAlive"]').click(function(){
-		if($('#personAliveYes').is(':checked')){
-			$('#doe').hide();
-		} else{
-			$('#doe').show();
-		}
-	});
-});	
+$(document).ready(function() {
+	
+});
 </script>
 <div class="container section white-text">
 	<div class="section-header text-center">
 		<h3 class="title white-text">Upload your Personality here</h3>
 	</div>
-	<form name="uploadPersonalityForm" action="savePersonality.do" method="post">
-		Name :<input type="text" name="personName" id="personName">
-		Age :<input type="text" name="personAge" id="personAge">
-		Date of Birth :<input type="date" name="personDOB" id="personDOB">
-		Alive : <input type="radio" name="personAlive" id="personAliveYes" value="true"> Yes 
-		<input type="radio" name="personAlive"  id="personAliveNo" value="false"> No <br>
-		<div id="doe" style="display:none;">
-			Date of Expiry :<input type="date" name="personDOD" id="personDOD">
+	<form class="form form-vertical" action="savePersonality.do" method="post" enctype="multipart/form-data">
+		<div class="row">
+			<div class="col-sm-3 text-center">
+				<div class="row">
+					<label>Upload Picture</label>
+				</div>
+				<i class="fa fa-user" style="font-size: 8.5em;"></i>
+				<input type="file" name="personPic" title="Upload Picture">
+			</div>
+			<div class="col-sm-9">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="fname">First Name</label>
+							<input type="text" class="form-control" name="personName" id="personName" required="required">
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="lname">Last Name</label>
+							<input type="text" class="form-control" name="personName" id="personName" required="required">
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label>Date of Birth :</label>
+							<input type="date" class="form-control" name="personDOB" id="personDOB" required="required">
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label>Date of Expiry :</label>
+							<input type="date" class="form-control" name="personDOE" id="personDOE" required="required">
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6">
+							<label>Gender :</label>
+							<input type="radio" name="personGender" id="personGender" value="M"><label>&nbsp;Male</label>
+							<input type="radio" name="personGender" id="personGender" value="F"><label>&nbsp;Female</label>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12">
+							<label>About :</label>
+							<textarea name="personAbout" class="form-control" id="personAbout" required="required"></textarea>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<hr>
+					<div class="text-right">
+						<input type="button" id="resetBtn" class="btn btn-warning" value="Reset"/>
+						<button type="submit" class="btn btn-primary">Submit</button>
+						<input type="button" class="btn btn-danger" onclick="window.location.href ='service.do'" value="Cancel"/>
+					</div>
+				</div>
+			</div>
 		</div>
-		About : <input type="text" name="personAbout" id="personAbout">
-		Upload Picture : 	<i class="fa fa-user"></i>
-		<input type="text" name="personPic" id="personPic">
-		<br>
-		<button class="main-color">Upload</button>
-		<input class="main-color" type="button" onclick="window.location.href ='home.do'" value="Cancel">
 	</form>
 </div>

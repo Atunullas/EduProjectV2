@@ -3,7 +3,7 @@
 	<form action="nextQuest.do" method="post">
 		<div>Welcome to Quiz</div>
 		<div>
-			<input type="text" value="${questions.question}" disabled>
+			<input type="text" value="${questions.question}" class="form-control" readonly="readonly">
 		</div>
 		<div>
 			<input type="radio" name="selOpt" value="A"> &nbsp;

@@ -1,10 +1,11 @@
 <jsp:include page="commons/header.jsp"></jsp:include>
-<div class="container section md-padding" >
+<div class="container section">
 	<form action="nextQuest.do" method="post">
-		<div>Welcome to Quiz</div>
-		<div>
-			<input type="text" value="${questions.question}" disabled>
+		<div class="section-header text-center">
+			<h2 class="white-text">Welcome to Quiz</h2>
 		</div>
+		<input type="text" value="${questions.question}" class="form-control-plaintext"
+			readonly="readonly">
 		<div>
 			<input type="radio" name="selOpt" value="A"> &nbsp;
 			${questions.optionA}

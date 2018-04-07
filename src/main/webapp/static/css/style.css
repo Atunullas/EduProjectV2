@@ -151,19 +151,20 @@ ul, ol {
 /* --  background image section  -- */
 
 .bg-img {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     right: 0;
     bottom: 0;
     z-index: -1;
     background-position: center;
-    background-size: cover;
     background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: auto;
 }
 
 .bg-img .overlay {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     right: 0;
