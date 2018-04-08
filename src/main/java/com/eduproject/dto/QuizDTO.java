@@ -18,6 +18,16 @@ public class QuizDTO {
 
 	private String answer;
 	
+	private boolean scored;
+	
+	public boolean isScored() {
+		return scored;
+	}
+
+	public void setScored(boolean scored) {
+		this.scored = scored;
+	}
+
 	public String getAnswer() {
 		return answer;
 	}

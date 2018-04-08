@@ -8,7 +8,7 @@
 	<title>Smart App</title>
 
 	<!-- Google font -->
-<!-- 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet"> -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
 
 	<!-- Bootstrap -->
 	<link type="text/css" rel="stylesheet" href="static/css/bootstrap.min.css" />

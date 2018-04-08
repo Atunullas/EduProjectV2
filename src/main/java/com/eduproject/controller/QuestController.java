@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.eduproject.bean.StartQuizBean;
 import com.eduproject.dto.QuizDTO;
@@ -26,7 +27,7 @@ public class QuestController {
 	@Autowired
 	private StartQuizBean quizBean;
 
-	@RequestMapping(value = "/setQuestData.do")
+	@RequestMapping(value = "/setQuestData.do", method = RequestMethod.GET)
 	public String setQuizData(Model model) {
 		String view = "quizDisclaimer";
 		List<QuizDTO> quizQuestions = new ArrayList<QuizDTO>();
@@ -61,15 +62,20 @@ public class QuestController {
 		return view;
 	}
 
-	@RequestMapping(value = "/startQuest.do")
+	@RequestMapping(value = "/startQuest.do", method = RequestMethod.POST)
 	public String startQuest(Model model) {
 		String view = "error";
-		int curQuestNo = quizBean.getCurQuesNo();
-		model.addAttribute("curQuestNo", ++curQuestNo);
+		model.addAttribute("curQuestNo", 1);
 		model.addAttribute("totalQuizQues", quizBean.getTotalQuizQues());
 		model.addAttribute("isFirst", true);
-		QuizDTO question = questAnsService.performFetch(quizBean.getQuestionMap().get(curQuestNo));
-		view = viewQuestion(question, view, model, curQuestNo);
+		// QuizDTO question =
+		// questAnsService.performFetch(quizBean.getQuestionMap().get(1));
+		try {
+			QuizDTO question = quizBean.getQuizQuestions().get(1);
+			view = viewQuestion(question, view, model, 1);
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
 		return view;
 	}
 
@@ -77,41 +83,58 @@ public class QuestController {
 	public String nextQuest(HttpServletRequest request, Model model) {
 		String view = "quizComplete";
 		int curQuestNo = quizBean.getCurQuesNo();
-		String userAns = request.getParameter("selOpt");
-		model.addAttribute("totalQuizQues", quizBean.getTotalQuizQues());
-		model.addAttribute("isFirst", false);
+		String[] userAns = request.getParameterValues("selOpt");
+		String ans = getSubmittedAns(userAns);
 		if (quizBean.getUserResponse().size() >= curQuestNo) {
-			quizBean.getUserResponse().get(curQuestNo - 1).setAnswer(userAns);
-			if (null != userAns
-					&& userAns.equalsIgnoreCase(quizBean.getQuizQuestions().get(curQuestNo - 1).getAnswer())) {
+			quizBean.getUserResponse().get(curQuestNo - 1).setAnswer(ans);
+			if (null != userAns && ans.equalsIgnoreCase(quizBean.getQuizQuestions().get(curQuestNo - 1).getAnswer())) {
 				int currentScore = quizBean.getPointsAwarded();
-				quizBean.setPointsAwarded(++currentScore);
+				if (!quizBean.getUserResponse().get(curQuestNo - 1).isScored()) {
+					quizBean.getUserResponse().get(curQuestNo - 1).setScored(true);
+					quizBean.setPointsAwarded(++currentScore);
+				}
 			}
 		}
 		if (null != quizBean.getQuestionMap().get(++curQuestNo)) {
 			model.addAttribute("curQuestNo", curQuestNo);
-			QuizDTO question = questAnsService.performFetch(quizBean.getQuestionMap().get(curQuestNo));
-			view = viewQuestion(question, view, model, curQuestNo);
+			try {
+				QuizDTO question = quizBean.getUserResponse().get(quizBean.getQuestionMap().get(curQuestNo-1));
+				model.addAttribute("prevAns", question.getAnswer());
+				view = viewQuestion(question, view, model, curQuestNo);
+			} catch (IndexOutOfBoundsException e) {
+				e.printStackTrace();
+				view = "error";
+			}
 		}
+		model.addAttribute("totalQuizQues", quizBean.getTotalQuizQues());
+		model.addAttribute("isFirst", false);
 		model.addAttribute("score", quizBean.getPointsAwarded());
 		return view;
 	}
 
-	@RequestMapping(value = "/prevQuest.do")
-	public String prevQuest(Model model) {
-		String view = "";
+	@RequestMapping(value = "/prevQuest.do", method = RequestMethod.POST)
+	public String prevQuest(HttpServletRequest request, Model model) {
+		String view = "error";
 		int curQuestNo = quizBean.getCurQuesNo();
-		model.addAttribute("totalQuizQues", quizBean.getTotalQuizQues());
-		model.addAttribute("isFirst", --curQuestNo == 1 ? true : false);
-		model.addAttribute("curQuestNo", curQuestNo);
-		QuizDTO question = null;
-		if (curQuestNo != 0) {
-			question = quizBean.getUserResponse().get(curQuestNo - 1);
-		} else {
-			question = quizBean.getUserResponse().get(0);
+		String[] userAns = request.getParameterValues("selOpt");
+		String ans = "";
+		if (null != userAns) {
+			ans = getSubmittedAns(userAns);
 		}
-		model.addAttribute("prevAns", question.getAnswer());
-		view = viewQuestion(question, view, model, curQuestNo);
+		if (curQuestNo > 1) {
+			if (--curQuestNo == 1) {
+				model.addAttribute("isFirst", true);
+			} else {
+				model.addAttribute("isFirst", false);
+			}
+			quizBean.getUserResponse().get(curQuestNo).setAnswer(ans);
+			model.addAttribute("curQuestNo", curQuestNo);
+			QuizDTO question = null;
+			question = quizBean.getUserResponse().get(curQuestNo - 1);
+			model.addAttribute("prevAns", question.getAnswer());
+			view = viewQuestion(question, view, model, curQuestNo);
+		}
+		model.addAttribute("totalQuizQues", quizBean.getTotalQuizQues());
 		return view;
 	}
 
@@ -128,5 +151,21 @@ public class QuestController {
 			quizBean.setCurQuesNo(curQuestNo);
 		}
 		return view;
+	}
+
+	private String getSubmittedAns(String[] userAns) {
+		String ans = "";
+		boolean firstIteration = true;
+		for (String s : userAns) {
+			if (firstIteration) {
+				ans = s;
+				firstIteration = false;
+				continue;
+			}
+			if (!firstIteration) {
+				ans = ans + "," + s;
+			}
+		}
+		return ans;
 	}
 }

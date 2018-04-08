@@ -11,7 +11,7 @@
 	</div>
 	<br>
 	<h2 class="white-text">Good luck!</h2>
-	<form action="startQuest.do">
+	<form action="startQuest.do" method="post">
 		<div class="row">
 			<button class="btn btn-success">Start the Quiz </button>
 		</div>
