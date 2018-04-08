@@ -8,7 +8,7 @@ $(document).ready(function() {
 	<div class="section-header text-center">
 		<h3 class="title white-text">Upload your Personality here</h3>
 	</div>
-	<form class="form form-vertical" action="savePersonality.do" method="post" enctype="multipart/form-data">
+	<form class="form form-vertical" action="savePersonality.do" method="post">
 		<div class="row">
 			<div class="col-sm-3 text-center">
 				<div class="row">
@@ -22,13 +22,13 @@ $(document).ready(function() {
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="fname">First Name</label>
-							<input type="text" class="form-control" name="personName" id="personName" required="required">
+							<input type="text" class="form-control" name="firstName" id="personName" required="required">
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="lname">Last Name</label>
-							<input type="text" class="form-control" name="personName" id="personName" required="required">
+							<input type="text" class="form-control" name="lastName" id="personName" required="required">
 						</div>
 					</div>
 				</div>
@@ -43,7 +43,7 @@ $(document).ready(function() {
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label>Date of Expiry :</label>
-							<input type="date" class="form-control" name="personDOE" id="personDOE" required="required">
+							<input type="date" class="form-control" name="personDOE" id="personDOE">
 						</div>
 					</div>
 				</div>
@@ -51,8 +51,8 @@ $(document).ready(function() {
 				<div class="row">
 					<div class="col-sm-6">
 							<label>Gender :</label>
-							<input type="radio" name="personGender" id="personGender" value="M"><label>&nbsp;Male</label>
-							<input type="radio" name="personGender" id="personGender" value="F"><label>&nbsp;Female</label>
+							<input type="radio" name="personGender" id="personGender" value="Male"><label>&nbsp;Male</label>
+							<input type="radio" name="personGender" id="personGender" value="Female"><label>&nbsp;Female</label>
 					</div>
 				</div>
 				

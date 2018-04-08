@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -20,11 +19,9 @@ public class PersonalityDao extends HibernateDaoSupport {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Personality> performFetch(Integer personId) {
+	public List<Personality> performFetchAll() {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Personality.class);
-		criteria.add(Restrictions.eq("id", Integer.valueOf(personId)));
 		List<?> result = getHibernateTemplate().findByCriteria(criteria);
-		System.out.println("------------------------------------->" + result.size());
 		return (List<Personality>) result;
 	}
 

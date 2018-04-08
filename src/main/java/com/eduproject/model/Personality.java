@@ -26,17 +26,14 @@ public class Personality implements Serializable {
 	@Column(name = "PERSON_NAME", nullable = false)
 	private String personName;
 
-	@Column(name = "PERSON_AGE", nullable = false)
-	private Integer personAge;
+	@Column(name = "PERSON_SEX", nullable = false)
+	private String personGender;
 
 	@Column(name = "PERSON_DOB", nullable = false)
 	private Date personDOB;
 
-	@Column(name = "PERSON_ALIVE", nullable = false)
-	private Boolean personAlive;
-
-	@Column(name = "PERSON_DOD")
-	private Date personDOD;
+	@Column(name = "PERSON_DOE")
+	private Date personDOE;
 
 	@Column(name = "PERSON_ABOUT")
 	private String personAbout;
@@ -48,60 +45,52 @@ public class Personality implements Serializable {
 		return id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	public String getPersonName() {
 		return personName;
 	}
 
-	public void setPersonName(String personName) {
-		this.personName = personName;
-	}
-
-	public Integer getPersonAge() {
-		return personAge;
-	}
-
-	public void setPersonAge(Integer personAge) {
-		this.personAge = personAge;
+	public String getPersonGender() {
+		return personGender;
 	}
 
 	public Date getPersonDOB() {
 		return personDOB;
 	}
 
-	public void setPersonDOB(Date personDOB) {
-		this.personDOB = personDOB;
-	}
-
-	public Boolean getPersonAlive() {
-		return personAlive;
-	}
-
-	public void setPersonAlive(Boolean personAlive) {
-		this.personAlive = personAlive;
-	}
-
-	public Date getPersonDOD() {
-		return personDOD;
-	}
-
-	public void setPersonDOD(Date personDOD) {
-		this.personDOD = personDOD;
+	public Date getPersonDOE() {
+		return personDOE;
 	}
 
 	public String getPersonAbout() {
 		return personAbout;
 	}
 
-	public void setPersonAbout(String personAbout) {
-		this.personAbout = personAbout;
-	}
-
 	public String getPersonPic() {
 		return personPic;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setPersonName(String personName) {
+		this.personName = personName;
+	}
+
+	public void setPersonGender(String personGender) {
+		this.personGender = personGender;
+	}
+
+	public void setPersonDOB(Date personDOB) {
+		this.personDOB = personDOB;
+	}
+
+	public void setPersonDOE(Date personDOE) {
+		this.personDOE = personDOE;
+	}
+
+	public void setPersonAbout(String personAbout) {
+		this.personAbout = personAbout;
 	}
 
 	public void setPersonPic(String personPic) {

@@ -1,67 +1,22 @@
 package com.eduproject.form;
 
 public class UploadPersonalityForm {
-	private String personName;
 
-	private String personAge;
+	private String firstName;
+
+	private String lastName;
+
+	private int personAge;
+
+	private String personGender;
 
 	private String personDOB;
 
-	private String personAlive;
-
-	private String personDOD;
+	private String personDOE;
 
 	private String personAbout;
 
 	private String personPic;
-
-	public String getPersonName() {
-		return personName;
-	}
-
-	public void setPersonName(String personName) {
-		this.personName = personName;
-	}
-
-	public String getPersonAge() {
-		return personAge;
-	}
-
-	public void setPersonAge(String personAge) {
-		this.personAge = personAge;
-	}
-
-	public String getPersonDOB() {
-		return personDOB;
-	}
-
-	public void setPersonDOB(String personDOB) {
-		this.personDOB = personDOB;
-	}
-
-	public String getPersonAlive() {
-		return personAlive;
-	}
-
-	public void setPersonAlive(String personAlive) {
-		this.personAlive = personAlive;
-	}
-
-	public String getPersonDOD() {
-		return personDOD;
-	}
-
-	public void setPersonDOD(String personDOD) {
-		this.personDOD = personDOD;
-	}
-
-	public String getPersonAbout() {
-		return personAbout;
-	}
-
-	public void setPersonAbout(String personAbout) {
-		this.personAbout = personAbout;
-	}
 
 	public String getPersonPic() {
 		return personPic;
@@ -69,6 +24,62 @@ public class UploadPersonalityForm {
 
 	public void setPersonPic(String personPic) {
 		this.personPic = personPic;
+	}
+
+	public int getPersonAge() {
+		return personAge;
+	}
+
+	public String getPersonGender() {
+		return personGender;
+	}
+
+	public String getPersonDOB() {
+		return personDOB;
+	}
+
+	public String getPersonDOE() {
+		return personDOE;
+	}
+
+	public String getPersonAbout() {
+		return personAbout;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setPersonAge(int personAge) {
+		this.personAge = personAge;
+	}
+
+	public void setPersonGender(String personGender) {
+		this.personGender = personGender;
+	}
+
+	public void setPersonDOB(String personDOB) {
+		this.personDOB = personDOB;
+	}
+
+	public void setPersonDOE(String personDOE) {
+		this.personDOE = personDOE;
+	}
+
+	public void setPersonAbout(String personAbout) {
+		this.personAbout = personAbout;
 	}
 
 }

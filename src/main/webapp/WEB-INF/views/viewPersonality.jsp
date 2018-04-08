@@ -1,23 +1,81 @@
 <jsp:include page="commons/header.jsp"></jsp:include>
-<header role="banner">
-	<div class="container_16">
-		<hgroup>
-			<h1>${person.personName}</h1>
-			<h2>${person.personAge}</h2>
-		</hgroup>
-
-		<figure>
-			<img
-				src="Sheldon%20COOPER%20-%20Physicien%20surdou%C3%A9%20et%20Geek%20qualifi%C3%A9_files/avatar.jpg"
-				alt="${person.personPic}">
-		</figure>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<script>
+$(document).ready(function() {
+	
+});
+</script>
+<div class="container section white-text">
+	<div class="text-center">
+		<h3 class="title white-text">About Noble Personality</h3>
+		<div class="row">
+			<div class="form-group text-center">
+				Personality no : ${curPerson} out of ${totPerson}
+			</div>
+		</div>
 	</div>
-</header>
-
-<!-- Contact -->
-<section class="contactform clearfix">
-	<div class="container_16">
-		<h3>${person.personAge}</h3>
-		<p>${person.personAbout}
-	</div>${person.personPic}
-</section>
+	<form class="form form-vertical" action="nextPerson.do" method="get">
+		<div class="row">
+			<div class="col-sm-3 text-center">
+				<div class="row">
+					<label>${person.personPic}</label>
+				</div>
+				<i class="fa fa-user" style="font-size: 8.5em;"></i>
+			</div>
+			<div class="col-sm-9">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="fname">Name</label>
+							<label class="form-control">${person.personName}</label>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="lname">Age</label>
+							<label class="form-control">${person.personAge}</label>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label>Date of Birth :</label>
+							<label class="form-control">${person.personDOB}</label>
+						</div>
+					</div>
+					<c:if test="${not empty person.personDOE} ">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>Date of Expiry :</label>
+								<label class="form-control">${person.personDOE}</label>
+							</div>
+						</div>
+					</c:if>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-6">
+							<label>Gender :</label>
+							<label class="form-control">${person.personGender}</label>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12">
+							<label>About :</label>
+							<textarea class="form-control" readonly="readonly" >${person.personAbout}</textarea>
+					</div>
+				</div>
+				<input type="hidden" name="id" value="${curPerson}">				
+				<div class="form-group">
+					<hr>
+					<div class="text-right">
+						<button type="submit" class="btn btn-primary">Next</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
