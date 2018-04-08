@@ -12,20 +12,25 @@ import org.springframework.stereotype.Repository;
 import com.eduproject.model.QuestAns;
 
 @Repository("QuestAnsDao")
+@SuppressWarnings("unchecked")
 public class QuestAnsDao extends HibernateDaoSupport {
 
 	@Autowired
 	public void settingSessionFactory(SessionFactory sessionFactory) {
 		setSessionFactory(sessionFactory);
 	}
+	
+	public List<QuestAns> performFetchAll() {
+		DetachedCriteria criteria = DetachedCriteria.forClass(QuestAns.class);
+		List<QuestAns> result = (List<QuestAns>) getHibernateTemplate().findByCriteria(criteria);
+		return result;
+	}
 
-	@SuppressWarnings("unchecked")
 	public List<QuestAns> performFetch(Integer questId) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(QuestAns.class);
 		criteria.add(Restrictions.eq("id", Integer.valueOf(questId)));
-		List<?> result = getHibernateTemplate().findByCriteria(criteria);
-		System.out.println("------------------------------------->" + result.size());
-		return (List<QuestAns>) result;
+		List<QuestAns> result = (List<QuestAns>) getHibernateTemplate().findByCriteria(criteria);
+		return result;
 	}
 
 	public void performDelete(Object entity) {

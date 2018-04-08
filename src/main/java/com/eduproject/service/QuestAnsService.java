@@ -1,5 +1,6 @@
 package com.eduproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,4 +53,22 @@ public class QuestAnsService {
 		return quiz;
 	}
 
+	
+	public List<QuizDTO> performFetchAll() {
+		List<QuestAns> questAnsList = questAnsDao.performFetchAll();
+		List<QuizDTO> quizDTOList = new ArrayList<QuizDTO>();
+		for (QuestAns ques : questAnsList) {
+			QuizDTO quizQuest = new QuizDTO();
+			quizQuest.setId(ques.getId());
+			quizQuest.setOptionA(ques.getOptionA());
+			quizQuest.setOptionB(ques.getOptionB());
+			quizQuest.setOptionC(ques.getOptionC());
+			quizQuest.setOptionD(ques.getOptionD());
+			quizQuest.setQuestion(ques.getQuestion());
+			quizQuest.setQuestType(ques.getQuestType());
+			quizQuest.setAnswer(ques.getAnswer());
+			quizDTOList.add(quizQuest);
+		}
+		return quizDTOList;
+	}
 }

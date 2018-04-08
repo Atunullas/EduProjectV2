@@ -46,7 +46,7 @@ color:#868F9B;
 
 				<!-- service -->
 				<div class="col-md-4 col-sm-6">
-					<div class="service" id="startQuest.do">
+					<div class="service" id="setQuestData.do">
 						<i class="fa fa-pencil"></i>
 						<h3>Start Questionnaire</h3>
 						<p>Click here to start a quick Questionnaire</p>

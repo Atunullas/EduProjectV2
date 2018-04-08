@@ -1,21 +1,53 @@
 <jsp:include page="commons/header.jsp"></jsp:include>
+<script>
+$(document).ready(function(){
+	if("${prevAns}" != '' && "${prevAns}" == 'A'){
+		$('#radioA').attr('checked',true);
+	}else if("${prevAns}" == 'B'){
+		$('#radioB').attr('checked',true);
+	}
+});
+</script>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="container section">
-	<form action="nextQuest.do" method="post">
+	<form action="nextQuest.do" method="post" class="form-horizontal">
 		<div class="section-header text-center">
-			<h2 class="white-text">Welcome to Quiz</h2>
+			<h2 class="white-text">Quiz</h2>
 		</div>
-		<input type="text" value="${questions.question}" class="form-control-plaintext"
-			readonly="readonly">
-		<div>
-			<input type="radio" name="selOpt" value="A"> &nbsp;
-			${questions.optionA}
+		
+		<div class="row">
+			<div class="form-group text-center">
+				Question no : ${curQuestNo} out of ${totalQuizQues}
+			</div>
 		</div>
-		<div>
-			<input type="radio" name="selOpt" value="B"> &nbsp;
-			${questions.optionB}
+		
+		<div class="row">
+			<div class="form-group">
+				<label class="form-control">${questions.question}</label>
+			</div>
+			<div>
+				<input type="radio" name="selOpt" value="A" id="radioA"> &nbsp;
+				<label>${questions.optionA}</label>
+			</div>
+			<div>
+				<input type="radio" name="selOpt" value="B" id="radioB"> &nbsp;
+				<label>${questions.optionB}</label>
+			</div>
 		</div>
 		<input type="hidden" name="curQuestionID" value="${questions.id}">
-		<button>Previous</button>
-		<button>Next</button>
+		<hr>
+		<div class="row">
+			<div class="form-group">
+				<div class="col-sm-6 text-left">
+				<c:if test="${isFirst eq false}">
+					<button class="btn btn-warning" formaction="prevQuest.do">Previous</button>
+				</c:if>
+				</div>
+				<div class="col-sm-6 text-right">
+					<button class="btn btn-success">Next</button>
+				</div>
+			</div>
+		</div>
 	</form>
 </div>

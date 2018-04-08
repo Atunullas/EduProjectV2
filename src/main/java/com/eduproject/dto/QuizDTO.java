@@ -16,6 +16,16 @@ public class QuizDTO {
 
 	private String questType;
 
+	private String answer;
+	
+	public String getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
 	public Integer getId() {
 		return id;
 	}
