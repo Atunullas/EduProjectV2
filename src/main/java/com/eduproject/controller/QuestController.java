@@ -84,7 +84,10 @@ public class QuestController {
 		String view = "quizComplete";
 		int curQuestNo = quizBean.getCurQuesNo();
 		String[] userAns = request.getParameterValues("selOpt");
-		String ans = getSubmittedAns(userAns);
+		String ans = "";
+		if(null!=userAns) {
+			ans = getSubmittedAns(userAns);	
+		}
 		if (quizBean.getUserResponse().size() >= curQuestNo) {
 			quizBean.getUserResponse().get(curQuestNo - 1).setAnswer(ans);
 			if (null != userAns && ans.equalsIgnoreCase(quizBean.getQuizQuestions().get(curQuestNo - 1).getAnswer())) {
