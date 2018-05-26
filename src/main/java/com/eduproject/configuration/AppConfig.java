@@ -12,16 +12,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.eduproject")
-public class AppConfig extends WebMvcConfigurerAdapter{
-	
-	
+public class AppConfig extends WebMvcConfigurerAdapter {
+
 	/**
-     * Configure ViewResolvers to deliver preferred views.
-     */
+	 * Configure ViewResolvers to deliver preferred views.
+	 */
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 
@@ -31,24 +29,25 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 		viewResolver.setSuffix(".jsp");
 		registry.viewResolver(viewResolver);
 	}
-	
-	/**
-     * Configure ResourceHandlers to serve static resources like CSS/ Javascript etc...
-     */
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("/static/");
-    }
-    
-    /**
-     * Configure MessageSource to lookup any validation/error message in internationalized property files
-     */
-    @Bean
-	public MessageSource messageSource() {
-	    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-	    messageSource.setBasename("messages");
-	    return messageSource;
-	}
-    
-}
 
+	/**
+	 * Configure ResourceHandlers to serve static resources like CSS/ Javascript
+	 * etc...
+	 */
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+	}
+
+	/**
+	 * Configure MessageSource to lookup any validation/error message in
+	 * internationalized property files
+	 */
+	@Bean
+	public MessageSource messageSource() {
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasename("messages");
+		return messageSource;
+	}
+
+}

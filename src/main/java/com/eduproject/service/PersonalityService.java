@@ -1,6 +1,5 @@
 package com.eduproject.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import org.springframework.util.StringUtils;
 
 import com.eduproject.dao.PersonalityDao;
 import com.eduproject.dto.PersonalityDTO;
-import com.eduproject.form.UploadPersonalityForm;
 import com.eduproject.model.Personality;
 
 @Service
@@ -19,18 +17,18 @@ public class PersonalityService {
 	@Autowired
 	private PersonalityDao personalityDao;
 
-	public void performSave(UploadPersonalityForm form) {
+	public void performSave(PersonalityDTO dto) {
 		Personality model = new Personality();
-		model.setPersonName(form.getFirstName() + " " + form.getLastName());
-		if (form.getPersonDOB() != null) {
-			model.setPersonDOB(Date.valueOf(form.getPersonDOB()));
+		model.setPersonName(dto.getFirstName() + " " + dto.getLastName());
+		if (dto.getPersonDOB() != null) {
+			model.setPersonDOB(dto.getPersonDOB());
 		}
-		if (StringUtils.isEmpty(form.getPersonDOE() != null)) {
-			model.setPersonDOE(Date.valueOf(form.getPersonDOE()));
+		if (StringUtils.isEmpty(dto.getPersonDOE() != null)) {
+			model.setPersonDOE(dto.getPersonDOE());
 		}
-		model.setPersonGender(form.getPersonGender());
-		model.setPersonAbout(form.getPersonAbout());
-		model.setPersonPic(form.getPersonPic());
+		model.setPersonGender(dto.getPersonGender());
+		model.setPersonAbout(dto.getPersonAbout());
+		//model.setPersonPic(dto.getPersonPic());
 		personalityDao.performSave(model);
 	}
 
@@ -44,7 +42,7 @@ public class PersonalityService {
 			person.setPersonGender(pers.getPersonGender());
 			person.setPersonDOE(pers.getPersonDOE());
 			person.setPersonAbout(pers.getPersonAbout());
-			person.setPersonPic(pers.getPersonPic());
+		//	person.setPersonPic(pers.getPersonPic());
 			dtos.add(person);
 		}
 		return dtos;

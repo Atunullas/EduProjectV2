@@ -1,16 +1,17 @@
 package com.eduproject.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eduproject.dao.QuestAnsDao;
-import com.eduproject.dto.QuizDTO;
-import com.eduproject.form.UploadQuestionForm;
-import com.eduproject.model.EQuestType;
-import com.eduproject.model.QuestAns;
+import com.eduproject.dto.OptionDTO;
+import com.eduproject.dto.QuestionDTO;
+import com.eduproject.model.Option;
+import com.eduproject.model.Question;
 
 @Service
 public class QuestAnsService {
@@ -18,56 +19,40 @@ public class QuestAnsService {
 	@Autowired
 	private QuestAnsDao questAnsDao;
 
-	public void performSave(UploadQuestionForm form) {
-		QuestAns model = new QuestAns();
-		if(EQuestType.TRUE_FALSE.name().equals(form.getQuestType())) {
-			model.setQuestion(form.getQuestion());
-			model.setQuestType(form.getQuestType());
-			model.setOptionA("True");
-			model.setOptionB("False");
-			model.setAnswer(form.getTruFalAns());
-		} else {
-			model.setQuestion(form.getQuestion());
-			model.setQuestType(form.getQuestType());
-			model.setOptionA(form.getOptionA());
-			model.setOptionB(form.getOptionB());
-			model.setOptionC(form.getOptionC());
-			model.setOptionD(form.getOptionD());
-			model.setAnswer(form.getAns());
+	public void performSave(QuestionDTO dto) {
+		Question question = new Question();
+		question.setQuestionId(dto.getQuestionId());
+		question.setQuestionTxt(dto.getQuestionTxt());
+		question.setQuestionType(dto.getQuestionType());
+		Option option = new Option();
+		for (OptionDTO optDto : dto.getOptions()) {
+			option.setOptionId(optDto.getOptionId());
+			option.setOptionText(optDto.getOptionTxt());
+			option.setIsAns(optDto.getIsAns());
 		}
-		questAnsDao.performSave(model);
+		questAnsDao.performSave(question);
 	}
 
-	public QuizDTO performFetch(Integer questId) {
-		List<QuestAns> result = questAnsDao.performFetch(questId);
-		QuizDTO quiz = new QuizDTO();
-		for (QuestAns ques : result) {
-			quiz.setId(ques.getId());
-			quiz.setOptionA(ques.getOptionA());
-			quiz.setOptionB(ques.getOptionB());
-			quiz.setOptionC(ques.getOptionC());
-			quiz.setOptionD(ques.getOptionD());
-			quiz.setQuestion(ques.getQuestion());
-			quiz.setQuestType(ques.getQuestType());
-		}
-		return quiz;
+	public QuestionDTO performFetch(Integer questId) {
+		return questAnsDao.performFetchById(questId);
 	}
 
-	
-	public List<QuizDTO> performFetchAll() {
-		List<QuestAns> questAnsList = questAnsDao.performFetchAll();
-		List<QuizDTO> quizDTOList = new ArrayList<QuizDTO>();
-		for (QuestAns ques : questAnsList) {
-			QuizDTO quizQuest = new QuizDTO();
-			quizQuest.setId(ques.getId());
-			quizQuest.setOptionA(ques.getOptionA());
-			quizQuest.setOptionB(ques.getOptionB());
-			quizQuest.setOptionC(ques.getOptionC());
-			quizQuest.setOptionD(ques.getOptionD());
-			quizQuest.setQuestion(ques.getQuestion());
-			quizQuest.setQuestType(ques.getQuestType());
-			quizQuest.setAnswer(ques.getAnswer());
-			quizDTOList.add(quizQuest);
+	public Map<Integer, QuestionDTO> performFetchAll() {
+		List<Question> questAnsList = questAnsDao.performFetchAll();
+		Map<Integer, QuestionDTO> quizDTOList = new HashMap<>();
+		int index = 0;
+		for (Question ques : questAnsList) {
+			QuestionDTO quizQuest = new QuestionDTO();
+			OptionDTO option = new OptionDTO();
+			quizQuest.setQuestionId(ques.getQuestionId());
+			quizQuest.setQuestionTxt(ques.getQuestionTxt());
+			quizQuest.setQuestionType(ques.getQuestionType());
+			for (Option opt : ques.getOptions()) {
+				option.setOptionId(opt.getOptionId());
+				option.setOptionTxt(opt.getOptionText());
+				option.setIsAns(opt.getIsAns());
+			}
+			quizDTOList.put(++index, quizQuest);
 		}
 		return quizDTOList;
 	}

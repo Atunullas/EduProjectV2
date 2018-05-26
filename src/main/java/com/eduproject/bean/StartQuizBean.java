@@ -1,16 +1,15 @@
 package com.eduproject.bean;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.eduproject.dto.QuizDTO;
+import com.eduproject.dto.QuestionDTO;
 
 @Component
 public class StartQuizBean {
 
-	private List<QuizDTO> quizQuestions;
+	private Map<Integer, QuestionDTO> quizQuestions;
 
 	private int totalQuizQues;
 
@@ -19,25 +18,15 @@ public class StartQuizBean {
 	private int questId;
 
 	private int pointsAwarded;
-	
-	private List<QuizDTO> userResponse;
 
-	private Map<Integer, Integer> questionMap;
-	
+	private Map<Integer, String> userResponse;
+
 	public int getPointsAwarded() {
 		return pointsAwarded;
 	}
 
 	public void setPointsAwarded(int pointsAwarded) {
 		this.pointsAwarded = pointsAwarded;
-	}
-
-	public Map<Integer, Integer> getQuestionMap() {
-		return questionMap;
-	}
-
-	public void setQuestionMap(Map<Integer, Integer> questionMap) {
-		this.questionMap = questionMap;
 	}
 
 	public int getQuestId() {
@@ -64,19 +53,19 @@ public class StartQuizBean {
 		this.totalQuizQues = totalQuizQues;
 	}
 
-	public List<QuizDTO> getUserResponse() {
+	public Map<Integer, String> getUserResponse() {
 		return userResponse;
 	}
 
-	public void setUserResponse(List<QuizDTO> userResponse) {
+	public void setUserResponse(Map<Integer, String> userResponse) {
 		this.userResponse = userResponse;
 	}
 
-	public List<QuizDTO> getQuizQuestions() {
+	public Map<Integer, QuestionDTO> getQuizQuestions() {
 		return quizQuestions;
 	}
 
-	public void setQuizQuestions(List<QuizDTO> quizQuestions) {
+	public void setQuizQuestions(Map<Integer, QuestionDTO> quizQuestions) {
 		this.quizQuestions = quizQuestions;
 	}
 }

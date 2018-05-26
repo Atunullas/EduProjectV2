@@ -1,94 +1,59 @@
 package com.eduproject.form;
 
+import java.util.List;
+
+import com.eduproject.dto.OptionDTO;
+
 public class UploadQuestionForm {
 
-	private String question;
+	private int questionId;
 
-	private String optionA;
+	private String questionType;
 
-	private String optionB;
+	private String questionText;
 
-	private String optionC;
+	private List<OptionDTO> options;
 
-	private String optionD;
+	private String selectedAns;
 
-	private String questType;
-	
-	private String qType;
-	
-	private String ans;
-	
-	private String truFalAns;
-	
-	public String getTruFalAns() {
-		return truFalAns;
+	public List<OptionDTO> getOptions() {
+		return options;
 	}
 
-	public void setTruFalAns(String truFalAns) {
-		this.truFalAns = truFalAns;
+	public void setOptions(List<OptionDTO> options) {
+		this.options = options;
 	}
 
-	public String getAns() {
-		return ans;
+	public int getQuestionId() {
+		return questionId;
 	}
 
-	public void setAns(String ans) {
-		this.ans = ans;
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
 	}
 
-	public String getqType() {
-		return qType;
+	public String getQuestionType() {
+		return questionType;
 	}
 
-	public void setqType(String qType) {
-		this.qType = qType;
+	public void setQuestionType(String questionType) {
+		this.questionType = questionType;
 	}
 
-	public String getQuestion() {
-		return question;
+	public String getQuestionText() {
+		return questionText;
 	}
 
-	public void setQuestion(String question) {
-		this.question = question;
+	public void setQuestionText(String questionText) {
+		this.questionText = questionText;
 	}
 
-	public String getOptionA() {
-		return optionA;
+	public String getSelectedAns() {
+		return selectedAns;
 	}
 
-	public void setOptionA(String optionA) {
-		this.optionA = optionA;
+	public void setSelectedAns(String selectedAns) {
+		this.selectedAns = selectedAns;
 	}
 
-	public String getOptionB() {
-		return optionB;
-	}
-
-	public void setOptionB(String optionB) {
-		this.optionB = optionB;
-	}
-
-	public String getOptionC() {
-		return optionC;
-	}
-
-	public void setOptionC(String optionC) {
-		this.optionC = optionC;
-	}
-
-	public String getOptionD() {
-		return optionD;
-	}
-
-	public void setOptionD(String optionD) {
-		this.optionD = optionD;
-	}
-
-	public String getQuestType() {
-		return questType;
-	}
-
-	public void setQuestType(String questType) {
-		this.questType = questType;
-	}
 }

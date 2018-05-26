@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.eduproject.dto.QuizDTO;
-import com.eduproject.model.EQuestType;
+import com.eduproject.dto.OptionDTO;
+import com.eduproject.dto.QuestionDTO;
 import com.eduproject.service.QuestAnsService;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -29,19 +29,12 @@ public class PDFPrinter {
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream(new File(FILE_NAME)));
 			document.open();
-			List<QuizDTO> questions = service.performFetchAll();
+			Map<Integer, QuestionDTO> questions = service.performFetchAll();
 			int i = 0;
-			for (QuizDTO eachQuest : questions) {
-				printEachQuestion(document, ++i + eachQuest.getQuestion());
-				if (!eachQuest.getQuestType().equals(EQuestType.TRUE_FALSE.name())) {
-					printEachOptions(document, eachQuest.getOptionA());
-					printEachOptions(document, eachQuest.getOptionB());
-					printEachOptions(document, eachQuest.getOptionC());
-					printEachOptions(document, eachQuest.getOptionD());
-				} else {
-					printEachOptions(document, eachQuest.getOptionA());
-					printEachOptions(document, eachQuest.getOptionB());
-				}
+			for (QuestionDTO eachQuest : questions.values()) {
+				printEachQuestion(document, ++i + eachQuest.getQuestionTxt());
+				for (OptionDTO opt : eachQuest.getOptions())
+					printEachOptions(document, opt.getOptionTxt());
 			}
 			document.close();
 		} catch (FileNotFoundException | DocumentException e) {

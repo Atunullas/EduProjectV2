@@ -21,7 +21,7 @@ $(document).ready(function(){
 		
 		<div class="row">
 			<div class="form-group text-center">
-				Question no : ${curQuestNo} out of ${totalQuizQues}
+				Question no : ${curQuestNo} out of ${noOfTotalQuizQues}
 			</div>
 		</div>
 		

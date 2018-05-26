@@ -1,7 +1,8 @@
 package com.eduproject.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Blob;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,89 +12,86 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PERSONALITY")
+@Table(name = "personality")
 public class Personality implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer personId;
 
-	@Column(name = "PERSON_NAME", nullable = false)
+	@Column(name = "person_name", nullable = false)
 	private String personName;
 
-	@Column(name = "PERSON_SEX", nullable = false)
+	@Column(name = "person_sex", nullable = false)
 	private String personGender;
 
-	@Column(name = "PERSON_DOB", nullable = false)
+	@Column(name = "person_dob", nullable = false)
 	private Date personDOB;
 
-	@Column(name = "PERSON_DOE")
+	@Column(name = "person_doe")
 	private Date personDOE;
 
-	@Column(name = "PERSON_ABOUT")
+	@Column(name = "person_about")
 	private String personAbout;
 
-	@Column(name = "PERSON_PIC")
-	private String personPic;
+	@Column(name = "person_pic")
+	private Blob personPic;
 
-	public Integer getId() {
-		return id;
+	public Integer getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(Integer personId) {
+		this.personId = personId;
 	}
 
 	public String getPersonName() {
 		return personName;
 	}
 
-	public String getPersonGender() {
-		return personGender;
-	}
-
-	public Date getPersonDOB() {
-		return personDOB;
-	}
-
-	public Date getPersonDOE() {
-		return personDOE;
-	}
-
-	public String getPersonAbout() {
-		return personAbout;
-	}
-
-	public String getPersonPic() {
-		return personPic;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	public void setPersonName(String personName) {
 		this.personName = personName;
+	}
+
+	public String getPersonGender() {
+		return personGender;
 	}
 
 	public void setPersonGender(String personGender) {
 		this.personGender = personGender;
 	}
 
+	public Date getPersonDOB() {
+		return personDOB;
+	}
+
 	public void setPersonDOB(Date personDOB) {
 		this.personDOB = personDOB;
+	}
+
+	public Date getPersonDOE() {
+		return personDOE;
 	}
 
 	public void setPersonDOE(Date personDOE) {
 		this.personDOE = personDOE;
 	}
 
+	public String getPersonAbout() {
+		return personAbout;
+	}
+
 	public void setPersonAbout(String personAbout) {
 		this.personAbout = personAbout;
 	}
 
-	public void setPersonPic(String personPic) {
+	public Blob getPersonPic() {
+		return personPic;
+	}
+
+	public void setPersonPic(Blob personPic) {
 		this.personPic = personPic;
 	}
 

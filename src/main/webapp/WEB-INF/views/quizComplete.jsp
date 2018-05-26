@@ -13,7 +13,7 @@ h1, h2, h3, h4, h5, h6 {
 		<div class="row">
 			<div class="text-center">
 				<div class="col-sm-offset-5 col-sm-2">
-					<label class="form-control">Point Scored : ${score} / ${totalQuizQues}</label>
+					<label class="form-control">Point Scored : ${score} / ${noOfTotalQuizQues}</label>
 					<hr>
 				</div>
 			</div>

@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import com.eduproject.model.QuestAns;
+import com.eduproject.dto.QuestionDTO;
+import com.eduproject.model.Question;
 
 @Repository("QuestAnsDao")
 @SuppressWarnings("unchecked")
@@ -19,18 +20,21 @@ public class QuestAnsDao extends HibernateDaoSupport {
 	public void settingSessionFactory(SessionFactory sessionFactory) {
 		setSessionFactory(sessionFactory);
 	}
-	
-	public List<QuestAns> performFetchAll() {
-		DetachedCriteria criteria = DetachedCriteria.forClass(QuestAns.class);
-		List<QuestAns> result = (List<QuestAns>) getHibernateTemplate().findByCriteria(criteria);
+
+	public List<Question> performFetchAll() {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Question.class);
+		List<Question> result = (List<Question>) getHibernateTemplate().findByCriteria(criteria);
 		return result;
 	}
 
-	public List<QuestAns> performFetch(Integer questId) {
-		DetachedCriteria criteria = DetachedCriteria.forClass(QuestAns.class);
+	public QuestionDTO performFetchById(Integer questId) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Question.class);
 		criteria.add(Restrictions.eq("id", Integer.valueOf(questId)));
-		List<QuestAns> result = (List<QuestAns>) getHibernateTemplate().findByCriteria(criteria);
-		return result;
+		List<QuestionDTO> result = (List<QuestionDTO>) getHibernateTemplate().findByCriteria(criteria);
+		if (result.size() > 1) {
+			return result.get(0);
+		}
+		return null;
 	}
 
 	public void performDelete(Object entity) {
