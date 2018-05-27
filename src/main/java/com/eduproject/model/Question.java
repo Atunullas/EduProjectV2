@@ -3,11 +3,14 @@ package com.eduproject.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,6 +22,7 @@ public class Question implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "question_id")
 	private Integer questionId;
 
 	@Column(name = "question_txt", nullable = false)
@@ -27,7 +31,7 @@ public class Question implements Serializable {
 	@Column(name = "question_type", nullable = false)
 	private String questionType;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "question")
 	private List<Option> options;
 
 	public Integer getQuestionId() {
