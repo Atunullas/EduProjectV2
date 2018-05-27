@@ -52,7 +52,7 @@ public class QuestAnsService {
 				option.setOptionTxt(opt.getOptionText());
 				option.setIsAns(opt.getIsAns());
 			}
-			quizDTOList.put(++index, quizQuest);
+			quizDTOList.put(index++, quizQuest);
 		}
 		return quizDTOList;
 	}

@@ -31,7 +31,7 @@ public class Question implements Serializable {
 	@Column(name = "question_type", nullable = false)
 	private String questionType;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "question")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
 	private List<Option> options;
 
 	public Integer getQuestionId() {

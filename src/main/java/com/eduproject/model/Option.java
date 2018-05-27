@@ -30,7 +30,7 @@ public class Option implements Serializable {
 	@Column(name = "option_is_ans")
 	private String isAns;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "question_id", nullable = false)
 	private Question question;
 
