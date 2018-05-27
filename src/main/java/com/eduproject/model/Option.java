@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -18,6 +20,7 @@ public class Option implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "option_id")
 	private Integer optionId;
 
 	@Column(name = "option_txt", nullable = false)
@@ -26,7 +29,8 @@ public class Option implements Serializable {
 	@Column(name = "option_is_ans")
 	private String isAns;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "question_id", nullable = false)
 	private Question question;
 
 	public Integer getOptionId() {
