@@ -4,9 +4,15 @@
 			function() {
 				$(".service").click(
 						function() {
-							window.open($(this).attr("id"), "width="
-									+ $(document).width(), "height="
-									+ $(document).height());
+							if ($(this).attr("id") == "setQuestData.do"
+									|| $(this).attr("id") == "startPerson.do") {
+								window.open($(this).attr("id"), "New Window",
+										"width=" + $(window).width()
+												+ ",height ="
+												+ $(window).height());
+							} else {
+								window.location.href = $(this).attr("id");
+							}
 						})
 
 			});

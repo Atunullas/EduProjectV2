@@ -5,7 +5,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 </style>
 <div class="container section md-padding">
-	<form action="home.do" class="form-horizontal">
 		<div class="text-center">
 			<h1><label class="title">Quiz Complete</label></h1>
 			<h3>Thanks for attending the quiz</h3>
@@ -19,7 +18,6 @@ h1, h2, h3, h4, h5, h6 {
 			</div>
 		</div>
 		<div class="row text-center">
-			<button class="btn btn-success">Click for Home Page</button>
+			<button class="btn btn-success" onclick="javascript:window.close();">Click to Close</button>
 		</div>
-	</form>
 </div>

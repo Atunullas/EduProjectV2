@@ -57,10 +57,7 @@ public class QuestAnsService {
 				option.setIsAns(opt.getIsAns());
 				optionList.add(option);
 			}
-<<<<<<< HEAD
 			quizQuest.setOptions(optionList);
-=======
->>>>>>> branch 'master' of https://github.com/Atunullas/EduProjectV2.git
 			quizDTOList.put(index++, quizQuest);
 		}
 		return quizDTOList;
