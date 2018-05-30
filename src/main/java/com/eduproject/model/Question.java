@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,7 +31,11 @@ public class Question implements Serializable {
 	@Column(name = "question_type", nullable = false)
 	private String questionType;
 
+<<<<<<< HEAD
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "question")
+=======
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
+>>>>>>> branch 'master' of https://github.com/Atunullas/EduProjectV2.git
 	private List<Option> options;
 
 	public Integer getQuestionId() {

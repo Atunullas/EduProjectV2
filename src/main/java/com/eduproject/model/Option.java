@@ -33,9 +33,14 @@ public class Option implements Serializable {
 	@Column(name = "option_is_ans")
 	private String isAns;
 
+<<<<<<< HEAD
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
+=======
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "question_id", nullable = false)
+>>>>>>> branch 'master' of https://github.com/Atunullas/EduProjectV2.git
 	private Question question;
 
 	public Integer getOptionId() {
