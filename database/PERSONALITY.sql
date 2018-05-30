@@ -1,10 +1,10 @@
 CREATE TABLE `personality` (
-  `id` int(11) NOT NULL  AUTO_INCREMENT ,
-  `PERSON_NAME` varchar(45) NOT NULL,
-  `PERSON_SEX` varchar(10) NOT NULL,
-  `PERSON_DOB` date NOT NULL,
-  `PERSON_DOE` date DEFAULT NULL,
-  `PERSON_ABOUT` varchar(4000) DEFAULT NULL,
-  `PERSON_PIC` varchar(2000) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `person_id` int(11) NOT NULL,
+  `person_name` varchar(500) NOT NULL,
+  `person_sex` varchar(50) NOT NULL,
+  `person_dob` datetime DEFAULT NULL,
+  `person_doe` datetime DEFAULT NULL,
+  `person_about` varchar(4000) DEFAULT NULL,
+  `person_pic` blob,
+  PRIMARY KEY (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

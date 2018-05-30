@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eduproject.dto.PersonalityDTO;
 import com.eduproject.dto.QuestionDTO;
+import com.eduproject.printer.PDFPrinter;
 import com.eduproject.service.PersonalityService;
 import com.eduproject.service.QuestAnsService;
 
@@ -17,6 +18,9 @@ public class UploadController {
 
 	@Autowired
 	private PersonalityService personalityService;
+
+	@Autowired
+	private PDFPrinter pdfWriter;
 
 	@RequestMapping(value = "/uploadQuest.do")
 	public String uploadQuest() {
@@ -38,5 +42,11 @@ public class UploadController {
 	public String saveUploadPersonality(PersonalityDTO dto) {
 		personalityService.performSave(dto);
 		return "uploadPersonForm";
+	}
+
+	@RequestMapping(value = "/printQuest.do")
+	public void printQuest() {
+		pdfWriter.writeUsingIText();
+		System.out.println("File Created --------------------------------------");
 	}
 }

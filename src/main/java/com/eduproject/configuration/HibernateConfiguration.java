@@ -16,6 +16,9 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.eduproject.model.Option;
+import com.eduproject.model.Question;
+
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({ "com.eduproject.configuration" })
@@ -30,6 +33,8 @@ public class HibernateConfiguration {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setPackagesToScan(new String[] { "com.eduproject.model" });
+		sessionFactory.setAnnotatedClasses(Question.class);
+		sessionFactory.setAnnotatedClasses(Option.class);
 		sessionFactory.setHibernateProperties(hibernateProperties());
 		return sessionFactory;
 	}

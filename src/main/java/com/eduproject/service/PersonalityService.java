@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.eduproject.dao.PersonalityDao;
@@ -12,6 +13,7 @@ import com.eduproject.dto.PersonalityDTO;
 import com.eduproject.model.Personality;
 
 @Service
+@Transactional
 public class PersonalityService {
 
 	@Autowired
@@ -28,7 +30,7 @@ public class PersonalityService {
 		}
 		model.setPersonGender(dto.getPersonGender());
 		model.setPersonAbout(dto.getPersonAbout());
-		//model.setPersonPic(dto.getPersonPic());
+		// model.setPersonPic(dto.getPersonPic());
 		personalityDao.performSave(model);
 	}
 
@@ -42,7 +44,7 @@ public class PersonalityService {
 			person.setPersonGender(pers.getPersonGender());
 			person.setPersonDOE(pers.getPersonDOE());
 			person.setPersonAbout(pers.getPersonAbout());
-		//	person.setPersonPic(pers.getPersonPic());
+			// person.setPersonPic(pers.getPersonPic());
 			dtos.add(person);
 		}
 		return dtos;

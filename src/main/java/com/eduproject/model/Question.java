@@ -3,6 +3,7 @@ package com.eduproject.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,7 +30,7 @@ public class Question implements Serializable {
 	@Column(name = "question_type", nullable = false)
 	private String questionType;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "question")
 	private List<Option> options;
 
 	public Integer getQuestionId() {

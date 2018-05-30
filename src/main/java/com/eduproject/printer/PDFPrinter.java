@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.eduproject.dto.OptionDTO;
 import com.eduproject.dto.QuestionDTO;
@@ -18,8 +19,9 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+@Component
 public class PDFPrinter {
-	private static final String FILE_NAME = "C:\\EduProject\\QuestionPapers\\" + new Date();
+	private static final String FILE_NAME = "C:\\EduProject\\QuestionPapers\\" + new Date().getTime() + ".pdf";
 
 	@Autowired
 	private QuestAnsService service;

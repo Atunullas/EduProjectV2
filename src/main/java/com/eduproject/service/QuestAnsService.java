@@ -1,11 +1,13 @@
 package com.eduproject.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.eduproject.dao.QuestAnsDao;
 import com.eduproject.dto.OptionDTO;
@@ -14,6 +16,7 @@ import com.eduproject.model.Option;
 import com.eduproject.model.Question;
 
 @Service
+@Transactional
 public class QuestAnsService {
 
 	@Autowired
@@ -43,16 +46,19 @@ public class QuestAnsService {
 		int index = 0;
 		for (Question ques : questAnsList) {
 			QuestionDTO quizQuest = new QuestionDTO();
-			OptionDTO option = new OptionDTO();
+			List<OptionDTO> optionList = new ArrayList<>();
 			quizQuest.setQuestionId(ques.getQuestionId());
 			quizQuest.setQuestionTxt(ques.getQuestionTxt());
 			quizQuest.setQuestionType(ques.getQuestionType());
 			for (Option opt : ques.getOptions()) {
+				OptionDTO option = new OptionDTO();
 				option.setOptionId(opt.getOptionId());
 				option.setOptionTxt(opt.getOptionText());
 				option.setIsAns(opt.getIsAns());
+				optionList.add(option);
 			}
-			quizDTOList.put(++index, quizQuest);
+			quizQuest.setOptions(optionList);
+			quizDTOList.put(index++, quizQuest);
 		}
 		return quizDTOList;
 	}
