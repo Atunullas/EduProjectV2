@@ -10,6 +10,8 @@
 										"width=" + $(window).width()
 												+ ",height ="
 												+ $(window).height());
+							} else if ($(this).attr("id") == "printQuest.pdf") {
+								window.open($(this).attr("id"), "_blank");
 							} else {
 								window.location.href = $(this).attr("id");
 							}
@@ -92,7 +94,7 @@ p {
 
 			<!-- service  -->
 			<div class="col-md-4 col-sm-6">
-				<div class="service" id="printQuest.do">
+				<div class="service" id="printQuest.pdf">
 					<i class="fa fa-print"></i>
 					<h3>Print Questions</h3>
 					<p>Click here to print the Questions</p>

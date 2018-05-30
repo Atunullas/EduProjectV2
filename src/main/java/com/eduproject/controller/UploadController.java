@@ -2,11 +2,11 @@ package com.eduproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eduproject.dto.PersonalityDTO;
 import com.eduproject.dto.QuestionDTO;
-import com.eduproject.printer.PDFPrinter;
 import com.eduproject.service.PersonalityService;
 import com.eduproject.service.QuestAnsService;
 
@@ -14,13 +14,13 @@ import com.eduproject.service.QuestAnsService;
 public class UploadController {
 
 	@Autowired
+	private QuestAnsService service;
+
+	@Autowired
 	private QuestAnsService questAnsService;
 
 	@Autowired
 	private PersonalityService personalityService;
-
-	@Autowired
-	private PDFPrinter pdfWriter;
 
 	@RequestMapping(value = "/uploadQuest.do")
 	public String uploadQuest() {
@@ -44,9 +44,9 @@ public class UploadController {
 		return "uploadPersonForm";
 	}
 
-	@RequestMapping(value = "/printQuest.do")
-	public void printQuest() {
-		pdfWriter.writeUsingIText();
-		System.out.println("File Created --------------------------------------");
+	@RequestMapping(value = "/printQuest.pdf")
+	public String printQuest(Model model) {
+		model.addAttribute("questions", service.performFetchAll());
+		return "pdfView";
 	}
 }
