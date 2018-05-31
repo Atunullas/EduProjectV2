@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +21,13 @@ import com.eduproject.model.Question;
 @Transactional
 public class QuestAnsService {
 
+	private static final Logger logger = LoggerFactory.getLogger(QuestAnsService.class);
+
 	@Autowired
 	private QuestAnsDao questAnsDao;
 
 	public void performSave(QuestionDTO dto) {
+		logger.info("Entering performSave method");
 		Question question = new Question();
 		question.setQuestionId(dto.getQuestionId());
 		question.setQuestionTxt(dto.getQuestionTxt());
@@ -33,15 +38,20 @@ public class QuestAnsService {
 			option.setOptionText(optDto.getOptionTxt());
 			option.setIsAns(optDto.getIsAns());
 		}
+		logger.info("Persisting question to Database" + question);
 		questAnsDao.performSave(question);
+		logger.info("Exiting performSave method");
 	}
 
 	public QuestionDTO performFetch(Integer questId) {
+		logger.info("Entering performFetch method by question Id " + questId);
 		return questAnsDao.performFetchById(questId);
 	}
 
 	public Map<Integer, QuestionDTO> performFetchAll() {
+		logger.info("Entering performFetchAll method");
 		List<Question> questAnsList = questAnsDao.performFetchAll();
+		logger.info("Number of Questions fetched from DB : " + questAnsList.size());
 		Map<Integer, QuestionDTO> quizDTOList = new HashMap<>();
 		int index = 0;
 		for (Question ques : questAnsList) {
@@ -60,6 +70,7 @@ public class QuestAnsService {
 			quizQuest.setOptions(optionList);
 			quizDTOList.put(index++, quizQuest);
 		}
+		logger.info("Exiting performFetchAll method");
 		return quizDTOList;
 	}
 }

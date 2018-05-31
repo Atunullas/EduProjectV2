@@ -82,7 +82,6 @@ public class PDFPrinter extends AbstractITextPdfView {
 			} else {
 				questionType = " (Unknown Question Type)";
 			}
-
 			printEachQuestion(document, ++i + ") " + eachQuest.getQuestionTxt(), questionType);
 			for (OptionDTO opt : eachQuest.getOptions()) {
 				printEachOptions(document, opt.getOptionTxt());

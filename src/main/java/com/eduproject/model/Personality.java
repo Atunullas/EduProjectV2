@@ -96,4 +96,11 @@ public class Personality implements Serializable {
 		this.personPic = personPic;
 	}
 
+	@Override
+	public String toString() {
+		return "Personality [personId=" + personId + ", personName=" + personName + ", personGender=" + personGender
+				+ ", personDOB=" + personDOB + ", personDOE=" + personDOE + ", personAbout=" + personAbout
+				+ ", personPic=" + personPic + "]";
+	}
+
 }

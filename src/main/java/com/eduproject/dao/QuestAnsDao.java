@@ -23,6 +23,7 @@ public class QuestAnsDao extends HibernateDaoSupport {
 
 	public List<Question> performFetchAll() {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Question.class);
+		criteria.add(Restrictions.sqlRestriction("1=1 order by rand()"));
 		List<Question> result = (List<Question>) getHibernateTemplate().findByCriteria(criteria);
 		return result;
 	}
@@ -35,6 +36,14 @@ public class QuestAnsDao extends HibernateDaoSupport {
 			return result.get(0);
 		}
 		return null;
+	}
+
+	public List<Question> performFetchWithLimit(Integer limit) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Question.class);
+		criteria.add(Restrictions.sqlRestriction("rownum < " + limit));
+		criteria.add(Restrictions.sqlRestriction("1=1 order by rand()"));
+		List<Question> result = (List<Question>) getHibernateTemplate().findByCriteria(criteria);
+		return result;
 	}
 
 	public void performDelete(Object entity) {

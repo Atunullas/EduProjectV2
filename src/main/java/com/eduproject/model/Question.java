@@ -64,4 +64,11 @@ public class Question implements Serializable {
 	public void setOptions(List<Option> options) {
 		this.options = options;
 	}
+
+	@Override
+	public String toString() {
+		return "Question [questionId=" + questionId + ", questionTxt=" + questionTxt + ", questionType=" + questionType
+				+ ", options=" + options + "]";
+	}
+
 }

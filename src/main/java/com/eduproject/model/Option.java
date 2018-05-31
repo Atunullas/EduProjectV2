@@ -70,4 +70,10 @@ public class Option implements Serializable {
 		this.question = question;
 	}
 
+	@Override
+	public String toString() {
+		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", isAns=" + isAns + ", question="
+				+ question + "]";
+	}
+
 }
