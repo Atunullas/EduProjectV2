@@ -64,7 +64,7 @@ p {
 
 			<!-- service -->
 			<div class="col-md-4 col-sm-6">
-				<div class="service" id="startBoth.do">
+				<div class="service" id="bulkUpload.view">
 					<i class="fa fa-rocket"></i>
 					<h3>Upload in Bulk as CSV</h3>
 					<p>Click here to Upload questionnaire and personality view</p>
