@@ -1,11 +1,11 @@
 package com.eduproject.controller;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eduproject.dto.OptionDTO;
 import com.eduproject.dto.PersonalityDTO;
 import com.eduproject.dto.QuestionDTO;
 import com.eduproject.service.PersonalityService;
@@ -27,6 +29,10 @@ import com.eduproject.service.QuestAnsService;
 public class UploadController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
+
+	private static final String upldQuestionHeader = "QUESTION,OPTION_1,OPTION_2,OPTION_3,OPTION_4,ANSWER,QUESTION_TYPE";
+
+	private static final String upldPersonalityHeader = "PERSON_NAME,PERSON_SEX,PERSON_DOB,PERSON_DOE,PERSON_ABOUT";
 
 	@Autowired
 	private QuestAnsService questAnsService;
@@ -73,21 +79,90 @@ public class UploadController {
 		return "bulkUploadView";
 	}
 
-	@RequestMapping(value = "/bulkUpload.do")
-	public String bulkUpload(@RequestPart MultipartFile csvfile) {
+	@PostMapping("/bulkUploadQuestion.do")
+	public String bulkUploadQuestion(@RequestParam(name = "csvFile") MultipartFile csvFile) {
 		logger.info("Entering bulkUpload method");
 		BufferedReader br;
-		List<String> result = new ArrayList<>();
+		List<QuestionDTO> questionDTOList = new ArrayList<>();
 		try {
 			String line;
-			InputStream is = csvfile.getInputStream();
+			InputStream is = csvFile.getInputStream();
 			br = new BufferedReader(new InputStreamReader(is));
+			boolean isHeader = true;
 			while ((line = br.readLine()) != null) {
 				logger.info("line values -" + line);
-				result.add(line);
+				if (!isHeader) {
+					String[] fieldArray = line.split(",");
+					QuestionDTO quesDTO = new QuestionDTO();
+					quesDTO.setQuestionTxt(fieldArray[0]);
+
+					// Setting up options
+					List<OptionDTO> optDTOs = new ArrayList<>();
+					for (int i = 0; i < 4; i++) {
+						OptionDTO optDTO = new OptionDTO();
+						optDTO.setOptionTxt(fieldArray[i]);
+						if (fieldArray[5].equals("Y")) {
+							optDTO.setIsAns("Y");
+						} else {
+							optDTO.setIsAns("N");
+						}
+						optDTOs.add(optDTO);
+					}
+
+					quesDTO.setOptions(optDTOs);
+					quesDTO.setQuestionType(fieldArray[6]);
+					questionDTOList.add(quesDTO);
+				} else {
+					// Check Header for the uploaded CSV
+					if (!line.equals(upldQuestionHeader)) {
+						break;
+					}
+				}
+				isHeader = false;
 			}
 		} catch (IOException e) {
-			System.out.println("error while reading csv and put to db : " + e.getMessage());
+			logger.error("error while reading csv and put to db : " + e.getMessage());
+		}
+		return "bulkUploadComplete";
+	}
+
+	@RequestMapping(value = "/bulkUploadPersonality.do")
+	public String bulkUploadPersonality(@RequestParam("csvFile") MultipartFile csvFile) {
+		logger.info("Entering bulkUploadPersonality method");
+		BufferedReader br;
+		List<PersonalityDTO> personDTOList = new ArrayList<>();
+		try {
+			String line;
+			InputStream is = csvFile.getInputStream();
+			br = new BufferedReader(new InputStreamReader(is));
+			boolean isHeader = true;
+			while ((line = br.readLine()) != null) {
+				logger.info("line values -" + line);
+				if (!isHeader) {
+					String[] fieldArray = line.split(",");
+					PersonalityDTO persDTO = new PersonalityDTO();
+					persDTO.setPersonName(fieldArray[0]);
+					persDTO.setPersonGender(fieldArray[1]);
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					try {
+						persDTO.setPersonDOB(sdf.parse(fieldArray[2]));
+						persDTO.setPersonDOE(sdf.parse(fieldArray[3]));
+					} catch (ParseException e) {
+						logger.error("ParseException occured " + e.getMessage());
+						continue;
+					}
+					persDTO.setPersonAbout(fieldArray[4]);
+					personDTOList.add(persDTO);
+				} else {
+					// Check Header for the uploaded CSV
+					if (!line.equals(upldPersonalityHeader)) {
+						break;
+					}
+				}
+				isHeader = false;
+			}
+		} catch (IOException e) {
+			logger.error("error while reading csv and put to db : " + e.getMessage());
 		}
 		return "bulkUploadComplete";
 	}
