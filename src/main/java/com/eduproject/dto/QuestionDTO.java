@@ -13,7 +13,7 @@ public class QuestionDTO {
 	private List<OptionDTO> options;
 
 	private boolean scored;
-	
+
 	public Integer getQuestionId() {
 		return questionId;
 	}
@@ -52,6 +52,12 @@ public class QuestionDTO {
 
 	public void setScored(boolean scored) {
 		this.scored = scored;
+	}
+
+	@Override
+	public String toString() {
+		return "QuestionDTO [questionId=" + questionId + ", questionTxt=" + questionTxt + ", questionType="
+				+ questionType + ", options=" + options + ", scored=" + scored + "]";
 	}
 
 }

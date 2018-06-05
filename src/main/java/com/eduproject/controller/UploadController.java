@@ -80,10 +80,11 @@ public class UploadController {
 	}
 
 	@PostMapping("/bulkUploadQuestion.do")
-	public String bulkUploadQuestion(@RequestParam(name = "csvFile") MultipartFile csvFile) {
+	public String bulkUploadQuestion(@RequestParam(name = "csvFile") MultipartFile csvFile, Model model) {
 		logger.info("Entering bulkUpload method");
 		BufferedReader br;
 		List<QuestionDTO> questionDTOList = new ArrayList<>();
+		int count = 0;
 		try {
 			String line;
 			InputStream is = csvFile.getInputStream();
@@ -98,24 +99,30 @@ public class UploadController {
 
 					// Setting up options
 					List<OptionDTO> optDTOs = new ArrayList<>();
-					for (int i = 0; i < 4; i++) {
+					for (int i = 1; i < 5; i++) {
 						OptionDTO optDTO = new OptionDTO();
 						optDTO.setOptionTxt(fieldArray[i]);
-						if (fieldArray[5].equals("Y")) {
+						if (fieldArray[5].equals("1")) {
 							optDTO.setIsAns("Y");
 						} else {
 							optDTO.setIsAns("N");
 						}
+						logger.info("Iterating through each options for question -" + optDTO);
 						optDTOs.add(optDTO);
 					}
-
+					logger.info("Setting options to question -" + optDTOs);
 					quesDTO.setOptions(optDTOs);
 					quesDTO.setQuestionType(fieldArray[6]);
+					logger.info("Saving value to Questions and Options Table -" + line);
+					questAnsService.performSave(quesDTO);
 					questionDTOList.add(quesDTO);
+					++count;
 				} else {
 					// Check Header for the uploaded CSV
 					if (!line.equals(upldQuestionHeader)) {
-						break;
+						model.addAttribute("errorMessage", "Error Occurred : Invalid File Type uploaded");
+						logger.error("Error Occurred : Invalid File Type uploaded");
+						return "error";
 					}
 				}
 				isHeader = false;
@@ -123,14 +130,17 @@ public class UploadController {
 		} catch (IOException e) {
 			logger.error("error while reading csv and put to db : " + e.getMessage());
 		}
+		model.addAttribute("bulkUploadMessage", "File Processed, Number of rows Processed :" + count);
+		logger.info("Number of rows Processed " + count);
 		return "bulkUploadComplete";
 	}
 
 	@RequestMapping(value = "/bulkUploadPersonality.do")
-	public String bulkUploadPersonality(@RequestParam("csvFile") MultipartFile csvFile) {
+	public String bulkUploadPersonality(@RequestParam("csvFile") MultipartFile csvFile, Model model) {
 		logger.info("Entering bulkUploadPersonality method");
 		BufferedReader br;
 		List<PersonalityDTO> personDTOList = new ArrayList<>();
+		int count = 0;
 		try {
 			String line;
 			InputStream is = csvFile.getInputStream();
@@ -152,11 +162,16 @@ public class UploadController {
 						continue;
 					}
 					persDTO.setPersonAbout(fieldArray[4]);
+					logger.info("Saving value to Personality Table -" + line);
+					personalityService.performSave(persDTO);
 					personDTOList.add(persDTO);
+					++count;
 				} else {
 					// Check Header for the uploaded CSV
 					if (!line.equals(upldPersonalityHeader)) {
-						break;
+						model.addAttribute("errorMessage", "Error Occurred : Invalid File Type uploaded");
+						logger.error("Error Occurred : Invalid File Type uploaded");
+						return "error";
 					}
 				}
 				isHeader = false;
@@ -164,6 +179,8 @@ public class UploadController {
 		} catch (IOException e) {
 			logger.error("error while reading csv and put to db : " + e.getMessage());
 		}
+		model.addAttribute("bulkUploadMessage", "File Processed, Number of rows Processed :" + count);
+		logger.info("Number of rows Processed " + count);
 		return "bulkUploadComplete";
 	}
 }

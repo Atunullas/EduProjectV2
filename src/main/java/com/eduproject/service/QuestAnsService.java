@@ -32,12 +32,15 @@ public class QuestAnsService {
 		question.setQuestionId(dto.getQuestionId());
 		question.setQuestionTxt(dto.getQuestionTxt());
 		question.setQuestionType(dto.getQuestionType());
-		Option option = new Option();
+		List<Option> options = new ArrayList<>();
 		for (OptionDTO optDto : dto.getOptions()) {
+			Option option = new Option();
 			option.setOptionId(optDto.getOptionId());
 			option.setOptionText(optDto.getOptionTxt());
 			option.setIsAns(optDto.getIsAns());
+			options.add(option);
 		}
+		question.setOptions(options);
 		logger.info("Persisting question to Database" + question);
 		questAnsDao.performSave(question);
 		logger.info("Exiting performSave method");

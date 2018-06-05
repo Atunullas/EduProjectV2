@@ -2,7 +2,7 @@ package com.eduproject.dto;
 
 public class OptionDTO {
 
-	private int optionId;
+	private Integer optionId;
 
 	private String optionTxt;
 
@@ -10,11 +10,11 @@ public class OptionDTO {
 
 	private int questionId;
 
-	public int getOptionId() {
+	public Integer getOptionId() {
 		return optionId;
 	}
 
-	public void setOptionId(int optionId) {
+	public void setOptionId(Integer optionId) {
 		this.optionId = optionId;
 	}
 
@@ -40,6 +40,12 @@ public class OptionDTO {
 
 	public void setQuestionId(int questionId) {
 		this.questionId = questionId;
+	}
+
+	@Override
+	public String toString() {
+		return "OptionDTO [optionId=" + optionId + ", optionTxt=" + optionTxt + ", isAns=" + isAns + ", questionId="
+				+ questionId + "]";
 	}
 
 }

@@ -95,6 +95,7 @@ public class QuestController {
 				view = viewQuestion(quizBean.getQuizQuestions().get(curQuestNo), model, curQuestNo);
 			} catch (IndexOutOfBoundsException e) {
 				logger.info("IndexOutOfBoundsException Occured " + e.getMessage());
+				model.addAttribute("errorMessage", "IndexOutOfBoundsException Occured");
 				view = "error";
 			}
 		}

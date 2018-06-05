@@ -27,7 +27,7 @@
 			<option value="2">Upload Personalities as CSV</option>
 		</select>
 	</div>
-	<form id="uploadCSV1" enctype="multipart/form-data" method="post"
+	<form id="uploadCSV" enctype="multipart/form-data" method="post"
 		action="bulkUploadQuestion.do">
 		<input type="file" name="csvFile" /> <input type="submit"
 			value="Submit" />
