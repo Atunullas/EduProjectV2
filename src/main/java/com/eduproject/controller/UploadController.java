@@ -102,7 +102,7 @@ public class UploadController {
 					for (int i = 1; i < 5; i++) {
 						OptionDTO optDTO = new OptionDTO();
 						optDTO.setOptionTxt(fieldArray[i]);
-						if (fieldArray[5].equals("1")) {
+						if (i == Integer.valueOf(fieldArray[5])) {
 							optDTO.setIsAns("Y");
 						} else {
 							optDTO.setIsAns("N");
@@ -127,7 +127,7 @@ public class UploadController {
 				}
 				isHeader = false;
 			}
-		} catch (IOException e) {
+		} catch (NumberFormatException | IOException e) {
 			logger.error("error while reading csv and put to db : " + e.getMessage());
 		}
 		model.addAttribute("bulkUploadMessage", "File Processed, Number of rows Processed :" + count);
