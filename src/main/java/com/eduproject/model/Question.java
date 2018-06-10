@@ -22,7 +22,7 @@ public class Question implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "question_id")
-	private Integer questionId;
+	private Long questionId;
 
 	@Column(name = "question_txt", nullable = false)
 	private String questionTxt;
@@ -33,11 +33,11 @@ public class Question implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "question")
 	private List<Option> options;
 
-	public Integer getQuestionId() {
+	public Long getQuestionId() {
 		return questionId;
 	}
 
-	public void setQuestionId(Integer questionId) {
+	public void setQuestionId(Long questionId) {
 		this.questionId = questionId;
 	}
 

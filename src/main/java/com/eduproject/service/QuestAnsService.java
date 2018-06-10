@@ -27,15 +27,13 @@ public class QuestAnsService {
 	private QuestAnsDao questAnsDao;
 
 	public void performSave(QuestionDTO dto) {
-		logger.info("Entering performSave method");
+		logger.info("Entering performSave Question method");
 		Question question = new Question();
-		question.setQuestionId(dto.getQuestionId());
 		question.setQuestionTxt(dto.getQuestionTxt());
 		question.setQuestionType(dto.getQuestionType());
 		List<Option> options = new ArrayList<>();
 		for (OptionDTO optDto : dto.getOptions()) {
 			Option option = new Option();
-			option.setOptionId(optDto.getOptionId());
 			option.setOptionText(optDto.getOptionTxt());
 			option.setIsAns(optDto.getIsAns());
 			options.add(option);
@@ -76,4 +74,5 @@ public class QuestAnsService {
 		logger.info("Exiting performFetchAll method");
 		return quizDTOList;
 	}
+
 }

@@ -4,16 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.eduproject.dto.OptionDTO;
 import com.eduproject.dto.PersonalityDTO;
 import com.eduproject.dto.QuestionDTO;
+import com.eduproject.model.EQuestType;
 import com.eduproject.service.PersonalityService;
 import com.eduproject.service.QuestAnsService;
 
@@ -47,10 +49,37 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "/saveUploadQuest.do")
-	public String saveUploadQuest(QuestionDTO dto) {
+	public String saveUploadQuest(QuestionDTO dto, HttpServletRequest request) {
 		logger.info("Entering saveUploadQuest method");
-		questAnsService.performSave(dto);
-		return "uploadQuestForm";
+
+		String view = "uploadQuestForm";
+		String[] ansOpts = request.getParameterValues("isAns");
+		String[] optionTxts = request.getParameterValues("optionTxt");
+		if (!StringUtils.isEmpty(dto.getQuestionType()) && dto.getQuestionType().equals(EQuestType.TRUE_FALSE.name())) {
+			optionTxts = new String[2];
+			optionTxts[0] = "True";
+			optionTxts[1] = "False";
+		}
+		List<OptionDTO> optDTOs = new ArrayList<>();
+		if (optionTxts.length > ansOpts.length) {
+			for (String x : optionTxts) {
+				for (String s : ansOpts) {
+					OptionDTO optDTO = new OptionDTO();
+					optDTO.setOptionTxt(x);
+					if (x.equals(s)) {
+						optDTO.setIsAns("Y");
+					} else {
+						optDTO.setIsAns("N");
+					}
+					optDTOs.add(optDTO);
+				}
+			}
+			dto.setOptions(optDTOs);
+			questAnsService.performSave(dto);
+		} else {
+			view = "error";
+		}
+		return view;
 	}
 
 	@RequestMapping(value = "/uploadPerson.do")
@@ -60,7 +89,7 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "/savePersonality.do")
-	public String saveUploadPersonality(PersonalityDTO dto) {
+	public String saveUploadPersonality(@RequestParam(name = "personPic") MultipartFile personPic, PersonalityDTO dto) {
 		logger.info("Entering saveUploadPersonality method");
 		personalityService.performSave(dto);
 		return "uploadPersonForm";
@@ -83,7 +112,6 @@ public class UploadController {
 	public String bulkUploadQuestion(@RequestParam(name = "csvFile") MultipartFile csvFile, Model model) {
 		logger.info("Entering bulkUpload method");
 		BufferedReader br;
-		List<QuestionDTO> questionDTOList = new ArrayList<>();
 		int count = 0;
 		try {
 			String line;
@@ -108,14 +136,16 @@ public class UploadController {
 							optDTO.setIsAns("N");
 						}
 						logger.info("Iterating through each options for question -" + optDTO);
+						optDTO.setQuest(quesDTO);
 						optDTOs.add(optDTO);
 					}
 					logger.info("Setting options to question -" + optDTOs);
 					quesDTO.setOptions(optDTOs);
 					quesDTO.setQuestionType(fieldArray[6]);
 					logger.info("Saving value to Questions and Options Table -" + line);
+					// Saving Questions
 					questAnsService.performSave(quesDTO);
-					questionDTOList.add(quesDTO);
+
 					++count;
 				} else {
 					// Check Header for the uploaded CSV
@@ -153,14 +183,8 @@ public class UploadController {
 					PersonalityDTO persDTO = new PersonalityDTO();
 					persDTO.setPersonName(fieldArray[0]);
 					persDTO.setPersonGender(fieldArray[1]);
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-					try {
-						persDTO.setPersonDOB(sdf.parse(fieldArray[2]));
-						persDTO.setPersonDOE(sdf.parse(fieldArray[3]));
-					} catch (ParseException e) {
-						logger.error("ParseException occured " + e.getMessage());
-						continue;
-					}
+					persDTO.setPersonDOB(fieldArray[2]);
+					persDTO.setPersonDOE(fieldArray[3]);
 					persDTO.setPersonAbout(fieldArray[4]);
 					logger.info("Saving value to Personality Table -" + line);
 					personalityService.performSave(persDTO);

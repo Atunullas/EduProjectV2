@@ -4,7 +4,7 @@ import java.util.List;
 
 public class QuestionDTO {
 
-	private Integer questionId;
+	private Long questionId;
 
 	private String questionTxt;
 
@@ -14,11 +14,11 @@ public class QuestionDTO {
 
 	private boolean scored;
 
-	public Integer getQuestionId() {
+	public Long getQuestionId() {
 		return questionId;
 	}
 
-	public void setQuestionId(Integer questionId) {
+	public void setQuestionId(Long questionId) {
 		this.questionId = questionId;
 	}
 

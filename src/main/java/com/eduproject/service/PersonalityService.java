@@ -1,5 +1,7 @@
 package com.eduproject.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +27,18 @@ public class PersonalityService {
 
 	public void performSave(PersonalityDTO dto) {
 		logger.info("Entering performSave method");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Personality model = new Personality();
 		model.setPersonName(dto.getFirstName() + " " + dto.getLastName());
-		if (dto.getPersonDOB() != null) {
-			model.setPersonDOB(dto.getPersonDOB());
-		}
-		if (StringUtils.isEmpty(dto.getPersonDOE() != null)) {
-			model.setPersonDOE(dto.getPersonDOE());
+		try {
+			if (dto.getPersonDOB() != null) {
+				model.setPersonDOB(sdf.parse(dto.getPersonDOB()));
+			}
+			if (StringUtils.isEmpty(dto.getPersonDOE() != null)) {
+				model.setPersonDOE(sdf.parse(dto.getPersonDOE()));
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 		model.setPersonGender(dto.getPersonGender());
 		model.setPersonAbout(dto.getPersonAbout());
@@ -43,18 +50,21 @@ public class PersonalityService {
 
 	public List<PersonalityDTO> performFetchAll() {
 		logger.info("Entering performFetchAll method");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		List<Personality> result = personalityDao.performFetchAll();
 		logger.info("Number of Personalites fetched from DB : " + result.size());
 		List<PersonalityDTO> dtos = new ArrayList<>();
 		for (Personality pers : result) {
-			PersonalityDTO person = new PersonalityDTO();
-			person.setPersonName(pers.getPersonName());
-			person.setPersonDOB(pers.getPersonDOB());
-			person.setPersonGender(pers.getPersonGender());
-			person.setPersonDOE(pers.getPersonDOE());
-			person.setPersonAbout(pers.getPersonAbout());
-			// person.setPersonPic(pers.getPersonPic());
-			dtos.add(person);
+			PersonalityDTO dto = new PersonalityDTO();
+			dto.setPersonName(pers.getPersonName());
+			if (!StringUtils.isEmpty(pers.getPersonDOB()))
+				dto.setPersonDOB(sdf.format(pers.getPersonDOB()));
+			dto.setPersonGender(pers.getPersonGender());
+			if (!StringUtils.isEmpty(pers.getPersonDOE()))
+				dto.setPersonDOE(sdf.format(pers.getPersonDOE()));
+			dto.setPersonAbout(pers.getPersonAbout());
+			// dto.setPersonPic(pers.getPersonPic());
+			dtos.add(dto);
 		}
 		logger.info("Exiting performFetchAll method");
 		return dtos;

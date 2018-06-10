@@ -1,5 +1,7 @@
 package com.eduproject.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -25,13 +27,19 @@ public class PersonalityController {
 
 	@RequestMapping(value = "/startPerson.do")
 	public String startPerson(Model model) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String view = "error";
 		personBean.setAllPersons(personalityService.performFetchAll());
 		if (personBean.getAllPersons().size() > 0) {
+			personBean.setCurQuestion(1);
 			PersonalityDTO personDTO = personBean.getAllPersons().get(0);
-			personDTO.setPersonAge(calculateAge(personDTO.getPersonDOB()));
+			try {
+				personDTO.setPersonAge(calculateAge(sdf.parse(personDTO.getPersonDOB())));
+			} catch (ParseException e) {
+				return view;
+			}
 			model.addAttribute("person", personDTO);
-			model.addAttribute("curPerson", 1);
+			model.addAttribute("curPerson", personBean.getCurQuestion());
 			model.addAttribute("totPerson", personBean.getAllPersons().size());
 			view = "viewPersonality";
 		}
@@ -40,6 +48,7 @@ public class PersonalityController {
 
 	@RequestMapping(value = "/nextPerson.do")
 	public String nextPerson(HttpServletRequest request, Model model) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String personId = request.getParameter("id");
 		String view = "error";
 		int id = 1;
@@ -48,11 +57,15 @@ public class PersonalityController {
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
-		if (personBean.getAllPersons().size() > id) {
+		if (personBean.getAllPersons().size() >= id) {
 			PersonalityDTO personDTO = personBean.getAllPersons().get(id);
-			personDTO.setPersonAge(calculateAge(personDTO.getPersonDOB()));
+			try {
+				personDTO.setPersonAge(calculateAge(sdf.parse(personDTO.getPersonDOB())));
+			} catch (ParseException e) {
+				return view;
+			}
 			model.addAttribute("person", personDTO);
-			model.addAttribute("curPerson", ++id);
+			model.addAttribute("curPerson", personBean.getCurQuestion());
 			model.addAttribute("totPerson", personBean.getAllPersons().size());
 			view = "viewPersonality";
 		} else {

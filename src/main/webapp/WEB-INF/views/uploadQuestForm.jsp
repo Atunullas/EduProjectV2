@@ -70,7 +70,7 @@
 					title="Check if it's the Correct Answer">
 				</label>
 				<div class="col-sm-10">
-					<input type="text" name="optionA" id="optionA"
+					<input type="text" name="optionTxt" id="optionA"
 						class="optEmpty form-control"
 						placeholder="Please type Option A here.." required="required">
 				</div>
@@ -82,11 +82,11 @@
 					title="Check if it's the Correct Answer">
 				</label>
 				<div class="col-sm-10">
-					<input type="text" name="optionB" id="optionB"
+					<input type="text" name="optionTxt" id="optionB"
 						class="optEmpty form-control"
 						placeholder="Please type Option B here.." required="required">
 				</div>
-			</div>
+			</div>`
 
 			<div class="form-group">
 				<label class="control-label col-sm-2">Option C : <input
@@ -94,7 +94,7 @@
 					title="Check if it's the Correct Answer">
 				</label>
 				<div class="col-sm-10">
-					<input type="text" name="optionC" id="optionC"
+					<input type="text" name="optionTxt" id="optionC"
 						class="optEmpty form-control"
 						placeholder="Please type Option C here.." required="required">
 				</div>
@@ -106,7 +106,7 @@
 					title="Check if it's the Correct Answer">
 				</label>
 				<div class="col-sm-10">
-					<input type="text" name="optionD" id="optionD"
+					<input type="text" name="optionTxt" id="optionD"
 						class="optEmpty form-control"
 						placeholder="Please type Option D here.." required="required">
 				</div>
@@ -131,7 +131,7 @@
 		<div class="form-group">
 			<label class="control-label col-sm-2">Question :</label>
 			<div class="col-sm-10">
-				<textarea name="question" id="question"
+				<textarea name="questionTxt" id="question"
 					class="quesEmpty form-control" required="required"
 					placeholder="Please type your Question here.."></textarea>
 			</div>
@@ -139,8 +139,8 @@
 
 		<div class="form-group">
 			<div id="truFalDiv" class="white-text col-sm-offset-2 col-sm-10">
-				<input type="radio" name="truFalAns" value="A"> &nbsp; <label>True</label>
-				&nbsp; <input type="radio" name="truFalAns" value="B">
+				<input type="radio" name="isAns" value="True"> &nbsp; <label>True</label>
+				&nbsp; <input type="radio" name="False" value="B">
 				&nbsp; <label>False</label>
 			</div>
 		</div>

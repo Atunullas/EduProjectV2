@@ -10,6 +10,16 @@ import com.eduproject.dto.PersonalityDTO;
 public class PersonalityBean {
 
 	private List<PersonalityDTO> allPersons;
+	
+	private int curQuestion;
+
+	public int getCurQuestion() {
+		return curQuestion;
+	}
+
+	public void setCurQuestion(int curQuestion) {
+		this.curQuestion = curQuestion;
+	}
 
 	public List<PersonalityDTO> getAllPersons() {
 		return allPersons;

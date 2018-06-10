@@ -1,4 +1,5 @@
 <jsp:include page="commons/header.jsp"></jsp:include>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="container text-center md-padding">
 	<div class="row ">
 		The Test The test contains ${noOfTotalQuizQues} questions and there is no time limit.
@@ -13,7 +14,9 @@
 	<h2 class="white-text">Good luck!</h2>
 	<form action="startQuest.do" method="post">
 		<div class="row">
-			<button class="btn btn-success">Start the Quiz </button>
+			<c:if test="${noOfTotalQuizQues ne '0'}">
+				<button class="btn btn-success">Start the Quiz </button>
+			</c:if>
 		</div>
 	</form>
 </div>

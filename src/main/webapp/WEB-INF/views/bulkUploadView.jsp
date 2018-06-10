@@ -20,16 +20,29 @@
 	<div class="section-header text-center">
 		<h3 class="title white-text">Bulk Upload</h3>
 	</div>
-	<div>
-		Choose the Upload type <select name="csvType" id="csvType">
-			<option value="0" selected="selected">Choose the Upload type</option>
-			<option value="1">Upload Questions as CSV</option>
-			<option value="2">Upload Personalities as CSV</option>
-		</select>
-	</div>
-	<form id="uploadCSV" enctype="multipart/form-data" method="post"
-		action="bulkUploadQuestion.do">
-		<input type="file" name="csvFile" /> <input type="submit"
-			value="Submit" />
+	<form id="uploadCSV" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label for="labelForUploadType">Choose the Upload Type</label> <select
+				name="csvType" class="form-control" id="csvType">
+				<option value="0" selected="selected">Please choose the
+					Upload Type</option>
+				<option value="1">Upload Questions as CSV</option>
+				<option value="2">Upload Personalities as CSV</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<input type="file" name="csvFile" />
+		</div>
+		<input type="submit" value="Submit" class="btn btn-primary" />
+		<input type="reset" value="Reset" class="btn btn-default" />
+		<input type="button" value="Cancel" class="btn btn-warning" onclick="location.href='service.do'"/>
+		<div class="row">&nbsp;</div>
+		<div class="row">&nbsp;</div>
+		<div class="row">&nbsp;</div>
+		<ul class="row">
+			<li> <i class="fa fa-info-circle"></i> To get the CSV template click below</li>
+			<li> <i class="fa fa-file-excel-o"></i> <a href="#">Question CSV Template</a></li>
+			<li> <i class="fa fa-file-excel-o"></i> <a href="#">Noble Personality CSV Template</a></li>
+		</ul>
 	</form>
 </div>

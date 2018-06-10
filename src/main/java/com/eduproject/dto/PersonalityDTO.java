@@ -1,7 +1,5 @@
 package com.eduproject.dto;
 
-import java.util.Date;
-
 import org.springframework.web.multipart.MultipartFile;
 
 public class PersonalityDTO {
@@ -18,9 +16,9 @@ public class PersonalityDTO {
 
 	private String personGender;
 
-	private Date personDOB;
+	private String personDOB;
 
-	private Date personDOE;
+	private String personDOE;
 
 	private String personAbout;
 
@@ -58,19 +56,19 @@ public class PersonalityDTO {
 		this.personGender = personGender;
 	}
 
-	public Date getPersonDOB() {
+	public String getPersonDOB() {
 		return personDOB;
 	}
 
-	public void setPersonDOB(Date personDOB) {
+	public void setPersonDOB(String personDOB) {
 		this.personDOB = personDOB;
 	}
 
-	public Date getPersonDOE() {
+	public String getPersonDOE() {
 		return personDOE;
 	}
 
-	public void setPersonDOE(Date personDOE) {
+	public void setPersonDOE(String personDOE) {
 		this.personDOE = personDOE;
 	}
 

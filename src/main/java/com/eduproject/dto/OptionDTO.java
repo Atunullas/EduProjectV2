@@ -2,19 +2,19 @@ package com.eduproject.dto;
 
 public class OptionDTO {
 
-	private Integer optionId;
+	private Long optionId;
 
 	private String optionTxt;
 
 	private String isAns;
 
-	private int questionId;
+	private QuestionDTO quest;
 
-	public Integer getOptionId() {
+	public Long getOptionId() {
 		return optionId;
 	}
 
-	public void setOptionId(Integer optionId) {
+	public void setOptionId(Long optionId) {
 		this.optionId = optionId;
 	}
 
@@ -34,18 +34,18 @@ public class OptionDTO {
 		this.isAns = isAns;
 	}
 
-	public int getQuestionId() {
-		return questionId;
+	public QuestionDTO getQuest() {
+		return quest;
 	}
 
-	public void setQuestionId(int questionId) {
-		this.questionId = questionId;
+	public void setQuest(QuestionDTO quest) {
+		this.quest = quest;
 	}
 
 	@Override
 	public String toString() {
-		return "OptionDTO [optionId=" + optionId + ", optionTxt=" + optionTxt + ", isAns=" + isAns + ", questionId="
-				+ questionId + "]";
+		return "OptionDTO [optionId=" + optionId + ", optionTxt=" + optionTxt + ", isAns=" + isAns + ", quest=" + quest
+				+ "]";
 	}
 
 }

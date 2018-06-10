@@ -25,7 +25,7 @@ public class Option implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "option_id")
-	private Integer optionId;
+	private Long optionId;
 
 	@Column(name = "option_txt", nullable = false)
 	private String optionText;
@@ -38,11 +38,11 @@ public class Option implements Serializable {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Question question;
 
-	public Integer getOptionId() {
+	public Long getOptionId() {
 		return optionId;
 	}
 
-	public void setOptionId(Integer optionId) {
+	public void setOptionId(Long optionId) {
 		this.optionId = optionId;
 	}
 
