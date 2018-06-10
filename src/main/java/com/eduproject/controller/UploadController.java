@@ -89,7 +89,7 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "/savePersonality.do")
-	public String saveUploadPersonality(@RequestParam(name = "personPic") MultipartFile personPic, PersonalityDTO dto) {
+	public String saveUploadPersonality(PersonalityDTO dto) {
 		logger.info("Entering saveUploadPersonality method");
 		personalityService.performSave(dto);
 		return "uploadPersonForm";
@@ -127,7 +127,12 @@ public class UploadController {
 
 					// Setting up options
 					List<OptionDTO> optDTOs = new ArrayList<>();
-					for (int i = 1; i < 5; i++) {
+					quesDTO.setQuestionType(fieldArray[6]);
+					int optionCount = 4;
+					if (EQuestType.TRUE_FALSE.name().equals(quesDTO.getQuestionType())) {
+						optionCount = 2;
+					}
+					for (int i = 1; i <= optionCount; i++) {
 						OptionDTO optDTO = new OptionDTO();
 						optDTO.setOptionTxt(fieldArray[i]);
 						if (i == Integer.valueOf(fieldArray[5])) {
@@ -141,11 +146,14 @@ public class UploadController {
 					}
 					logger.info("Setting options to question -" + optDTOs);
 					quesDTO.setOptions(optDTOs);
-					quesDTO.setQuestionType(fieldArray[6]);
+
 					logger.info("Saving value to Questions and Options Table -" + line);
 					// Saving Questions
-					questAnsService.performSave(quesDTO);
-
+					if (EQuestType.valueOf(quesDTO.getQuestionType()) != null) {
+						questAnsService.performSave(quesDTO);
+					} else {
+						logger.info("Invalid question Type posted  -" + quesDTO.getQuestionType());
+					}
 					++count;
 				} else {
 					// Check Header for the uploaded CSV

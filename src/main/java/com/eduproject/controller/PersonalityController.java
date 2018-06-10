@@ -42,6 +42,9 @@ public class PersonalityController {
 			model.addAttribute("curPerson", personBean.getCurQuestion());
 			model.addAttribute("totPerson", personBean.getAllPersons().size());
 			view = "viewPersonality";
+		} else {
+			model.addAttribute("errorMessage", "No Noble Personalities found, Please upload!");
+			return view ;
 		}
 		return view;
 	}
@@ -57,7 +60,7 @@ public class PersonalityController {
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
-		if (personBean.getAllPersons().size() >= id) {
+		if (personBean.getAllPersons().size() > id) {
 			PersonalityDTO personDTO = personBean.getAllPersons().get(id);
 			try {
 				personDTO.setPersonAge(calculateAge(sdf.parse(personDTO.getPersonDOB())));

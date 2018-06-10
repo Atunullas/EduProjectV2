@@ -5,13 +5,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 </style>
 <div class="container section md-padding">
-	<form action="home.do" class="form-horizontal">
-		<div class="text-center">
-			<h1><label class="title">Personality View Complete</label></h1>
-			<h3>Thanks for viewing</h3>
-		</div>
-		<div class="row text-center">
-			<button class="btn btn-success">Click for Home Page</button>
-		</div>
-	</form>
+	<div class="text-center">
+		<h1>
+			<label class="title">Personality View Complete</label>
+		</h1>
+		<h3>Thanks for viewing</h3>
+	</div>
+	<div class="row text-center">
+		<button class="btn btn-success" onclick="javascript:window.close();">Click to close</button>
+	</div>
 </div>

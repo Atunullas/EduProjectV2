@@ -36,7 +36,7 @@ public class QuestController {
 	@RequestMapping(value = "/setQuestData.do", method = RequestMethod.GET)
 	public String setQuizData(Model model) {
 		logger.info("Enter setQuizData method");
-		String view = "quizDisclaimer";
+		String view = "error";
 		Map<Integer, QuestionDTO> quizQuestions = new HashMap<>();
 		if (quizQuestions.size() == 0) {
 			logger.info("Initializing the Quiz Questions");
@@ -50,6 +50,11 @@ public class QuestController {
 		quizBean.setCurQuesNo(0);
 		quizBean.setPointsAwarded(0);
 		model.addAttribute("noOfTotalQuizQues", quizBean.getTotalQuizQues());
+		if (quizBean.getTotalQuizQues() == 0) {
+			model.addAttribute("errorMessage", "No questions Found, Please upload to start the Quiz!");
+		} else {
+			view = "quizDisclaimer";
+		}
 		logger.info("Exiting setQuizData method");
 		return view;
 	}

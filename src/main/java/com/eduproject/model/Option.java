@@ -2,19 +2,12 @@ package com.eduproject.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "question_options")
@@ -32,11 +25,6 @@ public class Option implements Serializable {
 
 	@Column(name = "option_is_ans")
 	private String isAns;
-
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "question_id", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Question question;
 
 	public Long getOptionId() {
 		return optionId;
@@ -62,18 +50,9 @@ public class Option implements Serializable {
 		this.isAns = isAns;
 	}
 
-	public Question getQuestion() {
-		return question;
-	}
-
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
-
 	@Override
 	public String toString() {
-		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", isAns=" + isAns + ", question="
-				+ question + "]";
+		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", isAns=" + isAns + ", question=" + "]";
 	}
 
 }

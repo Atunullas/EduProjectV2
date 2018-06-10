@@ -1,10 +1,16 @@
 package com.eduproject.service;
 
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.rowset.serial.SerialBlob;
+
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +48,17 @@ public class PersonalityService {
 		}
 		model.setPersonGender(dto.getPersonGender());
 		model.setPersonAbout(dto.getPersonAbout());
-		// model.setPersonPic(dto.getPersonPic());
+		if (null != dto.getPersonPic()) {
+			Blob blob = null;
+			byte[] content;
+			try {
+				content = IOUtils.toByteArray(dto.getPersonPic().getInputStream());
+				blob = new SerialBlob(content);
+			} catch (SQLException | IOException e) {
+				logger.info("Exception occured while setting the Profile Pic : " + e.getMessage());
+			}
+			model.setPersonPic(blob);
+		}
 		logger.info("Persisting Personality to DB : " + model);
 		personalityDao.performSave(model);
 		logger.info("Exiting performSave method");
@@ -63,6 +79,7 @@ public class PersonalityService {
 			if (!StringUtils.isEmpty(pers.getPersonDOE()))
 				dto.setPersonDOE(sdf.format(pers.getPersonDOE()));
 			dto.setPersonAbout(pers.getPersonAbout());
+			// InputStream in = pers.getPersonPic().getBinaryStream();
 			// dto.setPersonPic(pers.getPersonPic());
 			dtos.add(dto);
 		}
