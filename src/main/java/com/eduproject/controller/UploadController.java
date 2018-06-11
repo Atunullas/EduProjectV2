@@ -107,9 +107,10 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "/printQuest.pdf")
-	public String printQuest(Model model) {
+	public String printQuest(HttpServletRequest request, Model model) {
 		logger.info("Entering printQuest method");
-		model.addAttribute("questions", questAnsService.performFetchAll());
+		String limitStr = request.getParameter("count");
+		model.addAttribute("questions", questAnsService.performFetchWithLimit(Integer.valueOf(limitStr)));
 		return "pdfView";
 	}
 

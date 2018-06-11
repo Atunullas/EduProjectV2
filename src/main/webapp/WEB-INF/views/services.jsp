@@ -16,7 +16,7 @@
 									|| $(this).attr("id") == "startPerson.do") {
 								openDialog($(this).attr("id"), false);
 							} else if ($(this).attr("id") == "printQuest.pdf") {
-								openDialog(true);
+								openDialog($(this).attr("id"), true);
 							} else {
 								window.location.href = $(this).attr("id");
 							}
@@ -41,10 +41,11 @@
 															+ $(window)
 																	.height());
 										}
+										$('#questCount').val('');
 										$(this).dialog('close');
 									},
 									'Cancel' : function() {
-										$('#questCount').empty();
+										$('#questCount').val('');
 										$(this).dialog('close');
 									}
 								}

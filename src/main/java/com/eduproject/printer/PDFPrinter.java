@@ -48,9 +48,9 @@ public class PDFPrinter extends AbstractITextPdfView {
 		document.add(paragraph);
 	}
 
-	private void setTitleOfDoc(Document document) throws DocumentException {
+	private void setTitleOfDoc(Document document, String docTitle) throws DocumentException {
 		Paragraph preface = new Paragraph();
-		Paragraph title = new Paragraph("Question Paper", titleFont);
+		Paragraph title = new Paragraph(docTitle, titleFont);
 		addEmptyParagraph(preface, 2);
 		title.setAlignment(Element.ALIGN_CENTER);
 		preface.add(title);
@@ -67,25 +67,30 @@ public class PDFPrinter extends AbstractITextPdfView {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		@SuppressWarnings("unchecked")
 		Map<Integer, QuestionDTO> questions = (Map<Integer, QuestionDTO>) model.get("questions");
-		document.addTitle("Question Paper");
 		document.addAuthor("smartApp");
-		setTitleOfDoc(document);
-		int i = 0;
-		for (QuestionDTO eachQuest : questions.values()) {
-			String questionType = "";
-			if (eachQuest.getQuestionType().equals(EQuestType.BEST_ANS.name())) {
-				questionType = " (Choose the right Answer)";
-			} else if (eachQuest.getQuestionType().equals(EQuestType.MUL_ANS.name())) {
-				questionType = " (Multiple Answers)";
-			} else if (eachQuest.getQuestionType().equals(EQuestType.TRUE_FALSE.name())) {
-				questionType = " (True or False)";
-			} else {
-				questionType = " (Unknown Question Type)";
+		if (questions.size() > 0) {
+			document.addTitle("Question Paper");
+			document.addAuthor("smartApp");
+			setTitleOfDoc(document,"Question Paper");
+			int i = 0;
+			for (QuestionDTO eachQuest : questions.values()) {
+				String questionType = "";
+				if (eachQuest.getQuestionType().equals(EQuestType.BEST_ANS.name())) {
+					questionType = " (Choose the right Answer)";
+				} else if (eachQuest.getQuestionType().equals(EQuestType.MUL_ANS.name())) {
+					questionType = " (Multiple Answers)";
+				} else if (eachQuest.getQuestionType().equals(EQuestType.TRUE_FALSE.name())) {
+					questionType = " (True or False)";
+				} else {
+					questionType = " (Unknown Question Type)";
+				}
+				printEachQuestion(document, ++i + ") " + eachQuest.getQuestionTxt(), questionType);
+				for (OptionDTO opt : eachQuest.getOptions()) {
+					printEachOptions(document, opt.getOptionTxt());
+				}
 			}
-			printEachQuestion(document, ++i + ") " + eachQuest.getQuestionTxt(), questionType);
-			for (OptionDTO opt : eachQuest.getOptions()) {
-				printEachOptions(document, opt.getOptionTxt());
-			}
+		} else {
+			setTitleOfDoc(document,"No Questions Found, Please upload !");
 		}
 	}
 }
