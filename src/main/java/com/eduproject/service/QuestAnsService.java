@@ -46,7 +46,21 @@ public class QuestAnsService {
 
 	public QuestionDTO performFetch(Integer questId) {
 		logger.info("Entering performFetch method by question Id " + questId);
-		return questAnsDao.performFetchById(questId);
+		Question ques = questAnsDao.performFetchById(questId);
+		QuestionDTO quizQuest = new QuestionDTO();
+		List<OptionDTO> optionList = new ArrayList<>();
+		quizQuest.setQuestionId(ques.getQuestionId());
+		quizQuest.setQuestionTxt(ques.getQuestionTxt());
+		quizQuest.setQuestionType(ques.getQuestionType());
+		for (Option opt : ques.getOptions()) {
+			OptionDTO option = new OptionDTO();
+			option.setOptionId(opt.getOptionId());
+			option.setOptionTxt(opt.getOptionText());
+			option.setIsAns(opt.getIsAns());
+			optionList.add(option);
+		}
+		quizQuest.setOptions(optionList);
+		return quizQuest;
 	}
 
 	public Map<Integer, QuestionDTO> performFetchAll() {
@@ -73,6 +87,33 @@ public class QuestAnsService {
 		}
 		logger.info("Exiting performFetchAll method");
 		return quizDTOList;
+	}
+
+	public Map<Integer, QuestionDTO> performFetchWithLimit(Integer valueOf) {
+		logger.info("Entering performFetchAll method");
+		List<Question> questAnsList = questAnsDao.performFetchWithLimit(valueOf);
+		logger.info("Number of Questions fetched from DB : " + questAnsList.size());
+		Map<Integer, QuestionDTO> quizDTOList = new HashMap<>();
+		int index = 0;
+		for (Question ques : questAnsList) {
+			QuestionDTO quizQuest = new QuestionDTO();
+			List<OptionDTO> optionList = new ArrayList<>();
+			quizQuest.setQuestionId(ques.getQuestionId());
+			quizQuest.setQuestionTxt(ques.getQuestionTxt());
+			quizQuest.setQuestionType(ques.getQuestionType());
+			for (Option opt : ques.getOptions()) {
+				OptionDTO option = new OptionDTO();
+				option.setOptionId(opt.getOptionId());
+				option.setOptionTxt(opt.getOptionText());
+				option.setIsAns(opt.getIsAns());
+				optionList.add(option);
+			}
+			quizQuest.setOptions(optionList);
+			quizDTOList.put(index++, quizQuest);
+		}
+		logger.info("Exiting performFetchAll method");
+		return quizDTOList;
+
 	}
 
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import com.eduproject.dto.QuestionDTO;
 import com.eduproject.model.Question;
 
 @Repository("QuestAnsDao")
@@ -28,21 +27,20 @@ public class QuestAnsDao extends HibernateDaoSupport {
 		return result;
 	}
 
-	public QuestionDTO performFetchById(Integer questId) {
-		DetachedCriteria criteria = DetachedCriteria.forClass(QuestionDTO.class);
+	public Question performFetchById(Integer questId) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Question.class);
 		criteria.add(Restrictions.eq("id", Integer.valueOf(questId)));
-		List<QuestionDTO> result = (List<QuestionDTO>) getHibernateTemplate().findByCriteria(criteria);
+		List<Question> result = (List<Question>) getHibernateTemplate().findByCriteria(criteria);
 		if (result.size() > 1) {
 			return result.get(0);
 		}
 		return null;
 	}
 
-	public List<QuestionDTO> performFetchWithLimit(Integer limit) {
-		DetachedCriteria criteria = DetachedCriteria.forClass(QuestionDTO.class);
-		criteria.add(Restrictions.sqlRestriction("rownum < " + limit));
-		criteria.add(Restrictions.sqlRestriction("1=1 order by rand()"));
-		List<QuestionDTO> result = (List<QuestionDTO>) getHibernateTemplate().findByCriteria(criteria);
+	public List<Question> performFetchWithLimit(Integer limit) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Question.class);
+		criteria.add(Restrictions.sqlRestriction("1=1 order by rand() LIMIT " + limit));
+		List<Question> result = (List<Question>) getHibernateTemplate().findByCriteria(criteria);
 		return result;
 	}
 

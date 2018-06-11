@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.eduproject.model.Personality;
 
 @Repository("PersonalityDao")
+@SuppressWarnings("unchecked")
 public class PersonalityDao extends HibernateDaoSupport {
 
 	@Autowired
@@ -18,11 +20,18 @@ public class PersonalityDao extends HibernateDaoSupport {
 		setSessionFactory(sessionFactory);
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Personality> performFetchAll() {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Personality.class);
-		List<?> result = getHibernateTemplate().findByCriteria(criteria);
-		return (List<Personality>) result;
+		criteria.add(Restrictions.sqlRestriction("1=1 order by rand()"));
+		List<Personality> result = (List<Personality>) getHibernateTemplate().findByCriteria(criteria);
+		return result;
+	}
+	
+	public List<Personality> performFetchWithLimit(Integer limit) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Personality.class);
+		criteria.add(Restrictions.sqlRestriction("1=1 order by rand() limit " + limit));
+		List<Personality> result = (List<Personality>) getHibernateTemplate().findByCriteria(criteria);
+		return result;
 	}
 
 	public void performDelete(Object entity) {

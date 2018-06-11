@@ -1,4 +1,12 @@
 <jsp:include page="commons/header.jsp"></jsp:include>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+	.ui-dialog, .ui-widget, .ui-widget-content,
+	.ui-corner-all, .foo, .ui-draggable, .ui-resizable {
+	background: white !important
+}
+​
+</style>
 <script>
 	$(document).ready(
 			function() {
@@ -6,17 +14,42 @@
 						function() {
 							if ($(this).attr("id") == "setQuestData.do"
 									|| $(this).attr("id") == "startPerson.do") {
-								window.open($(this).attr("id"), "New Window",
-										"width=" + $(window).width()
-												+ ",height ="
-												+ $(window).height());
+								openDialog($(this).attr("id"), false);
 							} else if ($(this).attr("id") == "printQuest.pdf") {
-								window.open($(this).attr("id"), "_blank");
+								openDialog(true);
 							} else {
 								window.location.href = $(this).attr("id");
 							}
 						})
 
+				function openDialog(attr, isPrint) {
+					$('#dialogDiv').dialog(
+							{
+								modal : true,
+								buttons : {
+									'OK' : function() {
+										var count = $('#questCount').val();
+										if (isPrint) {
+											window.open(attr + '?count='
+													+ count, "_blank");
+										} else {
+											window.open(attr + '?count='
+													+ count, "New Window",
+													"width="
+															+ $(window).width()
+															+ ",height ="
+															+ $(window)
+																	.height());
+										}
+										$(this).dialog('close');
+									},
+									'Cancel' : function() {
+										$('#questCount').empty();
+										$(this).dialog('close');
+									}
+								}
+							});
+				}
 			});
 </script>
 <style>
@@ -32,7 +65,16 @@ p {
 
 	<!-- Container -->
 	<div class="container">
-
+		<div id="dialogDiv" style="display: none;">
+			<form class="">
+				<div class="form-group">
+					<label>Please specify the count : </label>
+				</div>
+				<div class="form-group">
+					<input type="text" id="questCount">
+				</div>
+			</form>
+		</div>
 		<!-- Row -->
 		<div class="row">
 

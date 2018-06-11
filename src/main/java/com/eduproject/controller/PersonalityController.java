@@ -31,11 +31,12 @@ public class PersonalityController {
 	private PersonalityBean personBean;
 
 	@RequestMapping(value = "/startPerson.do")
-	public String startPerson(Model model) {
+	public String startPerson(HttpServletRequest request, Model model) {
 		logger.info("Enter startPerson method");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String view = "error";
-		personBean.setAllPersons(personalityService.performFetchAll());
+		String limit = request.getParameter("count");
+		personBean.setAllPersons(personalityService.performFetchWithLimit(Integer.valueOf(limit)));
 		if (personBean.getAllPersons().size() > 0) {
 			personBean.setCurQuestion(1);
 			PersonalityDTO personDTO = personBean.getAllPersons().get(0);
@@ -46,7 +47,7 @@ public class PersonalityController {
 				return view;
 			}
 			model.addAttribute("person", personDTO);
-			byte[] encoded=Base64.encodeBase64(personDTO.getBytePersonPic());
+			byte[] encoded = Base64.encodeBase64(personDTO.getBytePersonPic());
 			String encodedString = new String(encoded);
 			model.addAttribute("image", encodedString);
 

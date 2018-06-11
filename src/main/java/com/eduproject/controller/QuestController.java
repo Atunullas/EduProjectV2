@@ -34,13 +34,14 @@ public class QuestController {
 	private StartQuizBean quizBean;
 
 	@RequestMapping(value = "/setQuestData.do", method = RequestMethod.GET)
-	public String setQuizData(Model model) {
+	public String setQuizData(HttpServletRequest request, Model model) {
 		logger.info("Enter setQuizData method");
 		String view = "error";
 		Map<Integer, QuestionDTO> quizQuestions = new HashMap<>();
+		String countStr  = request.getParameter("count");
 		if (quizQuestions.size() == 0) {
 			logger.info("Initializing the Quiz Questions");
-			quizQuestions.putAll(questAnsService.performFetchAll());
+			quizQuestions.putAll(questAnsService.performFetchWithLimit(Integer.valueOf(countStr)));
 			logger.info("Fetched the Quiz Questions from Database");
 			quizBean.setQuizQuestions(quizQuestions);
 			quizBean.setTotalQuizQues(quizQuestions.size());

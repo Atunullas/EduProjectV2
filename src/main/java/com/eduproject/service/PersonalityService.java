@@ -79,4 +79,26 @@ public class PersonalityService {
 		logger.info("Exiting performFetchAll method");
 		return dtos;
 	}
+	
+	public List<PersonalityDTO> performFetchWithLimit(Integer limit) {
+		logger.info("Entering performFetchAll method");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		List<Personality> result = personalityDao.performFetchWithLimit(limit);
+		logger.info("Number of Personalites fetched from DB : " + result.size());
+		List<PersonalityDTO> dtos = new ArrayList<>();
+		for (Personality pers : result) {
+			PersonalityDTO dto = new PersonalityDTO();
+			dto.setPersonName(pers.getPersonName());
+			if (!StringUtils.isEmpty(pers.getPersonDOB()))
+				dto.setPersonDOB(sdf.format(pers.getPersonDOB()));
+			dto.setPersonGender(pers.getPersonGender());
+			if (!StringUtils.isEmpty(pers.getPersonDOE()))
+				dto.setPersonDOE(sdf.format(pers.getPersonDOE()));
+			dto.setPersonAbout(pers.getPersonAbout());
+			dto.setBytePersonPic(pers.getPersonPic());
+			dtos.add(dto);
+		}
+		logger.info("Exiting performFetchAll method");
+		return dtos;
+	}
 }
