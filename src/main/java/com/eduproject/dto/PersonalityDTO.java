@@ -24,6 +24,8 @@ public class PersonalityDTO {
 
 	private MultipartFile personPic;
 
+	private byte[] bytePersonPic;
+
 	public int getPersonId() {
 		return personId;
 	}
@@ -102,6 +104,14 @@ public class PersonalityDTO {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public byte[] getBytePersonPic() {
+		return bytePersonPic;
+	}
+
+	public void setBytePersonPic(byte[] bytePersonPic) {
+		this.bytePersonPic = bytePersonPic;
 	}
 
 }

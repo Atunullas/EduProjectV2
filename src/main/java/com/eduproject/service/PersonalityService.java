@@ -1,14 +1,10 @@
 package com.eduproject.service;
 
 import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sql.rowset.serial.SerialBlob;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -49,15 +45,13 @@ public class PersonalityService {
 		model.setPersonGender(dto.getPersonGender());
 		model.setPersonAbout(dto.getPersonAbout());
 		if (null != dto.getPersonPic()) {
-			Blob blob = null;
 			byte[] content;
 			try {
 				content = IOUtils.toByteArray(dto.getPersonPic().getInputStream());
-				blob = new SerialBlob(content);
-			} catch (SQLException | IOException e) {
+				model.setPersonPic(content);
+			} catch (IOException e) {
 				logger.info("Exception occured while setting the Profile Pic : " + e.getMessage());
 			}
-			model.setPersonPic(blob);
 		}
 		logger.info("Persisting Personality to DB : " + model);
 		personalityDao.performSave(model);
@@ -79,8 +73,7 @@ public class PersonalityService {
 			if (!StringUtils.isEmpty(pers.getPersonDOE()))
 				dto.setPersonDOE(sdf.format(pers.getPersonDOE()));
 			dto.setPersonAbout(pers.getPersonAbout());
-			// InputStream in = pers.getPersonPic().getBinaryStream();
-			// dto.setPersonPic(pers.getPersonPic());
+			dto.setBytePersonPic(pers.getPersonPic());
 			dtos.add(dto);
 		}
 		logger.info("Exiting performFetchAll method");

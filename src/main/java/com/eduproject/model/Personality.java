@@ -1,7 +1,6 @@
 package com.eduproject.model;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -19,7 +19,7 @@ public class Personality implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="person_id")
+	@Column(name = "person_id")
 	private Integer personId;
 
 	@Column(name = "person_name", nullable = false)
@@ -37,8 +37,9 @@ public class Personality implements Serializable {
 	@Column(name = "person_about")
 	private String personAbout;
 
+	@Lob
 	@Column(name = "person_pic")
-	private Blob personPic;
+	private byte[] personPic;
 
 	public Integer getPersonId() {
 		return personId;
@@ -88,11 +89,11 @@ public class Personality implements Serializable {
 		this.personAbout = personAbout;
 	}
 
-	public Blob getPersonPic() {
+	public byte[] getPersonPic() {
 		return personPic;
 	}
 
-	public void setPersonPic(Blob personPic) {
+	public void setPersonPic(byte[] personPic) {
 		this.personPic = personPic;
 	}
 

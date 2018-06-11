@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,10 @@ public class PersonalityController {
 				return view;
 			}
 			model.addAttribute("person", personDTO);
+			byte[] encoded=Base64.encodeBase64(personDTO.getBytePersonPic());
+			String encodedString = new String(encoded);
+			model.addAttribute("image", encodedString);
+
 			model.addAttribute("curPerson", personBean.getCurQuestion());
 			model.addAttribute("totPerson", personBean.getAllPersons().size());
 			view = "viewPersonality";
