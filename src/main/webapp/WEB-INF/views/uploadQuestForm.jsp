@@ -46,14 +46,16 @@
 	<div class="section-header text-center">
 		<h2 class="title white-text">Upload your Questions</h2>
 		<ul class="nav nav-tabs">
-			<li class="active" id="mulChoice"><a href="#">Multiple Choice Question</a></li>
+			<li class="active" id="mulChoice"><a href="#">Multiple
+					Choice Question</a></li>
 			<li id="choose"><a href="#">Choose the best answer</a></li>
 			<li id="trueFalse"><a href="#">True or False Question</a></li>
 		</ul>
 	</div>
 
 	<form id="uploadQuestForm" name="uploadQuestForm"
-		action="saveUploadQuest.do" method="post" class="form-horizontal">
+		action="saveUploadQuest.do" method="post" class="form-horizontal"
+		autocomplete="off">
 		<div class="form-group">
 			<label class="control-label col-sm-2">Question :</label>
 			<div class="col-sm-10">
@@ -86,7 +88,8 @@
 						class="optEmpty form-control"
 						placeholder="Please type Option B here.." required="required">
 				</div>
-			</div>`
+			</div>
+			`
 
 			<div class="form-group">
 				<label class="control-label col-sm-2">Option C : <input
@@ -127,7 +130,7 @@
 
 	<form id="uploadTFQuestForm" name="uploadQuestForm"
 		action="saveUploadQuest.do" method="post" class="form-horizontal"
-		style="display: none;">
+		style="display: none;" autocomplete="off">
 		<div class="form-group">
 			<label class="control-label col-sm-2">Question :</label>
 			<div class="col-sm-10">
@@ -140,8 +143,7 @@
 		<div class="form-group">
 			<div id="truFalDiv" class="white-text col-sm-offset-2 col-sm-10">
 				<input type="radio" name="isAns" value="True"> &nbsp; <label>True</label>
-				&nbsp; <input type="radio" name="False" value="B">
-				&nbsp; <label>False</label>
+				&nbsp; <input type="radio" name="False" value="B"> &nbsp; <label>False</label>
 			</div>
 		</div>
 

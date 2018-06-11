@@ -1,19 +1,26 @@
 package com.eduproject.controller;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +42,10 @@ public class UploadController {
 	private static final String upldQuestionHeader = "QUESTION,OPTION_1,OPTION_2,OPTION_3,OPTION_4,ANSWER,QUESTION_TYPE";
 
 	private static final String upldPersonalityHeader = "PERSON_NAME,PERSON_SEX,PERSON_DOB,PERSON_DOE,PERSON_ABOUT";
+
+	private static final String PERSON_CSV_FILE = "csvTemplates/uploadPersonalityCSVTemplate.csv";
+
+	private static final String QUEST_CSV_FILE = "csvTemplates/uploadQuestionCSVTemplate.csv";
 
 	@Autowired
 	private QuestAnsService questAnsService;
@@ -214,5 +225,65 @@ public class UploadController {
 		model.addAttribute("bulkUploadMessage", "File Processed, Number of rows Processed :" + count);
 		logger.info("Number of rows Processed " + count);
 		return "bulkUploadComplete";
+	}
+
+	@RequestMapping(value = "/downloadQuestCSVFile.do")
+	public void downloadQuestCSVFile(HttpServletResponse response) {
+		logger.info("Entering downloadQuestCSVFile method");
+		File file = new File(getClass().getClassLoader().getResource(QUEST_CSV_FILE).getFile());
+		if (!file.exists()) {
+			String errorMessage = "Sorry. The file you are looking for does not exist";
+			System.out.println(errorMessage);
+			OutputStream outputStream;
+			try {
+				outputStream = response.getOutputStream();
+				outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+				outputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return;
+		}
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+		response.setContentLength((int) file.length());
+		InputStream inputStream;
+		try {
+			inputStream = new BufferedInputStream(new FileInputStream(file));
+			FileCopyUtils.copy(inputStream, response.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return;
+	}
+
+	@RequestMapping(value = "/downloadPersnCSVFile.do")
+	public void downloadPersnCSVFile(HttpServletResponse response) {
+		logger.info("Entering downloadPersnCSVFile method");
+		File file = new File(getClass().getClassLoader().getResource(PERSON_CSV_FILE).getFile());
+		if (!file.exists()) {
+			String errorMessage = "Sorry. The file you are looking for does not exist";
+			System.out.println(errorMessage);
+			OutputStream outputStream;
+			try {
+				outputStream = response.getOutputStream();
+				outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+				outputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return;
+		}
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+		response.setContentLength((int) file.length());
+		InputStream inputStream;
+		try {
+			inputStream = new BufferedInputStream(new FileInputStream(file));
+			FileCopyUtils.copy(inputStream, response.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return;
 	}
 }

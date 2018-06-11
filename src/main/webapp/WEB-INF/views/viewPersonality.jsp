@@ -20,7 +20,6 @@ $(document).ready(function() {
 				<div class="row">
 					<label>${person.personPic}</label>
 				</div>
-				<i class="fa fa-user" style="font-size: 8.5em;"></i>
 			</div>
 			<div class="col-sm-9">
 				<div class="row">

@@ -41,8 +41,8 @@
 		<div class="row">&nbsp;</div>
 		<ul class="row">
 			<li> <i class="fa fa-info-circle"></i> To get the CSV template click below</li>
-			<li> <i class="fa fa-file-excel-o"></i> <a href="#">Question CSV Template</a></li>
-			<li> <i class="fa fa-file-excel-o"></i> <a href="#">Noble Personality CSV Template</a></li>
+			<li> <i class="fa fa-file-excel-o"></i> <a href="downloadQuestCSVFile.do">Question CSV Template</a></li>
+			<li> <i class="fa fa-file-excel-o"></i> <a href="downloadPersnCSVFile.do">Noble Personality CSV Template</a></li>
 		</ul>
 	</form>
 </div>

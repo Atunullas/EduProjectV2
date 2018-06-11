@@ -9,7 +9,7 @@
 		<h3 class="title white-text">Upload your Personality here</h3>
 	</div>
 	<form method="post" action="savePersonality.do"
-		enctype="multipart/form-data">
+		enctype="multipart/form-data" autocomplete="off">
 		<div class="row">
 			<div class="col-sm-3 text-center">
 				<div class="row">

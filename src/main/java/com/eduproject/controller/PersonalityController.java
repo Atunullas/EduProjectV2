@@ -7,6 +7,8 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,8 @@ import com.eduproject.service.PersonalityService;
 @Controller
 public class PersonalityController {
 
+	private static final Logger logger = LoggerFactory.getLogger(PersonalityController.class);
+
 	@Autowired
 	private PersonalityService personalityService;
 
@@ -27,6 +31,7 @@ public class PersonalityController {
 
 	@RequestMapping(value = "/startPerson.do")
 	public String startPerson(Model model) {
+		logger.info("Enter startPerson method");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String view = "error";
 		personBean.setAllPersons(personalityService.performFetchAll());
@@ -36,6 +41,7 @@ public class PersonalityController {
 			try {
 				personDTO.setPersonAge(calculateAge(sdf.parse(personDTO.getPersonDOB())));
 			} catch (ParseException e) {
+				logger.info("Parse Exception Occured while calculating Age");
 				return view;
 			}
 			model.addAttribute("person", personDTO);
@@ -44,13 +50,16 @@ public class PersonalityController {
 			view = "viewPersonality";
 		} else {
 			model.addAttribute("errorMessage", "No Noble Personalities found, Please upload!");
-			return view ;
+			logger.info("No Noble Personalities found, Please upload!");
+			return view;
 		}
+		logger.info("Exiting startPerson method");
 		return view;
 	}
 
 	@RequestMapping(value = "/nextPerson.do")
 	public String nextPerson(HttpServletRequest request, Model model) {
+		logger.info("Enter nextPerson method");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String personId = request.getParameter("id");
 		String view = "error";
@@ -58,7 +67,7 @@ public class PersonalityController {
 		try {
 			id = Integer.valueOf(personId);
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			logger.info("NumberFormatException Exception Occured while Parsing the Personality ID" + e.getMessage());
 		}
 		if (personBean.getAllPersons().size() > id) {
 			PersonalityDTO personDTO = personBean.getAllPersons().get(id);
@@ -68,16 +77,18 @@ public class PersonalityController {
 				return view;
 			}
 			model.addAttribute("person", personDTO);
-			model.addAttribute("curPerson", personBean.getCurQuestion());
+			model.addAttribute("curPerson", personBean.getCurQuestion() + 1);
 			model.addAttribute("totPerson", personBean.getAllPersons().size());
 			view = "viewPersonality";
 		} else {
 			view = "personalityComplete";
 		}
+		logger.info("Exiting nextPerson method");
 		return view;
 	}
 
 	private int calculateAge(Date dob) {
+		logger.info("Enter calculateAge method");
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dob);
 		Calendar today = Calendar.getInstance();
@@ -95,6 +106,7 @@ public class PersonalityController {
 				age--;
 			}
 		}
+		logger.info("Exiting calculateAge method");
 		return age;
 	}
 }
