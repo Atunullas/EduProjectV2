@@ -63,6 +63,7 @@ public class PersonalityController {
 		} else {
 			model.addAttribute("errorMessage", "No Noble Personalities found, Please upload!");
 			model.addAttribute("showClose", true);
+			model.addAttribute("isWindowMode", true);
 			logger.info("No Noble Personalities found, Please upload!");
 			return view;
 		}
