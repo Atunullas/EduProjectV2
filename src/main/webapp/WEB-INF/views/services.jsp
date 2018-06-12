@@ -1,57 +1,44 @@
 <jsp:include page="commons/header.jsp"></jsp:include>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
-	.ui-dialog, .ui-widget, .ui-widget-content,
-	.ui-corner-all, .foo, .ui-draggable, .ui-resizable {
-	background: white !important
-}
 ​
 </style>
 <script>
-	$(document).ready(
-			function() {
-				$(".service").click(
-						function() {
-							if ($(this).attr("id") == "setQuestData.do"
-									|| $(this).attr("id") == "startPerson.do") {
-								openDialog($(this).attr("id"), false);
-							} else if ($(this).attr("id") == "printQuest.pdf") {
-								openDialog($(this).attr("id"), true);
-							} else {
-								window.location.href = $(this).attr("id");
-							}
-						})
+	$(document)
+			.ready(
+					function() {
+						$(".service")
+								.click(
+										function() {
+											if ($(this).attr("id") == "setQuestData.do"
+													|| $(this).attr("id") == "startPerson.do") {
+												openPromptBox($(this)
+														.attr('id'), false);
+											} else if ($(this).attr("id") == "printQuest.pdf") {
+												openPromptBox($(this)
+														.attr('id'), true);
+											} else {
+												window.location.href = $(this)
+														.attr("id");
+											}
+										})
 
-				function openDialog(attr, isPrint) {
-					$('#dialogDiv').dialog(
-							{
-								modal : true,
-								buttons : {
-									'OK' : function() {
-										var count = $('#questCount').val();
-										if (isPrint) {
-											window.open(attr + '?count='
-													+ count, "_blank");
-										} else {
-											window.open(attr + '?count='
-													+ count, "New Window",
-													"width="
-															+ $(window).width()
-															+ ",height ="
-															+ $(window)
-																	.height());
-										}
-										$('#questCount').val('');
-										$(this).dialog('close');
-									},
-									'Cancel' : function() {
-										$('#questCount').val('');
-										$(this).dialog('close');
-									}
+						function openPromptBox(attr, isPrint) {
+							var url = '';
+							var count = prompt("Please enter the no of Item to be fetched");
+							if (count.trim() == null || count.trim() == "") {
+								return;
+							} else {
+								url = attr + "?count=" + count;
+								if (isPrint) {
+									window.open(url, "_blank");
+								} else {
+									window.open(url, "New Window", "width="
+											+ $(window).width() + ",height ="
+											+ $(window).height());
 								}
-							});
-				}
-			});
+							}
+						}
+					});
 </script>
 <style>
 h1, h2, h3, h4, h5, h6 {
@@ -67,12 +54,10 @@ p {
 	<!-- Container -->
 	<div class="container">
 		<div id="dialogDiv" style="display: none;">
-			<form class="">
+			<form>
 				<div class="form-group">
-					<label>Please specify the count : </label>
-				</div>
-				<div class="form-group">
-					<input type="text" id="questCount">
+					<label>Please specify the count :</label><input type="text"
+						id="questCount">
 				</div>
 			</form>
 		</div>

@@ -38,10 +38,18 @@ public class QuestController {
 		logger.info("Enter setQuizData method");
 		String view = "error";
 		Map<Integer, QuestionDTO> quizQuestions = new HashMap<>();
-		String countStr  = request.getParameter("count");
+		String countStr = request.getParameter("count");
 		if (quizQuestions.size() == 0) {
 			logger.info("Initializing the Quiz Questions");
-			quizQuestions.putAll(questAnsService.performFetchWithLimit(Integer.valueOf(countStr)));
+			try {
+				quizQuestions.putAll(questAnsService.performFetchWithLimit(Integer.valueOf(countStr)));
+			} catch (NumberFormatException e) {
+				model.addAttribute("errorMessage", "Invalid Count not a number!");
+				model.addAttribute("showClose", true);
+				logger.info("Number Format Exception occured not a valid number entered");
+				return view;
+			}
+
 			logger.info("Fetched the Quiz Questions from Database");
 			quizBean.setQuizQuestions(quizQuestions);
 			quizBean.setTotalQuizQues(quizQuestions.size());
@@ -52,8 +60,11 @@ public class QuestController {
 		quizBean.setPointsAwarded(0);
 		model.addAttribute("noOfTotalQuizQues", quizBean.getTotalQuizQues());
 		if (quizBean.getTotalQuizQues() == 0) {
+			model.addAttribute("isWindowMode", true);
 			model.addAttribute("errorMessage", "No questions Found, Please upload to start the Quiz!");
+			model.addAttribute("showClose", true);
 		} else {
+			model.addAttribute("isWindowMode", true);
 			view = "quizDisclaimer";
 		}
 		logger.info("Exiting setQuizData method");
@@ -68,6 +79,7 @@ public class QuestController {
 		quizBean.setCurQuesNo(curQuestNo);
 		model.addAttribute("curQuestNo", curQuestNo);
 		model.addAttribute("noOfTotalQuizQues", quizBean.getTotalQuizQues());
+		model.addAttribute("isWindowMode", true);
 		try {
 			QuestionDTO question = quizBean.getQuizQuestions().get(curQuestNo);
 			logger.info("Getting from Quiz Bean for Current Question No : " + curQuestNo);
@@ -116,6 +128,7 @@ public class QuestController {
 		}
 		model.addAttribute("score", quizBean.getPointsAwarded());
 		model.addAttribute("prevAns", quizBean.getUserResponse().get(curQuestNo));
+		model.addAttribute("isWindowMode", true);
 		logger.info("Exiting nextQuest Method");
 		return view;
 	}
@@ -146,6 +159,7 @@ public class QuestController {
 			QuestionDTO question = quizBean.getQuizQuestions().get(curQuestNo);
 			logger.info("Getting previous question from Quiz Bean for current Question no: " + curQuestNo);
 			model.addAttribute("curQuestNo", curQuestNo);
+			model.addAttribute("isWindowMode", true);
 			model.addAttribute("prevAns", quizBean.getUserResponse().get(curQuestNo));
 			view = viewQuestion(question, model, curQuestNo);
 		}

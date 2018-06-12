@@ -60,34 +60,43 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "/saveUploadQuest.do")
-	public String saveUploadQuest(QuestionDTO dto, HttpServletRequest request) {
+	public String saveUploadQuest(QuestionDTO dto, HttpServletRequest request, Model model) {
 		logger.info("Entering saveUploadQuest method");
 
 		String view = "uploadQuestForm";
 		String[] ansOpts = request.getParameterValues("isAns");
-		String[] optionTxts = request.getParameterValues("optionTxt");
-		if (!StringUtils.isEmpty(dto.getQuestionType()) && dto.getQuestionType().equals(EQuestType.TRUE_FALSE.name())) {
-			optionTxts = new String[2];
-			optionTxts[0] = "True";
-			optionTxts[1] = "False";
-		}
-		List<OptionDTO> optDTOs = new ArrayList<>();
-		if (optionTxts.length > ansOpts.length) {
-			for (String x : optionTxts) {
-				for (String s : ansOpts) {
-					OptionDTO optDTO = new OptionDTO();
-					optDTO.setOptionTxt(x);
-					if (x.equals(s)) {
-						optDTO.setIsAns("Y");
-					} else {
-						optDTO.setIsAns("N");
-					}
-					optDTOs.add(optDTO);
-				}
+		if (null != ansOpts) {
+			String[] optionTxts = request.getParameterValues("optionTxt");
+			if (!StringUtils.isEmpty(dto.getQuestionType())
+					&& dto.getQuestionType().equals(EQuestType.TRUE_FALSE.name())) {
+				optionTxts = new String[2];
+				optionTxts[0] = "True";
+				optionTxts[1] = "False";
 			}
-			dto.setOptions(optDTOs);
-			questAnsService.performSave(dto);
+			List<OptionDTO> optDTOs = new ArrayList<>();
+			if (optionTxts.length > ansOpts.length) {
+				for (String x : optionTxts) {
+					for (String s : ansOpts) {
+						OptionDTO optDTO = new OptionDTO();
+						optDTO.setOptionTxt(x);
+						if (x.equals(s)) {
+							optDTO.setIsAns("Y");
+						} else {
+							optDTO.setIsAns("N");
+						}
+						optDTOs.add(optDTO);
+					}
+				}
+				dto.setOptions(optDTOs);
+				questAnsService.performSave(dto);
+			} else {
+				model.addAttribute("errorMessage", "Invalid Options choosen !");
+				model.addAttribute("showClose", true);
+				view = "error";
+			}
 		} else {
+			model.addAttribute("errorMessage", "Invalid Options choosen !");
+			model.addAttribute("showClose", true);
 			view = "error";
 		}
 		return view;
@@ -100,17 +109,25 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "/savePersonality.do")
-	public String saveUploadPersonality(PersonalityDTO dto) {
+	public String saveUploadPersonality(Model model, PersonalityDTO dto) {
 		logger.info("Entering saveUploadPersonality method");
 		personalityService.performSave(dto);
+		model.addAttribute("saveSucess", true);
 		return "uploadPersonForm";
 	}
 
 	@RequestMapping(value = "/printQuest.pdf")
 	public String printQuest(HttpServletRequest request, Model model) {
 		logger.info("Entering printQuest method");
-		String limitStr = request.getParameter("count");
-		model.addAttribute("questions", questAnsService.performFetchWithLimit(Integer.valueOf(limitStr)));
+		try {
+			String limitStr = request.getParameter("count");
+			model.addAttribute("questions", questAnsService.performFetchWithLimit(Integer.valueOf(limitStr)));
+		} catch (NumberFormatException e) {
+			model.addAttribute("errorMessage", "Invalid Count not a number!");
+			model.addAttribute("showClose", true);
+			logger.info("Number Format Exception occured not a valid number entered");
+			return "error";
+		}
 		return "pdfView";
 	}
 

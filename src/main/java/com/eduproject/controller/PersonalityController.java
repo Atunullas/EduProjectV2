@@ -36,7 +36,13 @@ public class PersonalityController {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String view = "error";
 		String limit = request.getParameter("count");
-		personBean.setAllPersons(personalityService.performFetchWithLimit(Integer.valueOf(limit)));
+		try {
+			personBean.setAllPersons(personalityService.performFetchWithLimit(Integer.valueOf(limit)));
+		} catch (NumberFormatException e) {
+			model.addAttribute("errorMessage", "Invalid Count not a number!");
+			logger.info("Number Format Exception occured not a valid number entered");
+			return view;
+		}
 		if (personBean.getAllPersons().size() > 0) {
 			personBean.setCurQuestion(1);
 			PersonalityDTO personDTO = personBean.getAllPersons().get(0);
@@ -56,10 +62,13 @@ public class PersonalityController {
 			view = "viewPersonality";
 		} else {
 			model.addAttribute("errorMessage", "No Noble Personalities found, Please upload!");
+			model.addAttribute("showClose", true);
 			logger.info("No Noble Personalities found, Please upload!");
 			return view;
 		}
+		model.addAttribute("isWindowMode", true);
 		logger.info("Exiting startPerson method");
+		model.addAttribute("showClose", true);
 		return view;
 	}
 
@@ -89,6 +98,7 @@ public class PersonalityController {
 		} else {
 			view = "personalityComplete";
 		}
+		model.addAttribute("isWindowMode", true);
 		logger.info("Exiting nextPerson method");
 		return view;
 	}

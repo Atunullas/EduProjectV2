@@ -29,7 +29,7 @@ public class PersonalityService {
 
 	public void performSave(PersonalityDTO dto) {
 		logger.info("Entering performSave method");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		Personality model = new Personality();
 		model.setPersonName(dto.getFirstName() + " " + dto.getLastName());
 		try {
