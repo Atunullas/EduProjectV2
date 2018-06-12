@@ -90,12 +90,12 @@ public class UploadController {
 				dto.setOptions(optDTOs);
 				questAnsService.performSave(dto);
 			} else {
-				model.addAttribute("errorMessage", "Invalid Options choosen !");
+				model.addAttribute("errorMessage", "Invalid Options chosen !");
 				model.addAttribute("showClose", true);
 				view = "error";
 			}
 		} else {
-			model.addAttribute("errorMessage", "Invalid Options choosen !");
+			model.addAttribute("errorMessage", "Invalid Options chosen !");
 			model.addAttribute("showClose", true);
 			view = "error";
 		}
