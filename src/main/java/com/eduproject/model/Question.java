@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -29,7 +30,10 @@ public class Question implements Serializable {
 	@Column(name = "question_type", nullable = false)
 	private String questionType;
 
-	@OneToMany(cascade=CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Subject questionSubject;
+
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Option> options;
 
 	public Long getQuestionId() {
@@ -64,10 +68,18 @@ public class Question implements Serializable {
 		this.options = options;
 	}
 
+	public Subject getQuestionSubject() {
+		return questionSubject;
+	}
+
+	public void setQuestionSubject(Subject questionSubject) {
+		this.questionSubject = questionSubject;
+	}
+
 	@Override
 	public String toString() {
 		return "Question [questionId=" + questionId + ", questionTxt=" + questionTxt + ", questionType=" + questionType
-				+ ", options=" + options + "]";
+				+ ", questionSubject=" + questionSubject + ", options=" + options + "]";
 	}
 
 }

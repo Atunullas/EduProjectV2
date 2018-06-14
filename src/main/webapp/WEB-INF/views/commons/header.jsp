@@ -3,7 +3,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" href="static/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="static/images/favicon.ico"
+	type="image/x-icon" />
 <title>Smart App</title>
 
 <!-- Google font -->
@@ -20,9 +21,10 @@
 
 <!-- Custom style sheet -->
 <link type="text/css" rel="stylesheet" href="static/css/style.css" />
-
+<link rel="stylesheet" href="static/css/jquery-ui.css">
 <script type="text/javascript" src="static/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/jquery-ui.js"></script>
 </head>
 <!-- Background Image -->
 <div class="bg-img"
@@ -33,8 +35,8 @@
 
 <!-- Nav -->
 
-	<nav id="nav" class="navbar nav-transparent">
-		<div class="container">
+<nav id="nav" class="navbar nav-transparent">
+	<div class="container">
 		<c:if test="${isWindowMode ne true}">
 			<div class="navbar-header">
 				<!-- Logo -->
@@ -52,9 +54,9 @@
 				<li><a href="home.do">Home</a></li>
 				<li><a href="service.do">Services</a></li>
 			</ul>
-			</c:if>
-			<!-- /Main navigation -->
-		</div>
-	</nav>
+		</c:if>
+		<!-- /Main navigation -->
+	</div>
+</nav>
 
 <!-- /Nav -->

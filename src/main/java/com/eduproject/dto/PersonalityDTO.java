@@ -1,5 +1,7 @@
 package com.eduproject.dto;
 
+import java.util.Arrays;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class PersonalityDTO {
@@ -25,6 +27,8 @@ public class PersonalityDTO {
 	private MultipartFile personPic;
 
 	private byte[] bytePersonPic;
+
+	private String personSubject;
 
 	public int getPersonId() {
 		return personId;
@@ -112,6 +116,23 @@ public class PersonalityDTO {
 
 	public void setBytePersonPic(byte[] bytePersonPic) {
 		this.bytePersonPic = bytePersonPic;
+	}
+
+	public String getPersonSubject() {
+		return personSubject;
+	}
+
+	public void setPersonSubject(String personSubject) {
+		this.personSubject = personSubject;
+	}
+
+	@Override
+	public String toString() {
+		return "PersonalityDTO [personId=" + personId + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", personName=" + personName + ", personAge=" + personAge + ", personGender=" + personGender
+				+ ", personDOB=" + personDOB + ", personDOE=" + personDOE + ", personAbout=" + personAbout
+				+ ", personPic=" + personPic + ", bytePersonPic=" + Arrays.toString(bytePersonPic) + ", personSubject="
+				+ personSubject + "]";
 	}
 
 }

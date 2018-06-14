@@ -39,9 +39,9 @@ public class UploadController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 
-	private static final String upldQuestionHeader = "QUESTION,OPTION_1,OPTION_2,OPTION_3,OPTION_4,ANSWER,QUESTION_TYPE";
+	private static final String upldQuestionHeader = "QUESTION,OPTION_1,OPTION_2,OPTION_3,OPTION_4,ANSWER,QUESTION_TYPE,QUESTION_SUBJECT";
 
-	private static final String upldPersonalityHeader = "PERSON_NAME,PERSON_SEX,PERSON_DOB,PERSON_DOE,PERSON_ABOUT";
+	private static final String upldPersonalityHeader = "PERSON_NAME,PERSON_SEX,PERSON_DOB,PERSON_DOE,PERSON_ABOUT,PERSON_SUBJECT";
 
 	private static final String PERSON_CSV_FILE = "csvTemplates/uploadPersonalityCSVTemplate.csv";
 
@@ -54,8 +54,9 @@ public class UploadController {
 	private PersonalityService personalityService;
 
 	@RequestMapping(value = "/uploadQuest.do")
-	public String uploadQuest() {
+	public String uploadQuest(Model model) {
 		logger.info("Entering uploadQuest method");
+		model.addAttribute("allSubjects", questAnsService.performFetchAllSubjects());
 		return "uploadQuestForm";
 	}
 
@@ -103,8 +104,9 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "/uploadPerson.do")
-	public String uploadPerson() {
+	public String uploadPerson(Model model) {
 		logger.info("Entering uploadPerson method");
+		model.addAttribute("allSubjects", questAnsService.performFetchAllSubjects());
 		return "uploadPersonForm";
 	}
 
@@ -157,6 +159,7 @@ public class UploadController {
 					// Setting up options
 					List<OptionDTO> optDTOs = new ArrayList<>();
 					quesDTO.setQuestionType(fieldArray[6]);
+					quesDTO.setQuestionSubject(fieldArray[7]);
 					int optionCount = 4;
 					if (EQuestType.TRUE_FALSE.name().equals(quesDTO.getQuestionType())) {
 						optionCount = 2;
@@ -218,11 +221,12 @@ public class UploadController {
 				if (!isHeader) {
 					String[] fieldArray = line.split(",");
 					PersonalityDTO persDTO = new PersonalityDTO();
-					persDTO.setPersonName(fieldArray[0]);
+					persDTO.setFirstName(fieldArray[0]);
 					persDTO.setPersonGender(fieldArray[1]);
 					persDTO.setPersonDOB(fieldArray[2]);
 					persDTO.setPersonDOE(fieldArray[3]);
 					persDTO.setPersonAbout(fieldArray[4]);
+					persDTO.setPersonSubject(fieldArray[5]);
 					logger.info("Saving value to Personality Table -" + line);
 					personalityService.performSave(persDTO);
 					personDTOList.add(persDTO);

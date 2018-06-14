@@ -20,6 +20,7 @@ import com.eduproject.bean.StartQuizBean;
 import com.eduproject.dto.OptionDTO;
 import com.eduproject.dto.QuestionDTO;
 import com.eduproject.model.EQuestType;
+import com.eduproject.model.Subject;
 import com.eduproject.service.QuestAnsService;
 
 @Controller
@@ -166,6 +167,52 @@ public class QuestController {
 		model.addAttribute("noOfTotalQuizQues", quizBean.getTotalQuizQues());
 		logger.info("Total No of Quiz Questions " + quizBean.getTotalQuizQues());
 		logger.info("Exiting prevQuest Method");
+		return view;
+	}
+
+	@RequestMapping(value = "/editQuestView.do", method = RequestMethod.GET)
+	public String editQuestView(Model model) {
+		logger.info("Entering editQuestView Method");
+		String view = "editQuestView";
+		Map<Integer, QuestionDTO> quizQuestions = questAnsService.performFetchAll();
+		List<QuestionDTO> allQuestions = new ArrayList<>(quizQuestions.values());
+		model.addAttribute("allQuestions", allQuestions);
+		logger.info("Exiting editQuestView Method");
+		return view;
+	}
+
+	@RequestMapping(value = "/editQuestSelect.do", method = RequestMethod.POST)
+	public String editQuestSelect(HttpServletRequest request, Model model) {
+		logger.info("Entering editQuestSelect Method");
+		String idStr = request.getParameter("questionId");
+		String view = "editQuestForm";
+		QuestionDTO question = questAnsService.performFetchById(Long.valueOf(idStr));
+		List<Subject> allSubjects = questAnsService.performFetchAllSubjects();
+		model.addAttribute("question", question);
+		model.addAttribute("allSubjects", allSubjects);
+		logger.info("Exiting editQuestSelect Method");
+		return view;
+	}
+
+	@RequestMapping(value = "/editQuestSave.do", method = RequestMethod.GET)
+	public String editQuestSave(Model model) {
+		logger.info("Entering editQuestSave Method");
+		String view = "editQuestView";
+		Map<Integer, QuestionDTO> quizQuestions = questAnsService.performFetchAll();
+		List<QuestionDTO> allQuestions = new ArrayList<>(quizQuestions.values());
+		model.addAttribute("allQuestions", allQuestions);
+		logger.info("Exiting editQuestSave Method");
+		return view;
+	}
+
+	@RequestMapping(value = "/deleteQuest.do", method = RequestMethod.GET)
+	public String deleteQuestConfirm(Model model) {
+		logger.info("Entering deleteQuestConfirm Method");
+		String view = "deleteQuestionView";
+		Map<Integer, QuestionDTO> quizQuestions = questAnsService.performFetchAll();
+		List<QuestionDTO> allQuestions = new ArrayList<>(quizQuestions.values());
+		model.addAttribute("allQuestions", allQuestions);
+		logger.info("Exiting deleteQuestView Method");
 		return view;
 	}
 

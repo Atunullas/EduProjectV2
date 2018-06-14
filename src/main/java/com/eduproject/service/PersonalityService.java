@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import com.eduproject.dao.PersonalityDao;
 import com.eduproject.dto.PersonalityDTO;
 import com.eduproject.model.Personality;
+import com.eduproject.model.Subject;
 
 @Service
 @Transactional
@@ -31,7 +32,12 @@ public class PersonalityService {
 		logger.info("Entering performSave method");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		Personality model = new Personality();
-		model.setPersonName(dto.getFirstName() + " " + dto.getLastName());
+		if (null != dto.getFirstName() && null != dto.getLastName()) {
+			model.setPersonName(dto.getFirstName() + " " + dto.getLastName());
+		} else {
+			model.setPersonName(dto.getFirstName());
+		}
+
 		try {
 			if (dto.getPersonDOB() != null) {
 				model.setPersonDOB(sdf.parse(dto.getPersonDOB()));
@@ -40,7 +46,7 @@ public class PersonalityService {
 				model.setPersonDOE(sdf.parse(dto.getPersonDOE()));
 			}
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.info("Exception occured while parsing the Date : " + e.getMessage());
 		}
 		model.setPersonGender(dto.getPersonGender());
 		model.setPersonAbout(dto.getPersonAbout());
@@ -53,12 +59,15 @@ public class PersonalityService {
 				logger.info("Exception occured while setting the Profile Pic : " + e.getMessage());
 			}
 		}
+		Subject sub = new Subject();
+		sub.setSubjectName(dto.getPersonSubject().toUpperCase());
+		model.setPersonSubject(sub);
 		logger.info("Persisting Personality to DB : " + model);
 		personalityDao.performSave(model);
 		logger.info("Exiting performSave method");
 	}
 
-	public List<PersonalityDTO> performFetchAll() {
+	public List<PersonalityDTO> performFetchAll(String subject) {
 		logger.info("Entering performFetchAll method");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		List<Personality> result = personalityDao.performFetchAll();
@@ -66,6 +75,7 @@ public class PersonalityService {
 		List<PersonalityDTO> dtos = new ArrayList<>();
 		for (Personality pers : result) {
 			PersonalityDTO dto = new PersonalityDTO();
+			dto.setPersonId(pers.getPersonId());
 			dto.setPersonName(pers.getPersonName());
 			if (!StringUtils.isEmpty(pers.getPersonDOB()))
 				dto.setPersonDOB(sdf.format(pers.getPersonDOB()));
@@ -74,13 +84,16 @@ public class PersonalityService {
 				dto.setPersonDOE(sdf.format(pers.getPersonDOE()));
 			dto.setPersonAbout(pers.getPersonAbout());
 			dto.setBytePersonPic(pers.getPersonPic());
+			if (!StringUtils.isEmpty(subject)) {
+				dto.setPersonSubject(pers.getPersonSubject().getSubjectName());
+			}
 			dtos.add(dto);
 		}
 		logger.info("Exiting performFetchAll method");
 		return dtos;
 	}
-	
-	public List<PersonalityDTO> performFetchWithLimit(Integer limit) {
+
+	public List<PersonalityDTO> performFetchWithLimit(Integer limit, String subject) {
 		logger.info("Entering performFetchAll method");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		List<Personality> result = personalityDao.performFetchWithLimit(limit);
@@ -88,6 +101,7 @@ public class PersonalityService {
 		List<PersonalityDTO> dtos = new ArrayList<>();
 		for (Personality pers : result) {
 			PersonalityDTO dto = new PersonalityDTO();
+			dto.setPersonId(pers.getPersonId());
 			dto.setPersonName(pers.getPersonName());
 			if (!StringUtils.isEmpty(pers.getPersonDOB()))
 				dto.setPersonDOB(sdf.format(pers.getPersonDOB()));
@@ -96,9 +110,75 @@ public class PersonalityService {
 				dto.setPersonDOE(sdf.format(pers.getPersonDOE()));
 			dto.setPersonAbout(pers.getPersonAbout());
 			dto.setBytePersonPic(pers.getPersonPic());
+			if (!StringUtils.isEmpty(subject)) {
+				dto.setPersonSubject(pers.getPersonSubject().getSubjectName());
+			}
 			dtos.add(dto);
 		}
 		logger.info("Exiting performFetchAll method");
 		return dtos;
+	}
+
+	public PersonalityDTO performFetchById(Integer valueOf) {
+		logger.info("Entering performFetchById method");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Personality person = personalityDao.performFetchById(valueOf);
+		PersonalityDTO dto = new PersonalityDTO();
+		if (null != person) {
+			dto.setPersonId(person.getPersonId());
+			dto.setPersonName(person.getPersonName());
+			if (!StringUtils.isEmpty(person.getPersonDOB()))
+				dto.setPersonDOB(sdf.format(person.getPersonDOB()));
+			if (!StringUtils.isEmpty(person.getPersonDOE()))
+				dto.setPersonDOE(sdf.format(person.getPersonDOE()));
+			dto.setPersonGender(person.getPersonGender());
+			dto.setPersonAbout(person.getPersonAbout());
+			dto.setBytePersonPic(person.getPersonPic());
+			dto.setPersonSubject(person.getPersonSubject().getSubjectName());
+			logger.info("Exiting performFetchById method");
+		}
+		return dto;
+	}
+
+	public void performUpdate(PersonalityDTO dto) {
+		logger.info("Entering performUpdate method");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Personality model = new Personality();
+		model.setPersonId(dto.getPersonId());
+		model.setPersonName(dto.getFirstName() + " " + dto.getLastName());
+		try {
+			if (dto.getPersonDOB() != null) {
+				model.setPersonDOB(sdf.parse(dto.getPersonDOB()));
+			}
+			if (StringUtils.isEmpty(dto.getPersonDOE() != null)) {
+				model.setPersonDOE(sdf.parse(dto.getPersonDOE()));
+			}
+		} catch (ParseException e) {
+			logger.info("Exception occured while parsing the Date : " + e.getMessage());
+		}
+		model.setPersonGender(dto.getPersonGender());
+		model.setPersonAbout(dto.getPersonAbout());
+		if (null != dto.getPersonPic()) {
+			byte[] content;
+			try {
+				content = IOUtils.toByteArray(dto.getPersonPic().getInputStream());
+				model.setPersonPic(content);
+			} catch (IOException e) {
+				logger.info("Exception occured while setting the Profile Pic : " + e.getMessage());
+			}
+		}
+		Subject sub = new Subject();
+		sub.setSubjectName(dto.getPersonSubject().toUpperCase());
+		model.setPersonSubject(sub);
+		logger.info("Updating Personality to DB : " + model);
+		personalityDao.performUpdate(model);
+		logger.info("Exiting performUpdate method");
+	}
+
+	public void performDelete(Integer personId) {
+		logger.info("Entering performDelete method");
+		Personality model = new Personality();
+		model.setPersonId(personId);
+		logger.info("Exiting performDelete method");
 	}
 }

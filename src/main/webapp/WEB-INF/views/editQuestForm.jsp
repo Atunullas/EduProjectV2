@@ -2,7 +2,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script>
 	$(document).ready(function() {
-
+			if("${question.questionType}" =='MUL_ANS'){
+				$('#mulChoice').click();
+				$('#navTabs').attr('disabled',true);
+			} else if ("${question.questionType}" =='BEST_ANS'){
+				$('#mulChoice').click();
+				$('#navTabs').attr('disabled',true);
+			} else if ("${question.questionType}" =='TRUE_FALSE'){
+				$('#trueFalse').click();
+				$('#navTabs').attr('disabled',true);
+			}
+			
 		$('#mulChoice').click(function() {
 			$('#choose').removeClass("active");
 			$('#trueFalse').removeClass("active");
@@ -36,7 +46,7 @@
 <div class="container section" style="padding-top: 30px;">
 	<div class="section-header text-center">
 		<h2 class="title white-text">Upload your Questions</h2>
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs" id="navTabs">
 			<li class="active" id="mulChoice"><a href="#">Multiple
 					Choice Question</a></li>
 			<li id="choose"><a href="#">Choose the best answer</a></li>
@@ -59,7 +69,7 @@
 			<div class="col-sm-10">
 				<textarea name="questionTxt" id="question"
 					class="quesEmpty form-control" required="required"
-					placeholder="Please type your Question here.."></textarea>
+					placeholder="Please type your Question here..">${question.questionTxt}</textarea>
 			</div>
 		</div>
 
@@ -67,48 +77,56 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2">Option A : <input
 					type="checkbox" name="isAns" value="A"
-					title="Check if it's the Correct Answer">
+					title="Check if it's the Correct Answer"
+					value="${question.options[0].optionId}">
 				</label>
 				<div class="col-sm-10">
 					<input type="text" name="optionTxt" id="optionA"
 						class="optEmpty form-control"
-						placeholder="Please type Option A here.." required="required">
+						placeholder="Please type Option A here.." required="required"
+						value="${question.options[0].optionTxt}">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-sm-2">Option B : <input
 					type="checkbox" name="isAns" value="B"
-					title="Check if it's the Correct Answer">
+					title="Check if it's the Correct Answer"
+					value="${question.options[1].optionId}">
 				</label>
 				<div class="col-sm-10">
 					<input type="text" name="optionTxt" id="optionB"
 						class="optEmpty form-control"
-						placeholder="Please type Option B here.." required="required">
+						placeholder="Please type Option B here.." required="required"
+						value="${question.options[1].optionTxt}">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-sm-2">Option C : <input
 					type="checkbox" name="isAns" value="C"
-					title="Check if it's the Correct Answer">
+					title="Check if it's the Correct Answer"
+					value="${question.options[2].optionId}">
 				</label>
 				<div class="col-sm-10">
 					<input type="text" name="optionTxt" id="optionC"
 						class="optEmpty form-control"
-						placeholder="Please type Option C here.." required="required">
+						placeholder="Please type Option C here.." required="required"
+						value="${question.options[2].optionTxt}">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-sm-2">Option D : <input
 					type="checkbox" name="isAns" value="D"
-					title="Check if it's the Correct Answer">
+					title="Check if it's the Correct Answer"
+					value="${question.options[3].optionId}">
 				</label>
 				<div class="col-sm-10">
 					<input type="text" name="optionTxt" id="optionD"
 						class="optEmpty form-control"
-						placeholder="Please type Option D here.." required="required">
+						placeholder="Please type Option D here.." required="required"
+						value="${question.options[3].optionTxt}">
 				</div>
 			</div>
 		</div>
@@ -133,7 +151,7 @@
 			<div class="col-sm-10">
 				<textarea name="questionTxt" id="question"
 					class="quesEmpty form-control" required="required"
-					placeholder="Please type your Question here.."></textarea>
+					placeholder="Please type your Question here..">${question.questionTxt}</textarea>
 			</div>
 		</div>
 

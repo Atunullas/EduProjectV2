@@ -1,14 +1,20 @@
 package com.eduproject.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -40,6 +46,9 @@ public class Personality implements Serializable {
 	@Lob
 	@Column(name = "person_pic")
 	private byte[] personPic;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Subject personSubject;
 
 	public Integer getPersonId() {
 		return personId;
@@ -97,11 +106,19 @@ public class Personality implements Serializable {
 		this.personPic = personPic;
 	}
 
+	public Subject getPersonSubject() {
+		return personSubject;
+	}
+
+	public void setPersonSubject(Subject personSubject) {
+		this.personSubject = personSubject;
+	}
+
 	@Override
 	public String toString() {
 		return "Personality [personId=" + personId + ", personName=" + personName + ", personGender=" + personGender
 				+ ", personDOB=" + personDOB + ", personDOE=" + personDOE + ", personAbout=" + personAbout
-				+ ", personPic=" + personPic + "]";
+				+ ", personPic=" + Arrays.toString(personPic) + ", personSubject=" + personSubject + "]";
 	}
 
 }

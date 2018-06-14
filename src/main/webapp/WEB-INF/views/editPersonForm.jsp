@@ -42,13 +42,13 @@
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="fname">First Name</label> <input type="text"
-								class="form-control" name="firstName" required="required">
+								class="form-control" name="firstName" required="required" value="${personality.firstName}">
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="lname">Last Name</label> <input type="text"
-								class="form-control" name="lastName" required="required">
+								class="form-control" name="lastName" required="required" value="${personality.lastName}">
 						</div>
 					</div>
 				</div>
@@ -58,13 +58,13 @@
 						<div class="form-group">
 							<label>Date of Birth :</label> <input type="date"
 								class="form-control" name="personDOB" id="personDOB"
-								required="required">
+								required="required" value="${personality.personDOB}">
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label>Date of Expiry :</label> <input type="date"
-								class="form-control" name="personDOE" id="personDOE">
+								class="form-control" name="personDOE" id="personDOE" value="${personality.personDOE}">
 						</div>
 					</div>
 				</div>
@@ -73,17 +73,18 @@
 					<div class="col-sm-6">
 						<label>Gender :</label> <select name="personGender"
 							class="form-control" required="required">
-							<option selected="selected">Choose a Gender</option>
-							<option value="Male">Male</option>
-							<option value="Female">Female</option>
+							<option selected="selected" value="${personality.personGender}" disabled="disabled">${personality.personGender}</option>
 						</select>
 					</div>
 					<div class="col-sm-6">
 						<label>Subject :</label> <select name="personSubject"
 							class="form-control" required="required">
-							<option selected="selected" value="">Choose the Subject</option>
+							<option value="">Choose the Subject</option>
+							<option value="${personality.personSubject}" selected="selected">${personality.personSubject}</option>
 							<c:forEach items="${allSubjects}" var="eachSubject">
-								<option value="${eachSubject}">${eachSubject}</option>
+								<c:if test="${personality.personSubject ne eachSubject}">
+									<option value="${eachSubject}">${eachSubject}</option>
+								</c:if>
 							</c:forEach>
 						</select>
 					</div>
@@ -93,7 +94,7 @@
 					<div class="col-sm-12">
 						<label>About :</label>
 						<textarea name="personAbout" class="form-control" id="personAbout"
-							required="required"></textarea>
+							required="required">${personality.personAbout}</textarea>
 					</div>
 				</div>
 

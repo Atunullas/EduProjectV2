@@ -16,6 +16,7 @@ import com.eduproject.dto.OptionDTO;
 import com.eduproject.dto.QuestionDTO;
 import com.eduproject.model.Option;
 import com.eduproject.model.Question;
+import com.eduproject.model.Subject;
 
 @Service
 @Transactional
@@ -38,13 +39,16 @@ public class QuestAnsService {
 			option.setIsAns(optDto.getIsAns());
 			options.add(option);
 		}
+		Subject sub = new Subject();
+		sub.setSubjectName(dto.getQuestionSubject().toUpperCase());
+		question.setQuestionSubject(sub);
 		question.setOptions(options);
 		logger.info("Persisting question to Database" + question);
 		questAnsDao.performSave(question);
 		logger.info("Exiting performSave method");
 	}
 
-	public QuestionDTO performFetch(Integer questId) {
+	public QuestionDTO performFetch(Long questId) {
 		logger.info("Entering performFetch method by question Id " + questId);
 		Question ques = questAnsDao.performFetchById(questId);
 		QuestionDTO quizQuest = new QuestionDTO();
@@ -114,6 +118,35 @@ public class QuestAnsService {
 		logger.info("Exiting performFetchAll method");
 		return quizDTOList;
 
+	}
+
+	public List<Subject> performFetchAllSubjects() {
+		logger.info("Entering performFetchAllSubjects method");
+		List<Subject> subjectList = questAnsDao.performFetchAllSubjects();
+		logger.info("Exiting performFetchAllSubjects method");
+		return subjectList;
+	}
+
+	public QuestionDTO performFetchById(Long valueOf) {
+		logger.info("Entering performFetchById method");
+		Question question = questAnsDao.performFetchById(valueOf);
+		QuestionDTO dto = new QuestionDTO();
+		List<OptionDTO> optionList = new ArrayList<>();
+		if (null != question) {
+			dto.setQuestionId(question.getQuestionId());
+			dto.setQuestionTxt(question.getQuestionTxt());
+			dto.setQuestionType(question.getQuestionType());
+			for (Option opt : question.getOptions()) {
+				OptionDTO option = new OptionDTO();
+				option.setOptionId(opt.getOptionId());
+				option.setOptionTxt(opt.getOptionText());
+				option.setIsAns(opt.getIsAns());
+				optionList.add(option);
+			}
+			dto.setOptions(optionList);
+		}
+		logger.info("Exiting performFetchById method");
+		return dto;
 	}
 
 }
