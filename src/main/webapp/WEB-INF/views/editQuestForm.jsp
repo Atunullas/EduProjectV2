@@ -2,13 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script>
 	$(document).ready(function() {
-			if("${question.questionType}" =='MUL_ANS'){
+			if("${question.questionType}" =="MUL_ANS"){
+				alert('is '+"${question.questionType}");
 				$('#mulChoice').click();
 				$('#navTabs').attr('disabled',true);
-			} else if ("${question.questionType}" =='BEST_ANS'){
+			} else if ("${question.questionType}" =="BEST_ANS"){
+				alert('is '+"${question.questionType}");
 				$('#mulChoice').click();
 				$('#navTabs').attr('disabled',true);
-			} else if ("${question.questionType}" =='TRUE_FALSE'){
+			} else if ("${question.questionType}" =="TRUE_FALSE"){
+				alert('is '+"${question.questionType}");
 				$('#trueFalse').click();
 				$('#navTabs').attr('disabled',true);
 			}
@@ -45,11 +48,11 @@
 </script>
 <div class="container section" style="padding-top: 30px;">
 	<div class="section-header text-center">
-		<h2 class="title white-text">Upload your Questions</h2>
-		<ul class="nav nav-tabs" id="navTabs">
+		<h2 class="title white-text">Edit your Questions</h2>
+		<ul class="nav nav-tabs">
 			<li class="active" id="mulChoice"><a href="#">Multiple
 					Choice Question</a></li>
-			<li id="choose"><a href="#">Choose the best answer</a></li>
+			<li id="choose" id="navTabs"><a href="#">Choose the best answer</a></li>
 			<li id="trueFalse"><a href="#">True or False Question</a></li>
 			<li style="float: right;"><select name="subject"
 				class="form-control">

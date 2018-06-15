@@ -171,11 +171,11 @@ public class QuestController {
 	}
 
 	@RequestMapping(value = "/editQuestView.do", method = RequestMethod.GET)
-	public String editQuestView(Model model) {
+	public String editQuestView(HttpServletRequest request, Model model) {
 		logger.info("Entering editQuestView Method");
 		String view = "editQuestView";
-		Map<Integer, QuestionDTO> quizQuestions = questAnsService.performFetchAll();
-		List<QuestionDTO> allQuestions = new ArrayList<>(quizQuestions.values());
+		String subject = request.getParameter("subject");
+		List<QuestionDTO> allQuestions = questAnsService.performFetchAll(subject);
 		model.addAttribute("allQuestions", allQuestions);
 		logger.info("Exiting editQuestView Method");
 		return view;
@@ -195,22 +195,23 @@ public class QuestController {
 	}
 
 	@RequestMapping(value = "/editQuestSave.do", method = RequestMethod.GET)
-	public String editQuestSave(Model model) {
+	public String editQuestSave(Model model, QuestionDTO dto, HttpServletRequest request) {
 		logger.info("Entering editQuestSave Method");
 		String view = "editQuestView";
-		Map<Integer, QuestionDTO> quizQuestions = questAnsService.performFetchAll();
-		List<QuestionDTO> allQuestions = new ArrayList<>(quizQuestions.values());
+		questAnsService.performUpdate(dto);
+		String subject = request.getParameter("subject");
+		List<QuestionDTO> allQuestions = questAnsService.performFetchAll(subject);
 		model.addAttribute("allQuestions", allQuestions);
 		logger.info("Exiting editQuestSave Method");
 		return view;
 	}
 
 	@RequestMapping(value = "/deleteQuest.do", method = RequestMethod.GET)
-	public String deleteQuestConfirm(Model model) {
+	public String deleteQuestConfirm(HttpServletRequest request, Model model) {
 		logger.info("Entering deleteQuestConfirm Method");
-		String view = "deleteQuestionView";
-		Map<Integer, QuestionDTO> quizQuestions = questAnsService.performFetchAll();
-		List<QuestionDTO> allQuestions = new ArrayList<>(quizQuestions.values());
+		String view = "editQuestView";
+		String subject = request.getParameter("subject");
+		List<QuestionDTO> allQuestions = questAnsService.performFetchAll(subject);
 		model.addAttribute("allQuestions", allQuestions);
 		logger.info("Exiting deleteQuestView Method");
 		return view;

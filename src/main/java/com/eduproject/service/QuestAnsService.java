@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.eduproject.dao.QuestAnsDao;
 import com.eduproject.dto.OptionDTO;
@@ -67,12 +68,11 @@ public class QuestAnsService {
 		return quizQuest;
 	}
 
-	public Map<Integer, QuestionDTO> performFetchAll() {
+	public List<QuestionDTO> performFetchAll(String subject) {
 		logger.info("Entering performFetchAll method");
 		List<Question> questAnsList = questAnsDao.performFetchAll();
 		logger.info("Number of Questions fetched from DB : " + questAnsList.size());
-		Map<Integer, QuestionDTO> quizDTOList = new HashMap<>();
-		int index = 0;
+		List<QuestionDTO> quizDTOList = new ArrayList<>();
 		for (Question ques : questAnsList) {
 			QuestionDTO quizQuest = new QuestionDTO();
 			List<OptionDTO> optionList = new ArrayList<>();
@@ -86,8 +86,11 @@ public class QuestAnsService {
 				option.setIsAns(opt.getIsAns());
 				optionList.add(option);
 			}
+			if (!StringUtils.isEmpty(subject)) {
+				quizQuest.setQuestionSubject(ques.getQuestionSubject().getSubjectName());
+			}
 			quizQuest.setOptions(optionList);
-			quizDTOList.put(index++, quizQuest);
+			quizDTOList.add(quizQuest);
 		}
 		logger.info("Exiting performFetchAll method");
 		return quizDTOList;
@@ -147,6 +150,29 @@ public class QuestAnsService {
 		}
 		logger.info("Exiting performFetchById method");
 		return dto;
+	}
+
+	public void performUpdate(QuestionDTO dto) {
+		logger.info("Entering performUpdate Question method");
+		Question question = new Question();
+		question.setQuestionId(dto.getQuestionId());
+		question.setQuestionTxt(dto.getQuestionTxt());
+		question.setQuestionType(dto.getQuestionType());
+		List<Option> options = new ArrayList<>();
+		for (OptionDTO optDto : dto.getOptions()) {
+			Option option = new Option();
+			option.setOptionId(optDto.getOptionId());
+			option.setOptionText(optDto.getOptionTxt());
+			option.setIsAns(optDto.getIsAns());
+			options.add(option);
+		}
+		Subject sub = new Subject();
+		sub.setSubjectName(dto.getQuestionSubject().toUpperCase());
+		question.setQuestionSubject(sub);
+		question.setOptions(options);
+		logger.info("Persisting question to Database" + question);
+		questAnsDao.performSave(question);
+		logger.info("Exiting performUpdate method");
 	}
 
 }

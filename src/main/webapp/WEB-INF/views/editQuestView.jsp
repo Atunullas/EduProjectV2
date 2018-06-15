@@ -10,7 +10,6 @@
 			if(id.length==0 || id.length>1){
 				alert('Please choose only one for edit Option');
 			} else{
-				console.log('id ' + id[0]);
 				$('#editDelForm').attr('action', 'editQuestSelect.do?questionId='+id[0]);
 				$('#editDelForm').submit();
 			}
@@ -22,7 +21,7 @@
 				if(first){
 					id = $(this).val();	
 				}else {
-					id = id + $(this).val();
+					id = id + ',' + $(this).val();
 				}
 			});
 			console.log('id ' + id);

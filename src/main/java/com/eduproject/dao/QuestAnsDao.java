@@ -31,9 +31,9 @@ public class QuestAnsDao extends HibernateDaoSupport {
 
 	public Question performFetchById(Long questId) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Question.class);
-		criteria.add(Restrictions.eq("id", questId));
+		criteria.add(Restrictions.eq("questionId", questId));
 		List<Question> result = (List<Question>) getHibernateTemplate().findByCriteria(criteria);
-		if (result.size() > 1) {
+		if (result.size() == 1) {
 			return result.get(0);
 		}
 		return null;

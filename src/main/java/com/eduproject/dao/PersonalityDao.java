@@ -51,7 +51,7 @@ public class PersonalityDao extends HibernateDaoSupport {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Personality.class);
 		criteria.add(Restrictions.eq("personId", personId));
 		List<Personality> result = (List<Personality>) getHibernateTemplate().findByCriteria(criteria);
-		if (result.size() > 0) {
+		if (result.size() == 0) {
 			return result.get(0);
 		}
 		return null;
