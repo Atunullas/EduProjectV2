@@ -31,6 +31,7 @@ import com.eduproject.dto.OptionDTO;
 import com.eduproject.dto.PersonalityDTO;
 import com.eduproject.dto.QuestionDTO;
 import com.eduproject.model.EQuestType;
+import com.eduproject.model.Subject;
 import com.eduproject.service.PersonalityService;
 import com.eduproject.service.QuestAnsService;
 
@@ -123,7 +124,8 @@ public class UploadController {
 		logger.info("Entering printQuest method");
 		try {
 			String limitStr = request.getParameter("count");
-			model.addAttribute("questions", questAnsService.performFetchWithLimit(Integer.valueOf(limitStr)));
+			String subject = request.getParameter("subject");
+			model.addAttribute("questions", questAnsService.performFetchWithLimit(Long.valueOf(limitStr), subject));
 		} catch (NumberFormatException e) {
 			model.addAttribute("errorMessage", "Invalid Count not a number!");
 			model.addAttribute("showClose", true);
@@ -159,7 +161,9 @@ public class UploadController {
 					// Setting up options
 					List<OptionDTO> optDTOs = new ArrayList<>();
 					quesDTO.setQuestionType(fieldArray[6]);
-					quesDTO.setQuestionSubject(fieldArray[7]);
+					Subject subject = new Subject();
+					subject.setSubjectName(fieldArray[7]);
+					quesDTO.setQuestionSubject(subject);
 					int optionCount = 4;
 					if (EQuestType.TRUE_FALSE.name().equals(quesDTO.getQuestionType())) {
 						optionCount = 2;

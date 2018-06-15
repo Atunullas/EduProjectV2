@@ -27,9 +27,13 @@ public class PersonalityDao extends HibernateDaoSupport {
 		return result;
 	}
 
-	public List<Personality> performFetchWithLimit(Integer limit) {
+	public List<Personality> performFetchWithLimit(Long limit) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Personality.class);
-		criteria.add(Restrictions.sqlRestriction("1=1 order by rand() limit " + limit));
+		if (limit == 0) {
+			criteria.add(Restrictions.sqlRestriction("1=1 order by rand()"));
+		} else {
+			criteria.add(Restrictions.sqlRestriction("1=1 order by rand() limit " + limit));
+		}
 		List<Personality> result = (List<Personality>) getHibernateTemplate().findByCriteria(criteria);
 		return result;
 	}

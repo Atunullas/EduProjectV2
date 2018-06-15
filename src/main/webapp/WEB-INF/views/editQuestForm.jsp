@@ -2,21 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script>
 	$(document).ready(function() {
-			if("${question.questionType}" =="MUL_ANS"){
-				alert('is '+"${question.questionType}");
-				$('#mulChoice').click();
-				$('#navTabs').attr('disabled',true);
-			} else if ("${question.questionType}" =="BEST_ANS"){
-				alert('is '+"${question.questionType}");
-				$('#mulChoice').click();
-				$('#navTabs').attr('disabled',true);
-			} else if ("${question.questionType}" =="TRUE_FALSE"){
-				alert('is '+"${question.questionType}");
-				$('#trueFalse').click();
-				$('#navTabs').attr('disabled',true);
-			}
-			
+
 		$('#mulChoice').click(function() {
+			$('#mulChoice').addClass("active");
 			$('#choose').removeClass("active");
 			$('#trueFalse').removeClass("active");
 			$('#uploadQuestForm').show();
@@ -27,6 +15,7 @@
 		});
 
 		$('#choose').click(function() {
+			$('#choose').addClass("active");
 			$('#mulChoice').removeClass("active");
 			$('#trueFalse').removeClass("active");
 			$('#uploadQuestForm').show();
@@ -37,6 +26,7 @@
 		});
 
 		$('#trueFalse').click(function() {
+			$('#trueFalse').addClass("active");
 			$('#mulChoice').removeClass("active");
 			$('#choose').removeClass("active");
 			$('#uploadQuestForm').hide();
@@ -44,21 +34,33 @@
 			$('#resetBtn').show();
 		});
 
+		if ("${question.questionType}" == "MUL_ANS") {
+			$('#mulChoice').click();
+		} else if ("${question.questionType}" == "BEST_ANS") {
+			$('#choose').click();
+		} else if ("${question.questionType}" == "TRUE_FALSE") {
+			$('#trueFalse').click();
+		}
+
 	});
 </script>
 <div class="container section" style="padding-top: 30px;">
 	<div class="section-header text-center">
 		<h2 class="title white-text">Edit your Questions</h2>
 		<ul class="nav nav-tabs">
-			<li class="active" id="mulChoice"><a href="#">Multiple
-					Choice Question</a></li>
-			<li id="choose" id="navTabs"><a href="#">Choose the best answer</a></li>
+			<li id="mulChoice"><a href="#">Multiple Choice Question</a></li>
+			<li id="choose"><a href="#">Choose the best answer</a></li>
 			<li id="trueFalse"><a href="#">True or False Question</a></li>
 			<li style="float: right;"><select name="subject"
 				class="form-control">
-					<option selected="selected" value="">Choose the Subject</option>
+					<option value="">Choose the Subject</option>
+					<option value="${question.questionSubject.subjectId}"
+						selected="selected">${question.questionSubject.subjectName}</option>
 					<c:forEach items="${allSubjects}" var="eachSubject">
-						<option value="${eachSubject}">${eachSubject}</option>
+						<c:if
+							test="${question.questionSubject.subjectName ne eachSubject}">
+							<option value="${eachSubject}">${eachSubject}</option>
+						</c:if>
 					</c:forEach>
 			</select></li>
 		</ul>
@@ -79,9 +81,10 @@
 		<div id="options">
 			<div class="form-group">
 				<label class="control-label col-sm-2">Option A : <input
-					type="checkbox" name="isAns" value="A"
+					type="checkbox" name="isAns"
 					title="Check if it's the Correct Answer"
-					value="${question.options[0].optionId}">
+					value="${question.options[0].optionId}"
+					<c:if test="${question.options[0].isAns eq 'Y'}"> checked="checked"</c:if>>
 				</label>
 				<div class="col-sm-10">
 					<input type="text" name="optionTxt" id="optionA"
@@ -93,9 +96,10 @@
 
 			<div class="form-group">
 				<label class="control-label col-sm-2">Option B : <input
-					type="checkbox" name="isAns" value="B"
+					type="checkbox" name="isAns"
 					title="Check if it's the Correct Answer"
-					value="${question.options[1].optionId}">
+					value="${question.options[1].optionId}"
+					<c:if test="${question.options[1].isAns eq 'Y'}"> checked="checked"</c:if>>
 				</label>
 				<div class="col-sm-10">
 					<input type="text" name="optionTxt" id="optionB"
@@ -107,9 +111,10 @@
 
 			<div class="form-group">
 				<label class="control-label col-sm-2">Option C : <input
-					type="checkbox" name="isAns" value="C"
+					type="checkbox" name="isAns"
 					title="Check if it's the Correct Answer"
-					value="${question.options[2].optionId}">
+					value="${question.options[2].optionId}"
+					<c:if test="${question.options[2].isAns eq 'Y'}"> checked="checked"</c:if>>
 				</label>
 				<div class="col-sm-10">
 					<input type="text" name="optionTxt" id="optionC"
@@ -121,9 +126,10 @@
 
 			<div class="form-group">
 				<label class="control-label col-sm-2">Option D : <input
-					type="checkbox" name="isAns" value="D"
+					type="checkbox" name="isAns"
 					title="Check if it's the Correct Answer"
-					value="${question.options[3].optionId}">
+					value="${question.options[3].optionId}"
+					<c:if test="${question.options[3].isAns eq 'Y'}"> checked="checked"</c:if>>
 				</label>
 				<div class="col-sm-10">
 					<input type="text" name="optionTxt" id="optionD"
@@ -135,7 +141,7 @@
 		</div>
 
 		<input type="hidden" name="questionType" id="questionType"
-			value="MUL_ANS">
+			value="${question.questionType}">
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button id="upload" class="btn btn-success">Upload</button>

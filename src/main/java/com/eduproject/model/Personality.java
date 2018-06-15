@@ -6,13 +6,10 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -26,7 +23,7 @@ public class Personality implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "person_id")
-	private Integer personId;
+	private Long personId;
 
 	@Column(name = "person_name", nullable = false)
 	private String personName;
@@ -50,11 +47,11 @@ public class Personality implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Subject personSubject;
 
-	public Integer getPersonId() {
+	public Long getPersonId() {
 		return personId;
 	}
 
-	public void setPersonId(Integer personId) {
+	public void setPersonId(Long personId) {
 		this.personId = personId;
 	}
 

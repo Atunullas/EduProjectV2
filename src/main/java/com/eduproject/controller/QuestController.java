@@ -40,10 +40,11 @@ public class QuestController {
 		String view = "error";
 		Map<Integer, QuestionDTO> quizQuestions = new HashMap<>();
 		String countStr = request.getParameter("count");
+		String subject = request.getParameter("subject");
 		if (quizQuestions.size() == 0) {
 			logger.info("Initializing the Quiz Questions");
 			try {
-				quizQuestions.putAll(questAnsService.performFetchWithLimit(Integer.valueOf(countStr)));
+				quizQuestions.putAll(questAnsService.performFetchWithLimit(Long.valueOf(countStr), subject));
 			} catch (NumberFormatException e) {
 				model.addAttribute("errorMessage", "Invalid Count not a number!");
 				model.addAttribute("showClose", true);
@@ -175,7 +176,8 @@ public class QuestController {
 		logger.info("Entering editQuestView Method");
 		String view = "editQuestView";
 		String subject = request.getParameter("subject");
-		List<QuestionDTO> allQuestions = questAnsService.performFetchAll(subject);
+		List<QuestionDTO> allQuestions = questAnsService.performFetchListWithLimit(0L, subject);
+		model.addAttribute("subject", subject);
 		model.addAttribute("allQuestions", allQuestions);
 		logger.info("Exiting editQuestView Method");
 		return view;
@@ -200,7 +202,7 @@ public class QuestController {
 		String view = "editQuestView";
 		questAnsService.performUpdate(dto);
 		String subject = request.getParameter("subject");
-		List<QuestionDTO> allQuestions = questAnsService.performFetchAll(subject);
+		List<QuestionDTO> allQuestions = questAnsService.performFetchListWithLimit(0L, subject);
 		model.addAttribute("allQuestions", allQuestions);
 		logger.info("Exiting editQuestSave Method");
 		return view;
@@ -210,10 +212,12 @@ public class QuestController {
 	public String deleteQuestConfirm(HttpServletRequest request, Model model) {
 		logger.info("Entering deleteQuestConfirm Method");
 		String view = "editQuestView";
+		String questionIdStr = request.getParameter("questionId");
+		questAnsService.performDelete(Long.valueOf(questionIdStr));
 		String subject = request.getParameter("subject");
-		List<QuestionDTO> allQuestions = questAnsService.performFetchAll(subject);
+		List<QuestionDTO> allQuestions = questAnsService.performFetchListWithLimit(0L, subject);
 		model.addAttribute("allQuestions", allQuestions);
-		logger.info("Exiting deleteQuestView Method");
+		logger.info("Exiting deleteQuestConfirm Method");
 		return view;
 	}
 

@@ -30,7 +30,7 @@ public class PersonalityController {
 
 	@Autowired
 	private PersonalityService personalityService;
-	
+
 	@Autowired
 	private QuestAnsService questAnsService;
 
@@ -45,7 +45,7 @@ public class PersonalityController {
 		String limit = request.getParameter("count");
 		String subject = request.getParameter("subject");
 		try {
-			personBean.setAllPersons(personalityService.performFetchWithLimit(Integer.valueOf(limit), subject));
+			personBean.setAllPersons(personalityService.performFetchWithLimit(Long.valueOf(limit), subject));
 		} catch (NumberFormatException e) {
 			model.addAttribute("errorMessage", "Invalid Count not a number!");
 			logger.info("Number Format Exception occured not a valid number entered");
@@ -120,7 +120,7 @@ public class PersonalityController {
 		String subject = request.getParameter("subject");
 		request.getSession().setAttribute("subject", subject);
 		String view = "editPersonView";
-		List<PersonalityDTO> allPersonality = personalityService.performFetchAll(subject);
+		List<PersonalityDTO> allPersonality = personalityService.performFetchWithLimit(0L, subject);
 		model.addAttribute("allPersonality", allPersonality);
 		logger.info("Exiting editPersonView Method");
 		return view;
@@ -145,7 +145,7 @@ public class PersonalityController {
 		String view = "editPersonSave";
 		String subject = (String) request.getSession().getAttribute("subject");
 		personalityService.performUpdate(dto);
-		List<PersonalityDTO> allPersonality = personalityService.performFetchAll(subject);
+		List<PersonalityDTO> allPersonality = personalityService.performFetchWithLimit(0L, subject);
 		model.addAttribute("allPersonality", allPersonality);
 		model.addAttribute("editSucess", true);
 		logger.info("Exiting editPersonSave Method");
@@ -158,8 +158,8 @@ public class PersonalityController {
 		String view = "editPersonView";
 		String idStr = request.getParameter("personalityId");
 		String subject = (String) request.getSession().getAttribute("subject");
-		personalityService.performDelete(Integer.valueOf(idStr));
-		List<PersonalityDTO> allPersonality = personalityService.performFetchAll(subject);
+		personalityService.performDelete(Long.valueOf(idStr));
+		List<PersonalityDTO> allPersonality = personalityService.performFetchWithLimit(0L, subject);
 		model.addAttribute("deleteSucess", true);
 		model.addAttribute("allPersonality", allPersonality);
 		logger.info("Exiting deletePerson Method");

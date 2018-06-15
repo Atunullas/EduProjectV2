@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class PersonalityDTO {
 
-	private int personId;
+	private Long personId;
 
 	private String firstName;
 
@@ -30,11 +30,11 @@ public class PersonalityDTO {
 
 	private String personSubject;
 
-	public int getPersonId() {
+	public Long getPersonId() {
 		return personId;
 	}
 
-	public void setPersonId(int personId) {
+	public void setPersonId(Long personId) {
 		this.personId = personId;
 	}
 

@@ -42,7 +42,7 @@
 										url = location + "?count="
 												+ $('#itemCount').val()
 												+ "&subject="
-												+ $('#subject').val();
+												+ $('#subjectStart').val();
 										if (isPrint) {
 											window.open(url, "_blank");
 										} else {
@@ -82,7 +82,7 @@
 						buttons : {
 							"Ok" : function() {
 								url = location + "?subject="
-								+ $('#subject').val();
+								+ $('#subjectEdit').val();
 								window.location.href = url;
 								$(this).dialog("close");
 							},
@@ -132,7 +132,7 @@ p {
 							<label>Subject</label>
 						</div>
 						<div class="col-sm-6">
-							<select class="form-control" id="subject">
+							<select class="form-control" id="subjectStart">
 								<option selected="selected" value="ALL">ALL</option>
 								<c:forEach items="${allSubjects}" var="eachSubject">
 									<option value="${eachSubject}">${eachSubject}</option>
@@ -151,7 +151,7 @@ p {
 							<label>Subject</label>
 						</div>
 						<div class="col-sm-6">
-							<select class="form-control" id="subject">
+							<select class="form-control" id="subjectEdit">
 								<option selected="selected" value="ALL">ALL</option>
 								<c:forEach items="${allSubjects}" var="eachSubject">
 									<option value="${eachSubject}">${eachSubject}</option>

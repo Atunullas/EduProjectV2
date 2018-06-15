@@ -4,6 +4,7 @@
 	$(document).ready(function() {
 
 		$('#mulChoice').click(function() {
+			$('#mulChoice').addClass("active");
 			$('#choose').removeClass("active");
 			$('#trueFalse').removeClass("active");
 			$('#uploadQuestForm').show();
@@ -14,6 +15,7 @@
 		});
 
 		$('#choose').click(function() {
+			$('#choose').addClass("active");
 			$('#mulChoice').removeClass("active");
 			$('#trueFalse').removeClass("active");
 			$('#uploadQuestForm').show();
@@ -24,6 +26,7 @@
 		});
 
 		$('#trueFalse').click(function() {
+			$('#trueFalse').addClass("active");
 			$('#mulChoice').removeClass("active");
 			$('#choose').removeClass("active");
 			$('#uploadQuestForm').hide();

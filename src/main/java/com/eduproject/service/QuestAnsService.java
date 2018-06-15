@@ -40,9 +40,7 @@ public class QuestAnsService {
 			option.setIsAns(optDto.getIsAns());
 			options.add(option);
 		}
-		Subject sub = new Subject();
-		sub.setSubjectName(dto.getQuestionSubject().toUpperCase());
-		question.setQuestionSubject(sub);
+		question.setQuestionSubject(dto.getQuestionSubject());
 		question.setOptions(options);
 		logger.info("Persisting question to Database" + question);
 		questAnsDao.performSave(question);
@@ -68,7 +66,7 @@ public class QuestAnsService {
 		return quizQuest;
 	}
 
-	public List<QuestionDTO> performFetchAll(String subject) {
+	public List<QuestionDTO> performFetchAll() {
 		logger.info("Entering performFetchAll method");
 		List<Question> questAnsList = questAnsDao.performFetchAll();
 		logger.info("Number of Questions fetched from DB : " + questAnsList.size());
@@ -86,9 +84,7 @@ public class QuestAnsService {
 				option.setIsAns(opt.getIsAns());
 				optionList.add(option);
 			}
-			if (!StringUtils.isEmpty(subject)) {
-				quizQuest.setQuestionSubject(ques.getQuestionSubject().getSubjectName());
-			}
+			quizQuest.setQuestionSubject(ques.getQuestionSubject());
 			quizQuest.setOptions(optionList);
 			quizDTOList.add(quizQuest);
 		}
@@ -96,9 +92,9 @@ public class QuestAnsService {
 		return quizDTOList;
 	}
 
-	public Map<Integer, QuestionDTO> performFetchWithLimit(Integer valueOf) {
-		logger.info("Entering performFetchAll method");
-		List<Question> questAnsList = questAnsDao.performFetchWithLimit(valueOf);
+	public Map<Integer, QuestionDTO> performFetchWithLimit(Long limit, String subject) {
+		logger.info("Entering performFetchWithLimit method");
+		List<Question> questAnsList = questAnsDao.performFetchWithLimit(limit);
 		logger.info("Number of Questions fetched from DB : " + questAnsList.size());
 		Map<Integer, QuestionDTO> quizDTOList = new HashMap<>();
 		int index = 0;
@@ -115,11 +111,49 @@ public class QuestAnsService {
 				option.setIsAns(opt.getIsAns());
 				optionList.add(option);
 			}
+			if (!StringUtils.isEmpty(subject) && ques.getQuestionSubject() != null
+					&& (subject.equalsIgnoreCase(ques.getQuestionSubject().getSubjectName())
+							|| ("ALL".equals(ques.getQuestionSubject().getSubjectName())))) {
+				quizQuest.setQuestionSubject(ques.getQuestionSubject());
+			}
 			quizQuest.setOptions(optionList);
 			quizDTOList.put(index++, quizQuest);
 		}
-		logger.info("Exiting performFetchAll method");
+		logger.info("Exiting performFetchWithLimit method");
 		return quizDTOList;
+
+	}
+
+	public List<QuestionDTO> performFetchListWithLimit(Long limit, String subject) {
+		logger.info("Entering performFetchListWithLimit method");
+		List<Question> questAnsList = questAnsDao.performFetchWithLimit(limit);
+		List<QuestionDTO> result = new ArrayList<>();
+		logger.info("Number of Questions fetched from DB : " + questAnsList.size());
+		if (!StringUtils.isEmpty(subject)) {
+			for (Question ques : questAnsList) {
+				if (ques.getQuestionSubject() != null
+						&& (subject.equalsIgnoreCase(ques.getQuestionSubject().getSubjectName())
+								|| "ALL".equalsIgnoreCase(subject))) {
+					QuestionDTO quizQuest = new QuestionDTO();
+					List<OptionDTO> optionList = new ArrayList<>();
+					quizQuest.setQuestionId(ques.getQuestionId());
+					quizQuest.setQuestionTxt(ques.getQuestionTxt());
+					quizQuest.setQuestionType(ques.getQuestionType());
+					for (Option opt : ques.getOptions()) {
+						OptionDTO option = new OptionDTO();
+						option.setOptionId(opt.getOptionId());
+						option.setOptionTxt(opt.getOptionText());
+						option.setIsAns(opt.getIsAns());
+						optionList.add(option);
+					}
+					quizQuest.setQuestionSubject(ques.getQuestionSubject());
+					quizQuest.setOptions(optionList);
+					result.add(quizQuest);
+				}
+			}
+		}
+		logger.info("Exiting performFetchListWithLimit method");
+		return result;
 
 	}
 
@@ -139,6 +173,7 @@ public class QuestAnsService {
 			dto.setQuestionId(question.getQuestionId());
 			dto.setQuestionTxt(question.getQuestionTxt());
 			dto.setQuestionType(question.getQuestionType());
+			dto.setQuestionSubject(question.getQuestionSubject());
 			for (Option opt : question.getOptions()) {
 				OptionDTO option = new OptionDTO();
 				option.setOptionId(opt.getOptionId());
@@ -166,13 +201,17 @@ public class QuestAnsService {
 			option.setIsAns(optDto.getIsAns());
 			options.add(option);
 		}
-		Subject sub = new Subject();
-		sub.setSubjectName(dto.getQuestionSubject().toUpperCase());
-		question.setQuestionSubject(sub);
+		question.setQuestionSubject(dto.getQuestionSubject());
 		question.setOptions(options);
 		logger.info("Persisting question to Database" + question);
 		questAnsDao.performSave(question);
 		logger.info("Exiting performUpdate method");
+	}
+	
+	public void performDelete(Long questId) {
+		logger.info("Entering performDelete Question method");
+		questAnsDao.performDelete(questId);
+		logger.info("Exiting performDelete method");
 	}
 
 }

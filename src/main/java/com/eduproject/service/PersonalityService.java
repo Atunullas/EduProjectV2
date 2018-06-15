@@ -67,7 +67,7 @@ public class PersonalityService {
 		logger.info("Exiting performSave method");
 	}
 
-	public List<PersonalityDTO> performFetchAll(String subject) {
+	public List<PersonalityDTO> performFetchAll() {
 		logger.info("Entering performFetchAll method");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		List<Personality> result = personalityDao.performFetchAll();
@@ -84,16 +84,14 @@ public class PersonalityService {
 				dto.setPersonDOE(sdf.format(pers.getPersonDOE()));
 			dto.setPersonAbout(pers.getPersonAbout());
 			dto.setBytePersonPic(pers.getPersonPic());
-			if (!StringUtils.isEmpty(subject)) {
-				dto.setPersonSubject(pers.getPersonSubject().getSubjectName());
-			}
+			dto.setPersonSubject(pers.getPersonSubject().getSubjectName());
 			dtos.add(dto);
 		}
 		logger.info("Exiting performFetchAll method");
 		return dtos;
 	}
 
-	public List<PersonalityDTO> performFetchWithLimit(Integer limit, String subject) {
+	public List<PersonalityDTO> performFetchWithLimit(Long limit, String subject) {
 		logger.info("Entering performFetchAll method");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		List<Personality> result = personalityDao.performFetchWithLimit(limit);
@@ -110,7 +108,9 @@ public class PersonalityService {
 				dto.setPersonDOE(sdf.format(pers.getPersonDOE()));
 			dto.setPersonAbout(pers.getPersonAbout());
 			dto.setBytePersonPic(pers.getPersonPic());
-			if (!StringUtils.isEmpty(subject)) {
+			if (!StringUtils.isEmpty(subject) && pers.getPersonSubject() != null
+					&& (subject.equalsIgnoreCase(pers.getPersonSubject().getSubjectName())
+							|| ("ALL".equals(pers.getPersonSubject().getSubjectName())))) {
 				dto.setPersonSubject(pers.getPersonSubject().getSubjectName());
 			}
 			dtos.add(dto);
@@ -175,7 +175,7 @@ public class PersonalityService {
 		logger.info("Exiting performUpdate method");
 	}
 
-	public void performDelete(Integer personId) {
+	public void performDelete(Long personId) {
 		logger.info("Entering performDelete method");
 		Personality model = new Personality();
 		model.setPersonId(personId);

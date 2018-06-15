@@ -2,6 +2,8 @@ package com.eduproject.dto;
 
 import java.util.List;
 
+import com.eduproject.model.Subject;
+
 public class QuestionDTO {
 
 	private Long questionId;
@@ -10,7 +12,7 @@ public class QuestionDTO {
 
 	private String questionType;
 
-	private String questionSubject;
+	private Subject questionSubject;
 
 	private List<OptionDTO> options;
 
@@ -56,11 +58,11 @@ public class QuestionDTO {
 		this.scored = scored;
 	}
 
-	public String getQuestionSubject() {
+	public Subject getQuestionSubject() {
 		return questionSubject;
 	}
 
-	public void setQuestionSubject(String questionSubject) {
+	public void setQuestionSubject(Subject questionSubject) {
 		this.questionSubject = questionSubject;
 	}
 

@@ -39,24 +39,29 @@ public class QuestAnsDao extends HibernateDaoSupport {
 		return null;
 	}
 
-	public List<Question> performFetchWithLimit(Integer limit) {
+	public List<Question> performFetchWithLimit(Long limit) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Question.class);
-		criteria.add(Restrictions.sqlRestriction("1=1 order by rand() LIMIT " + limit));
+		if (limit == 0) {
+			criteria.add(Restrictions.sqlRestriction("1=1 order by rand()"));
+		} else {
+			criteria.add(Restrictions.sqlRestriction("1=1 order by rand() limit " + limit));
+		}
 		List<Question> result = (List<Question>) getHibernateTemplate().findByCriteria(criteria);
 		return result;
 	}
 
-	public void performDelete(Object entity) {
-		getHibernateTemplate().delete(entity);
+	public void performDelete(Long questId) {
+		Question quest = performFetchById(questId);
+		getHibernateTemplate().delete(quest);
 	}
 
-	public void performSave(Object entity) {
+	public void performSave(Question quest) {
 		getHibernateTemplate().setCheckWriteOperations(false);
-		getHibernateTemplate().save(entity);
+		getHibernateTemplate().save(quest);
 	}
 
-	public void performUpdate(Object entity) {
-		getHibernateTemplate().saveOrUpdate(entity);
+	public void performUpdate(Question quest) {
+		getHibernateTemplate().saveOrUpdate(quest);
 	}
 
 	public List<Subject> performFetchAllSubjects() {
