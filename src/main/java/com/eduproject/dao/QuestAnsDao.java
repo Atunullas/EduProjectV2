@@ -52,7 +52,9 @@ public class QuestAnsDao extends HibernateDaoSupport {
 
 	public void performDelete(Long questId) {
 		Question quest = performFetchById(questId);
-		getHibernateTemplate().delete(quest);
+		if (quest != null) {
+			getHibernateTemplate().delete(quest);
+		}
 	}
 
 	public void performSave(Question quest) {

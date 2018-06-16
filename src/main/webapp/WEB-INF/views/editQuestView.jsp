@@ -18,16 +18,15 @@
 			$("input:checkbox[name=questionId]:checked").each(function() {
 				$.ajax({
 					url: "deleteQuest.do?questionId="+$(this).val()+"&subject=${subject}",
-					success: function(result){
-			        	$("#div1").html(result);
-			    		},
+					method:'POST',
 					error: function(result){
 						$("#div1").html(result);
 					},
 					complete: function(result){
 						$("#div1").html('Delete Successful');
-					}		    	
-				});	
+						location.reload(true);
+					}	    	
+				});
 			});
 		});
 		

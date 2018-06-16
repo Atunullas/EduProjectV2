@@ -154,7 +154,7 @@ public class UploadController {
 			while ((line = br.readLine()) != null) {
 				logger.info("line values -" + line);
 				if (!isHeader) {
-					String[] fieldArray = line.split(",");
+					String[] fieldArray = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
 					QuestionDTO quesDTO = new QuestionDTO();
 					quesDTO.setQuestionTxt(fieldArray[0]);
 
@@ -168,17 +168,18 @@ public class UploadController {
 					if (EQuestType.TRUE_FALSE.name().equals(quesDTO.getQuestionType())) {
 						optionCount = 2;
 					}
+
+					fieldArray[5] = fieldArray[5].replaceAll("\"", "");
 					for (int i = 1; i <= optionCount; i++) {
 						OptionDTO optDTO = new OptionDTO();
 						optDTO.setOptionTxt(fieldArray[i]);
-						if (i == Integer.valueOf(fieldArray[5])) {
+						if (fieldArray[5].contains("" + i)) {
 							optDTO.setIsAns("Y");
 						} else {
 							optDTO.setIsAns("N");
 						}
-						logger.info("Iterating through each options for question -" + optDTO);
-						optDTO.setQuest(quesDTO);
 						optDTOs.add(optDTO);
+						logger.info("Iterating through each options for question -" + optDTO);
 					}
 					logger.info("Setting options to question -" + optDTOs);
 					quesDTO.setOptions(optDTOs);
@@ -201,7 +202,9 @@ public class UploadController {
 				}
 				isHeader = false;
 			}
-		} catch (NumberFormatException | IOException e) {
+		} catch (NumberFormatException |
+
+				IOException e) {
 			logger.error("error while reading csv and put to db : " + e.getMessage());
 		}
 		model.addAttribute("bulkUploadMessage", "File Processed, Number of rows Processed :" + count);
@@ -223,7 +226,7 @@ public class UploadController {
 			while ((line = br.readLine()) != null) {
 				logger.info("line values -" + line);
 				if (!isHeader) {
-					String[] fieldArray = line.split(",");
+					String[] fieldArray = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
 					PersonalityDTO persDTO = new PersonalityDTO();
 					persDTO.setFirstName(fieldArray[0]);
 					persDTO.setLastName(fieldArray[1]);

@@ -38,17 +38,20 @@ public class PersonalityDao extends HibernateDaoSupport {
 		return result;
 	}
 
-	public void performDelete(Object entity) {
-		getHibernateTemplate().delete(entity);
+	public void performDelete(Long personalityId) {
+		Personality personality = performFetchById(personalityId);
+		if (personality != null) {
+			getHibernateTemplate().delete(personality);
+		}
 	}
 
-	public void performSave(Object entity) {
+	public void performSave(Personality personality) {
 		getHibernateTemplate().setCheckWriteOperations(false);
-		getHibernateTemplate().save(entity);
+		getHibernateTemplate().save(personality);
 	}
 
-	public void performUpdate(Object entity) {
-		getHibernateTemplate().saveOrUpdate(entity);
+	public void performUpdate(Personality personality) {
+		getHibernateTemplate().saveOrUpdate(personality);
 	}
 
 	public Personality performFetchById(Long personId) {

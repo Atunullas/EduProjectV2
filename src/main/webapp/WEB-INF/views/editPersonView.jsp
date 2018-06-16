@@ -18,16 +18,14 @@ $(document).ready(function() {
 		$("input:checkbox[name=personId]:checked").each(function() {
 			$.ajax({
 				url: "deletePerson.do?personalityId="+$(this).val()+"&subject=${subject}",
-				success: function(result){
-		        	$("#div1").html(result);
-		    		},
+				method:'POST',
 				error: function(result){
 					$("#div1").html(result);
 				},
 				complete: function(result){
 					$("#div1").html('Delete Successful');
 				}		    	
-			});	
+			});
 		});
 	});
 	
@@ -87,9 +85,9 @@ $(document).ready(function() {
 								<div><input type="checkbox" id="checkAll" title="Choose All"></div>
 							<th class="col-md-3">
 								<div><label>First Name</label></div></th>
-							<th class="col-md-3">
+							<th class="col-md-2">
 								<div><label>Last Name</label></div></th>
-							<th style="text-align: center;" class="col-md-1">
+							<th style="text-align: center;" class="col-md-2">
 								<div><label>Personality DOB</label></div></th>
 							<th style="text-align: center;" class="col-md-2">
 								<div><label>Subject</label></div></th>

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -187,41 +188,73 @@ public class QuestController {
 	public String editQuestSelect(HttpServletRequest request, Model model) {
 		logger.info("Entering editQuestSelect Method");
 		String idStr = request.getParameter("questionId");
+		String subject = request.getParameter("subject");
 		String view = "editQuestForm";
 		QuestionDTO question = questAnsService.performFetchById(Long.valueOf(idStr));
 		List<Subject> allSubjects = questAnsService.performFetchAllSubjects();
 		model.addAttribute("question", question);
+		model.addAttribute("subject", subject);
 		model.addAttribute("allSubjects", allSubjects);
 		logger.info("Exiting editQuestSelect Method");
 		return view;
 	}
 
-	@RequestMapping(value = "/editQuestSave.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/editQuestSave.do", method = RequestMethod.POST)
 	public String editQuestSave(Model model, QuestionDTO dto, HttpServletRequest request) {
 		logger.info("Entering editQuestSave Method");
-		String view = "editQuestView";
-		String quesSubjectId = request.getParameter("quesSubjectId");
-		Subject quesSubject = questAnsService.performFetchSubjectById(Long.valueOf(quesSubjectId));
-		dto.setQuestionSubject(quesSubject);
-		questAnsService.performUpdate(dto);
+		String[] ansOpts = request.getParameterValues("isAns");
+		if (null != ansOpts) {
+			String[] optionTxts = request.getParameterValues("optionTxt");
+			String[] allOptionIds = request.getParameterValues("allOptionIds");
+			if (!StringUtils.isEmpty(dto.getQuestionType())
+					&& dto.getQuestionType().equals(EQuestType.TRUE_FALSE.name())) {
+				optionTxts = new String[2];
+				optionTxts[0] = "True";
+				optionTxts[1] = "False";
+			}
+			List<OptionDTO> optDTOs = new ArrayList<>();
+			if (optionTxts.length > ansOpts.length) {
+				int count = 0;
+				for (String x : optionTxts) {
+					OptionDTO optDTO = new OptionDTO();
+					optDTO.setOptionId(Long.valueOf(allOptionIds[count]));
+					optDTO.setOptionTxt(x);
+					for (String s : ansOpts) {
+						if (allOptionIds[count].equals(s)) {
+							optDTO.setIsAns("Y");
+							break;
+						} else {
+							optDTO.setIsAns("N");
+						}
+					}
+					optDTOs.add(optDTO);
+					count++;
+				}
+			}
+			String quesSubjectId = request.getParameter("quesSubjectId");
+			Subject quesSubject = questAnsService.performFetchSubjectById(Long.valueOf(quesSubjectId));
+			dto.setOptions(optDTOs);
+			dto.setQuestionSubject(quesSubject);
+			questAnsService.performUpdate(dto);
+		}
+
 		String subject = request.getParameter("subject");
 		List<QuestionDTO> allQuestions = questAnsService.performFetchListWithLimit(0L, subject);
 		model.addAttribute("allQuestions", allQuestions);
 		logger.info("Exiting editQuestSave Method");
-		return view;
+		return "redirect:editQuestView.do?subject=" + subject;
 	}
 
-	@RequestMapping(value = "/deleteQuest.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteQuest.do", method = RequestMethod.POST)
 	public String deleteQuestConfirm(HttpServletRequest request, Model model) {
 		logger.info("Entering deleteQuestConfirm Method");
-		String view = "editQuestView";
 		String questionIdStr = request.getParameter("questionId");
 		questAnsService.performDelete(Long.valueOf(questionIdStr));
 		String subject = request.getParameter("subject");
 		List<QuestionDTO> allQuestions = questAnsService.performFetchListWithLimit(0L, subject);
 		model.addAttribute("allQuestions", allQuestions);
 		logger.info("Exiting deleteQuestConfirm Method");
-		return view;
+		return "redirect:editQuestView.do?subject=" + subject;
 	}
 
 	private void calculateScore() {

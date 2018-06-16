@@ -108,6 +108,7 @@
 					</div>
 				</div>
 				<input type="hidden" name="subject" value="${subject}">
+				<input type="hidden" name="personId" value="${personality.personId}">
 				<div class="form-group">
 					<hr>
 					<div class="text-right">

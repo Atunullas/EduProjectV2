@@ -175,9 +175,7 @@ public class PersonalityService {
 			}
 		}
 		if (dto.getPersonSubject() != null) {
-			Subject sub = new Subject();
-			sub.setSubjectName(dto.getPersonSubject().getSubjectName().toUpperCase());
-			model.setPersonSubject(sub);
+			model.setPersonSubject(dto.getPersonSubject());
 		}
 		logger.info("Updating Personality to DB : " + model);
 		personalityDao.performUpdate(model);
@@ -186,8 +184,7 @@ public class PersonalityService {
 
 	public void performDelete(Long personId) {
 		logger.info("Entering performDelete method");
-		Personality model = new Personality();
-		model.setPersonId(personId);
+		personalityDao.performDelete(personId);
 		logger.info("Exiting performDelete method");
 	}
 }

@@ -201,17 +201,19 @@ public class QuestAnsService {
 		question.setQuestionTxt(dto.getQuestionTxt());
 		question.setQuestionType(dto.getQuestionType());
 		List<Option> options = new ArrayList<>();
-		for (OptionDTO optDto : dto.getOptions()) {
-			Option option = new Option();
-			option.setOptionId(optDto.getOptionId());
-			option.setOptionText(optDto.getOptionTxt());
-			option.setIsAns(optDto.getIsAns());
-			options.add(option);
+		if(dto.getOptions()!=null) {
+			for (OptionDTO optDto : dto.getOptions()) {
+				Option option = new Option();
+				option.setOptionId(optDto.getOptionId());
+				option.setOptionText(optDto.getOptionTxt());
+				option.setIsAns(optDto.getIsAns());
+				options.add(option);
+			}
 		}
 		question.setQuestionSubject(dto.getQuestionSubject());
 		question.setOptions(options);
 		logger.info("Persisting question to Database" + question);
-		questAnsDao.performSave(question);
+		questAnsDao.performUpdate(question);
 		logger.info("Exiting performUpdate method");
 	}
 

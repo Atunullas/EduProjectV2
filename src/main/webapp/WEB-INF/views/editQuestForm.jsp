@@ -33,7 +33,13 @@
 			$('#uploadTFQuestForm').show();
 			$('#resetBtn').show();
 		});
-
+		
+		$('input[type="hidden"][name="quesSubjectId"]').val($('#quesSubjectId').val());
+		
+		$('#quesSubjectId').change(function(){
+			$('input[type="hidden"][name="quesSubjectId"]').val($('#quesSubjectId').val());
+		});
+		
 		if ("${question.questionType}" == "MUL_ANS") {
 			$('#mulChoice').click();
 		} else if ("${question.questionType}" == "BEST_ANS") {
@@ -51,7 +57,7 @@
 			<li id="mulChoice"><a href="#">Multiple Choice Question</a></li>
 			<li id="choose"><a href="#">Choose the best answer</a></li>
 			<li id="trueFalse"><a href="#">True or False Question</a></li>
-			<li style="float: right;"><select name="quesSubjectId"
+			<li style="float: right;"><select id="quesSubjectId"
 				class="form-control">
 					<option value="">Choose the Subject</option>
 					<option value="${question.questionSubject.subjectId}"
@@ -67,7 +73,7 @@
 	</div>
 
 	<form id="uploadQuestForm" name="uploadQuestForm"
-		action="saveUploadQuest.do" method="post" class="form-horizontal"
+		action="editQuestSave.do" method="post" class="form-horizontal"
 		autocomplete="off">
 		<div class="form-group">
 			<label class="control-label col-sm-2">Question :</label>
@@ -142,6 +148,13 @@
 
 		<input type="hidden" name="questionType" id="questionType"
 			value="${question.questionType}">
+		<input type="hidden" name="questionId" value="${question.questionId}">
+		<input type="hidden" name="quesSubjectId" value="">
+		<input type="hidden" name="allOptionIds" value="${question.options[0].optionId}">
+		<input type="hidden" name="allOptionIds" value="${question.options[1].optionId}">
+		<input type="hidden" name="allOptionIds" value="${question.options[2].optionId}">
+		<input type="hidden" name="allOptionIds" value="${question.options[3].optionId}">
+		<input type="hidden" name="subject" value="${subject}">
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button id="upload" class="btn btn-success">Upload</button>
@@ -153,7 +166,7 @@
 	</form>
 
 	<form id="uploadTFQuestForm" name="uploadQuestForm"
-		action="saveUploadQuest.do" method="post" class="form-horizontal"
+		action="editQuestSave.do" method="post" class="form-horizontal"
 		style="display: none;" autocomplete="off">
 		<div class="form-group">
 			<label class="control-label col-sm-2">Question :</label>
@@ -166,12 +179,17 @@
 
 		<div class="form-group">
 			<div id="truFalDiv" class="white-text col-sm-offset-2 col-sm-10">
-				<input type="radio" name="isAns" value="True"> &nbsp; <label>True</label>
-				&nbsp; <input type="radio" name="False" value="B"> &nbsp; <label>False</label>
+				<input type="radio" name="isAns" value="${question.options[0].optionId}" <c:if test="${question.options[0].isAns eq 'Y'}"> checked="checked"</c:if>> &nbsp; <label>True</label>
+				&nbsp; <input type="radio" name="isAns" value="${question.options[1].optionId}" <c:if test="${question.options[1].isAns eq 'Y'}"> checked="checked"</c:if>> &nbsp; <label>False</label>
 			</div>
 		</div>
 
 		<input type="hidden" name="questionType" value="TRUE_FALSE">
+		<input type="hidden" name="questionId" value="${question.questionId}">
+		<input type="hidden" name="quesSubjectId" value="">
+		<input type="hidden" name="allOptionIds" value="${question.options[0].optionId}">
+		<input type="hidden" name="allOptionIds" value="${question.options[1].optionId}">
+		<input type="hidden" name="subject" value="${subject}">
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button id="upload" class="btn btn-success">Upload</button>
