@@ -118,10 +118,10 @@ public class PersonalityController {
 	public String editPersonView(HttpServletRequest request, Model model) {
 		logger.info("Entering editPersonView Method");
 		String subject = request.getParameter("subject");
-		request.getSession().setAttribute("subject", subject);
 		String view = "editPersonView";
 		List<PersonalityDTO> allPersonality = personalityService.performFetchWithLimit(0L, subject);
 		model.addAttribute("allPersonality", allPersonality);
+		model.addAttribute("subject", subject);
 		logger.info("Exiting editPersonView Method");
 		return view;
 	}
@@ -130,11 +130,18 @@ public class PersonalityController {
 	public String editPersonSelect(HttpServletRequest request, Model model) {
 		logger.info("Entering editPersonSelect Method");
 		String idStr = request.getParameter("personalityId");
+		String subject = request.getParameter("subject");
 		String view = "editPersonForm";
-		PersonalityDTO personality = personalityService.performFetchById(Integer.valueOf(idStr));
-		model.addAttribute("personality", personality);
+		PersonalityDTO personality = personalityService.performFetchById(Long.valueOf(idStr));
+		if (null != personality.getBytePersonPic()) {
+			byte[] encoded = Base64.encodeBase64(personality.getBytePersonPic());
+			String encodedString = new String(encoded);
+			model.addAttribute("image", encodedString);
+		}
 		List<Subject> allSubjects = questAnsService.performFetchAllSubjects();
+		model.addAttribute("personality", personality);
 		model.addAttribute("allSubjects", allSubjects);
+		model.addAttribute("subject", subject);
 		logger.info("Exiting editPersonSelect Method");
 		return view;
 	}
@@ -142,9 +149,12 @@ public class PersonalityController {
 	@RequestMapping(value = "/editPersonSave.do", method = RequestMethod.POST)
 	public String editPersonSave(Model model, PersonalityDTO dto, HttpServletRequest request) {
 		logger.info("Entering editPersonSave Method");
-		String view = "editPersonSave";
-		String subject = (String) request.getSession().getAttribute("subject");
+		String view = "editPersonView";
+		String persSubjectId = request.getParameter("persSubjectId");
+		Subject persSubject = questAnsService.performFetchSubjectById(Long.valueOf(persSubjectId));
+		dto.setPersonSubject(persSubject);
 		personalityService.performUpdate(dto);
+		String subject = request.getParameter("subject");
 		List<PersonalityDTO> allPersonality = personalityService.performFetchWithLimit(0L, subject);
 		model.addAttribute("allPersonality", allPersonality);
 		model.addAttribute("editSucess", true);
@@ -157,7 +167,7 @@ public class PersonalityController {
 		logger.info("Entering deletePerson Method");
 		String view = "editPersonView";
 		String idStr = request.getParameter("personalityId");
-		String subject = (String) request.getSession().getAttribute("subject");
+		String subject = request.getParameter("subject");
 		personalityService.performDelete(Long.valueOf(idStr));
 		List<PersonalityDTO> allPersonality = personalityService.performFetchWithLimit(0L, subject);
 		model.addAttribute("deleteSucess", true);

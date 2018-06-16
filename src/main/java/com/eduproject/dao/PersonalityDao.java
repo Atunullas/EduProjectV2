@@ -51,11 +51,11 @@ public class PersonalityDao extends HibernateDaoSupport {
 		getHibernateTemplate().saveOrUpdate(entity);
 	}
 
-	public Personality performFetchById(Integer personId) {
+	public Personality performFetchById(Long personId) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Personality.class);
 		criteria.add(Restrictions.eq("personId", personId));
 		List<Personality> result = (List<Personality>) getHibernateTemplate().findByCriteria(criteria);
-		if (result.size() == 0) {
+		if (result.size() == 1) {
 			return result.get(0);
 		}
 		return null;

@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eduproject.model.Subject;
+
 public class PersonalityDTO {
 
 	private Long personId;
@@ -11,8 +13,6 @@ public class PersonalityDTO {
 	private String firstName;
 
 	private String lastName;
-
-	private String personName;
 
 	private int personAge;
 
@@ -28,7 +28,7 @@ public class PersonalityDTO {
 
 	private byte[] bytePersonPic;
 
-	private String personSubject;
+	private Subject personSubject;
 
 	public Long getPersonId() {
 		return personId;
@@ -36,14 +36,6 @@ public class PersonalityDTO {
 
 	public void setPersonId(Long personId) {
 		this.personId = personId;
-	}
-
-	public String getPersonName() {
-		return personName;
-	}
-
-	public void setPersonName(String personName) {
-		this.personName = personName;
 	}
 
 	public int getPersonAge() {
@@ -118,21 +110,20 @@ public class PersonalityDTO {
 		this.bytePersonPic = bytePersonPic;
 	}
 
-	public String getPersonSubject() {
+	public Subject getPersonSubject() {
 		return personSubject;
 	}
 
-	public void setPersonSubject(String personSubject) {
+	public void setPersonSubject(Subject personSubject) {
 		this.personSubject = personSubject;
 	}
 
 	@Override
 	public String toString() {
 		return "PersonalityDTO [personId=" + personId + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", personName=" + personName + ", personAge=" + personAge + ", personGender=" + personGender
-				+ ", personDOB=" + personDOB + ", personDOE=" + personDOE + ", personAbout=" + personAbout
-				+ ", personPic=" + personPic + ", bytePersonPic=" + Arrays.toString(bytePersonPic) + ", personSubject="
-				+ personSubject + "]";
+				+ ", personAge=" + personAge + ", personGender=" + personGender + ", personDOB=" + personDOB
+				+ ", personDOE=" + personDOE + ", personAbout=" + personAbout + ", personPic=" + personPic
+				+ ", bytePersonPic=" + Arrays.toString(bytePersonPic) + ", personSubject=" + personSubject + "]";
 	}
 
 }

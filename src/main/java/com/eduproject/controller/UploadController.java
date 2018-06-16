@@ -42,7 +42,7 @@ public class UploadController {
 
 	private static final String upldQuestionHeader = "QUESTION,OPTION_1,OPTION_2,OPTION_3,OPTION_4,ANSWER,QUESTION_TYPE,QUESTION_SUBJECT";
 
-	private static final String upldPersonalityHeader = "PERSON_NAME,PERSON_SEX,PERSON_DOB,PERSON_DOE,PERSON_ABOUT,PERSON_SUBJECT";
+	private static final String upldPersonalityHeader = "PERSON_FIRST_NAME,PERSON_LAST_NAME,PERSON_SEX,PERSON_DOB,PERSON_DOE,PERSON_ABOUT,PERSON_SUBJECT";
 
 	private static final String PERSON_CSV_FILE = "csvTemplates/uploadPersonalityCSVTemplate.csv";
 
@@ -193,7 +193,7 @@ public class UploadController {
 					++count;
 				} else {
 					// Check Header for the uploaded CSV
-					if (!line.equals(upldQuestionHeader)) {
+					if (!line.equalsIgnoreCase(upldQuestionHeader)) {
 						model.addAttribute("errorMessage", "Error Occurred : Invalid File Type uploaded");
 						logger.error("Error Occurred : Invalid File Type uploaded");
 						return "error";
@@ -226,18 +226,21 @@ public class UploadController {
 					String[] fieldArray = line.split(",");
 					PersonalityDTO persDTO = new PersonalityDTO();
 					persDTO.setFirstName(fieldArray[0]);
-					persDTO.setPersonGender(fieldArray[1]);
-					persDTO.setPersonDOB(fieldArray[2]);
-					persDTO.setPersonDOE(fieldArray[3]);
-					persDTO.setPersonAbout(fieldArray[4]);
-					persDTO.setPersonSubject(fieldArray[5]);
+					persDTO.setLastName(fieldArray[1]);
+					persDTO.setPersonGender(fieldArray[2]);
+					persDTO.setPersonDOB(fieldArray[3]);
+					persDTO.setPersonDOE(fieldArray[4]);
+					persDTO.setPersonAbout(fieldArray[5]);
+					Subject subject = new Subject();
+					subject.setSubjectName(fieldArray[6]);
+					persDTO.setPersonSubject(subject);
 					logger.info("Saving value to Personality Table -" + line);
 					personalityService.performSave(persDTO);
 					personDTOList.add(persDTO);
 					++count;
 				} else {
 					// Check Header for the uploaded CSV
-					if (!line.equals(upldPersonalityHeader)) {
+					if (!line.equalsIgnoreCase(upldPersonalityHeader)) {
 						model.addAttribute("errorMessage", "Error Occurred : Invalid File Type uploaded");
 						logger.error("Error Occurred : Invalid File Type uploaded");
 						return "error";

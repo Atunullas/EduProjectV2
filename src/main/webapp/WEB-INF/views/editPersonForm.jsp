@@ -10,14 +10,14 @@
 
 <div class="container section white-text">
 	<div class="section-header text-center">
-		<h3 class="title white-text">Upload your Personality here</h3>
+		<h3 class="title white-text">Edit your Personality</h3>
 	</div>
 	<div id="sucessMsgDiv"
 		class="alert alert-success col-sm-offset-3 text-center"
 		style="display: none;">
 		<strong>Upload Successful</strong>
 	</div>
-	<form method="post" action="savePersonality.do"
+	<form method="post" action="editPersonSave.do"
 		enctype="multipart/form-data" autocomplete="off">
 		<div class="row">
 			<div class="col-sm-3 text-center">
@@ -25,7 +25,9 @@
 					<label>Upload Picture</label>
 				</div>
 				<div class="row">
-					<div class="row">&nbsp;</div>
+					<div class="row">
+						<img src="data:image/jpeg;base64,${image}" alt="${personality.firstName} ${personality.lastName}'s Pic" />
+					</div>
 					<img id="preview" />
 					<div class="error"></div>
 					<div class="row">&nbsp;</div>
@@ -73,16 +75,24 @@
 					<div class="col-sm-6">
 						<label>Gender :</label> <select name="personGender"
 							class="form-control" required="required">
-							<option selected="selected" value="${personality.personGender}" disabled="disabled">${personality.personGender}</option>
+							<option>Choose a Gender</option>
+							<c:if test="${personality.personGender eq 'Male'}" >
+								<option selected="selected" value="${personality.personGender}" >${personality.personGender}</option>
+								<option value="Female">Female</option>
+							</c:if>
+							<c:if test="${personality.personGender eq 'Female'}" >
+								<option selected="selected" value="${personality.personGender}" >${personality.personGender}</option>
+								<option value="Male">Male</option>
+							</c:if>
 						</select>
 					</div>
 					<div class="col-sm-6">
-						<label>Subject :</label> <select name="personSubject"
+						<label>Subject :</label> <select name="persSubjectId"
 							class="form-control" required="required">
 							<option value="">Choose the Subject</option>
-							<option value="${personality.personSubject}" selected="selected">${personality.personSubject}</option>
+							<option value="${personality.personSubject.subjectId}" selected="selected">${personality.personSubject.subjectName}</option>
 							<c:forEach items="${allSubjects}" var="eachSubject">
-								<c:if test="${personality.personSubject ne eachSubject}">
+								<c:if test="${personality.personSubject.subjectName ne eachSubject}">
 									<option value="${eachSubject}">${eachSubject}</option>
 								</c:if>
 							</c:forEach>
@@ -97,7 +107,7 @@
 							required="required">${personality.personAbout}</textarea>
 					</div>
 				</div>
-
+				<input type="hidden" name="subject" value="${subject}">
 				<div class="form-group">
 					<hr>
 					<div class="text-right">

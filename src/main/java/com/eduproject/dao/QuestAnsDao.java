@@ -71,4 +71,14 @@ public class QuestAnsDao extends HibernateDaoSupport {
 		return result;
 	}
 
+	public Subject performFetchSubjectById(Long subjectId) {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Subject.class);
+		criteria.add(Restrictions.eq("subjectId", subjectId));
+		List<Subject> result = (List<Subject>) getHibernateTemplate().findByCriteria(criteria);
+		if (result.size() == 1) {
+			return result.get(0);
+		}
+		return null;
+	}
+
 }

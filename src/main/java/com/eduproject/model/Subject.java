@@ -20,7 +20,7 @@ public class Subject implements Serializable {
 	@Column(name = "subject_id")
 	private Long subjectId;
 
-	@Column(name = "subject_name", nullable = false, unique = true)
+	@Column(name = "subject_name", nullable = false)
 	private String subjectName;
 
 	public Long getSubjectId() {

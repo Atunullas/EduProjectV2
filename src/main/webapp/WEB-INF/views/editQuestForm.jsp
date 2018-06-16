@@ -51,7 +51,7 @@
 			<li id="mulChoice"><a href="#">Multiple Choice Question</a></li>
 			<li id="choose"><a href="#">Choose the best answer</a></li>
 			<li id="trueFalse"><a href="#">True or False Question</a></li>
-			<li style="float: right;"><select name="subject"
+			<li style="float: right;"><select name="quesSubjectId"
 				class="form-control">
 					<option value="">Choose the Subject</option>
 					<option value="${question.questionSubject.subjectId}"

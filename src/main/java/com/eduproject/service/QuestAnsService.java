@@ -164,6 +164,13 @@ public class QuestAnsService {
 		return subjectList;
 	}
 
+	public Subject performFetchSubjectById(Long subjectId) {
+		logger.info("Entering performFetchSubjectById method");
+		Subject subject = questAnsDao.performFetchSubjectById(subjectId);
+		logger.info("Exiting performFetchSubjectById method");
+		return subject;
+	}
+
 	public QuestionDTO performFetchById(Long valueOf) {
 		logger.info("Entering performFetchById method");
 		Question question = questAnsDao.performFetchById(valueOf);
@@ -207,7 +214,7 @@ public class QuestAnsService {
 		questAnsDao.performSave(question);
 		logger.info("Exiting performUpdate method");
 	}
-	
+
 	public void performDelete(Long questId) {
 		logger.info("Entering performDelete Question method");
 		questAnsDao.performDelete(questId);

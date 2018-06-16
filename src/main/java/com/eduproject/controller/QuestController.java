@@ -200,6 +200,9 @@ public class QuestController {
 	public String editQuestSave(Model model, QuestionDTO dto, HttpServletRequest request) {
 		logger.info("Entering editQuestSave Method");
 		String view = "editQuestView";
+		String quesSubjectId = request.getParameter("quesSubjectId");
+		Subject quesSubject = questAnsService.performFetchSubjectById(Long.valueOf(quesSubjectId));
+		dto.setQuestionSubject(quesSubject);
 		questAnsService.performUpdate(dto);
 		String subject = request.getParameter("subject");
 		List<QuestionDTO> allQuestions = questAnsService.performFetchListWithLimit(0L, subject);

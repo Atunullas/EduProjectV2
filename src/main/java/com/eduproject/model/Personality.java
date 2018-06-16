@@ -25,8 +25,11 @@ public class Personality implements Serializable {
 	@Column(name = "person_id")
 	private Long personId;
 
-	@Column(name = "person_name", nullable = false)
-	private String personName;
+	@Column(name = "person_firstname", nullable = false)
+	private String personFirstName;
+
+	@Column(name = "person_lastname", nullable = false)
+	private String personLastName;
 
 	@Column(name = "person_sex", nullable = false)
 	private String personGender;
@@ -55,12 +58,20 @@ public class Personality implements Serializable {
 		this.personId = personId;
 	}
 
-	public String getPersonName() {
-		return personName;
+	public String getPersonFirstName() {
+		return personFirstName;
 	}
 
-	public void setPersonName(String personName) {
-		this.personName = personName;
+	public void setPersonFirstName(String personFirstName) {
+		this.personFirstName = personFirstName;
+	}
+
+	public String getPersonLastName() {
+		return personLastName;
+	}
+
+	public void setPersonLastName(String personLastName) {
+		this.personLastName = personLastName;
 	}
 
 	public String getPersonGender() {
@@ -113,9 +124,10 @@ public class Personality implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Personality [personId=" + personId + ", personName=" + personName + ", personGender=" + personGender
-				+ ", personDOB=" + personDOB + ", personDOE=" + personDOE + ", personAbout=" + personAbout
-				+ ", personPic=" + Arrays.toString(personPic) + ", personSubject=" + personSubject + "]";
+		return "Personality [personId=" + personId + ", personFirstName=" + personFirstName + ", personLastName="
+				+ personLastName + ", personGender=" + personGender + ", personDOB=" + personDOB + ", personDOE="
+				+ personDOE + ", personAbout=" + personAbout + ", personPic=" + Arrays.toString(personPic)
+				+ ", personSubject=" + personSubject + "]";
 	}
 
 }

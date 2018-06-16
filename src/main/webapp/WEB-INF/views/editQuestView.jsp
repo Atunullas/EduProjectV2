@@ -3,19 +3,19 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('input:button[name=editBtn]').click(function() {
-			var selectedRow = $("input:checkbox[name=personId]:checked").attr('id');
+			var selectedRow = $("input:checkbox[name=questionId]:checked").attr('id');
 			$('#editDelForm').attr('action','editQuestSelect.do?questionId='+$('#'+selectedRow).val()+"&subject=${subject}");
 			$('#editDelForm').submit();
 		});
 		
 		$('input:button[name=delBtn]').click(function() {
-			var selectedRow = $("input:checkbox[name=personId]:checked").attr('id');
+			var selectedRow = $("input:checkbox[name=questionId]:checked").attr('id');
 			$('#editDelForm').attr('action','deleteQuest.do?questionId='+$('#'+selectedRow).val()+"&subject=${subject}");
 			$('#editDelForm').submit();
 		});
 		
 		$('#delAllBtn').click(function() {
-			$("input:checkbox[name=personId]:checked").each(function() {
+			$("input:checkbox[name=questionId]:checked").each(function() {
 				$.ajax({
 					url: "deleteQuest.do?questionId="+$(this).val()+"&subject=${subject}",
 					success: function(result){
@@ -34,25 +34,27 @@
 	
 		$('#checkAll').click(function(){
 			if($('#checkAll').prop('checked')){
-				$("input:checkbox[name=personId]").prop('checked',true);
-				$("#delAllBtn").show();
-				$('#operationLabel').hide();
+				$("input:checkbox[name=questionId]").prop('checked',true);
+				if($("input:checkbox[name=questionId]:checked").length>0){
+					$("#delAllBtn").show();
+					$('#operationLabel').hide();
+				}
 			}else{
-				$("input:checkbox[name=personId]").prop('checked',false);
+				$("input:checkbox[name=questionId]").prop('checked',false);
 				$("#delAllBtn").hide();
 				$('#operationLabel').show();
 			}
 		});
 	
-		$("input:checkbox[name=personId]").click(function(){
-			if($("input:checkbox[name=personId]:checked").length>1){
+		$("input:checkbox[name=questionId]").click(function(){
+			if($("input:checkbox[name=questionId]:checked").length>1){
 				$("input:button[name=editBtn]").attr('disabled',true);
 				$("input:button[name=delBtn]").attr('disabled',true);
 				$("#delAllBtn").show();
 				$('#operationLabel').hide();
-			} else if ($("input:checkbox[name=personId]:checked").length>0){
-				var selectedRow = $("input:checkbox[name=personId]:checked").attr('id');
-				selectedRow = selectedRow.substring(8,selectedRow.length);
+			} else if ($("input:checkbox[name=questionId]:checked").length>0){
+				var selectedRow = $("input:checkbox[name=questionId]:checked").attr('id');
+				selectedRow = selectedRow.substring(10,selectedRow.length);
 				$('#editBtn'+selectedRow).attr('disabled',false);
 				$('#delBtn'+selectedRow).attr('disabled',false);
 			} else{
@@ -61,7 +63,7 @@
 				$("#delAllBtn").hide();
 				$('#operationLabel').show();
 			}
-			if($("input:checkbox[name=personId]").length == $("input:checkbox[name=personId]:checked").length){
+			if($("input:checkbox[name=questionId]").length == $("input:checkbox[name=questionId]:checked").length){
 				$('#checkAll').prop('checked',true);
 			} else{
 				$('#checkAll').prop('checked',false);
@@ -73,14 +75,14 @@
 
 <div class="container section" style="padding-top: 30px;">
 	<div class="section-header text-center">
-		<h2 class="title white-text">Edit or Delete your Questions</h2>
+		<h2 class="title white-text">Edit or Delete Questions</h2>
 			<div class="row">
 			<form id="editDelForm" method="post">
 				<div id="div1"></div>
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th  style="text-align: center;" class="col-md-1">
+							<th style="text-align: center;" class="col-md-1">
 								<div><label>Choose</label></div>
 								<div><input type="checkbox" id="checkAll" title="Choose All"></div>
 							</th>
@@ -100,7 +102,7 @@
 						<c:forEach items="${allQuestions}" var="eachQuest" varStatus="iterate">
 							<tr>
 								<td style="text-align: center;">
-									<input type="checkbox" name="personId" value="${eachQuest.questionId}" id="personId${iterate.count}" required="required"></td>
+									<input type="checkbox" name="questionId" value="${eachQuest.questionId}" id="questionId${iterate.count}" required="required"></td>
 								<td>${eachQuest.questionTxt}</td>
 								<td style="text-align: center;">${eachQuest.questionSubject.subjectName}</td>
 								<td style="text-align: center;">
