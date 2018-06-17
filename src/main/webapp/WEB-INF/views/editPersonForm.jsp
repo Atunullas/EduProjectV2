@@ -112,11 +112,11 @@
 				<div class="form-group">
 					<hr>
 					<div class="text-right">
-						<input type="reset" id="resetBtn" class="btn btn-warning"
+						<input type="reset" id="resetBtn" class="btn btn-default"
 							value="Reset" /> <input type="submit" class="btn btn-primary"
 							value="Submit"> <input type="button"
 							class="btn btn-danger"
-							onclick="window.location.href ='service.do'" value="Cancel" />
+							onclick="window.location.href ='editPersonView.do?subject=${subject}'" value="Cancel" />
 					</div>
 				</div>
 			</div>

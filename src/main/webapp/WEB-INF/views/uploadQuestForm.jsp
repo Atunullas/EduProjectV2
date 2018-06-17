@@ -120,10 +120,9 @@
 			value="MUL_ANS">
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
+				<input type="reset" class="btn btn-default" id="resetBtn" value="Reset">
 				<button id="upload" class="btn btn-success">Upload</button>
-				<input type="reset" class="btn btn-warning" id="resetBtn"
-					value="Reset"> <input type="button" class="btn btn-danger"
-					onclick="window.location.href ='service.do'" value="Cancel">
+				<input type="button" class="btn btn-danger" Onclick="window.location.href ='service.do'" value="Cancel">
 			</div>
 		</div>
 	</form>
@@ -150,10 +149,9 @@
 		<input type="hidden" name="questionType" value="TRUE_FALSE">
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
+				<input type="reset" class="btn btn-default" id="resetTFBtn"	value="Reset">
 				<button id="upload" class="btn btn-success">Upload</button>
-				<input type="reset" class="btn btn-warning" id="resetTFBtn"
-					value="Reset"> <input type="button" class="btn btn-danger"
-					onclick="window.location.href ='service.do'" value="Cancel">
+				<input type="button" class="btn btn-danger" onclick="window.location.href ='service.do'" value="Cancel">
 			</div>
 		</div>
 	</form>

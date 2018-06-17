@@ -158,9 +158,9 @@
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button id="upload" class="btn btn-success">Upload</button>
-				<input type="reset" class="btn btn-warning" id="resetBtn"
+				<input type="reset" class="btn btn-default" id="resetBtn"
 					value="Reset"> <input type="button" class="btn btn-danger"
-					onclick="window.location.href ='service.do'" value="Cancel">
+					onclick="window.location.href ='editQuestView.do?subject=${subject}'" value="Cancel">
 			</div>
 		</div>
 	</form>
@@ -193,9 +193,9 @@
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button id="upload" class="btn btn-success">Upload</button>
-				<input type="reset" class="btn btn-warning" id="resetTFBtn"
+				<input type="reset" class="btn btn-default" id="resetTFBtn"
 					value="Reset"> <input type="button" class="btn btn-danger"
-					onclick="window.location.href ='service.do'" value="Cancel">
+					onclick="window.location.href ='editQuestView.do?subject=${subject}'" value="Cancel">
 			</div>
 		</div>
 	</form>

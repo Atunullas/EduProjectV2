@@ -119,6 +119,22 @@ public class UploadController {
 		return "uploadPersonForm";
 	}
 
+	@RequestMapping(value = "/printPerson.pdf")
+	public String printPerson(HttpServletRequest request, Model model) {
+		logger.info("Entering printQuest method");
+		try {
+			String limitStr = request.getParameter("count");
+			String subject = request.getParameter("subject");
+			model.addAttribute("personalities", personalityService.performFetchWithLimit(Long.valueOf(limitStr), subject));
+		} catch (NumberFormatException e) {
+			model.addAttribute("errorMessage", "Invalid Count not a number!");
+			model.addAttribute("showClose", true);
+			logger.info("Number Format Exception occured not a valid number entered");
+			return "error";
+		}
+		return "printPerson";
+	}
+	
 	@RequestMapping(value = "/printQuest.pdf")
 	public String printQuest(HttpServletRequest request, Model model) {
 		logger.info("Entering printQuest method");
@@ -132,7 +148,7 @@ public class UploadController {
 			logger.info("Number Format Exception occured not a valid number entered");
 			return "error";
 		}
-		return "pdfView";
+		return "printQuest";
 	}
 
 	@RequestMapping(value = "/bulkUpload.view")

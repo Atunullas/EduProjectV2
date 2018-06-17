@@ -19,7 +19,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @Component
-public class PDFPrinter extends AbstractITextPdfView {
+public class PDFQuestPrinter extends AbstractITextPdfView {
 
 	private static Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
 

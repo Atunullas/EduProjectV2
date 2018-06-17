@@ -9,7 +9,8 @@
 							if (serviceId == "setQuestData.do"
 									|| serviceId == "startPerson.do") {
 								openStartDialog(serviceId, false);
-							} else if (serviceId == "printQuest.pdf") {
+							} else if (serviceId == "printQuest.pdf"
+									|| serviceId == "printPerson.pdf") {
 								openStartDialog(serviceId, true);
 							} else if (serviceId == "editQuestView.do"
 									|| serviceId == "editPersonView.do") {
@@ -17,7 +18,7 @@
 							} else {
 								window.location.href = serviceId;
 							}
-						})
+						});
 
 				function openStartDialog(location, isPrint) {
 					$('#dialogStartForm').trigger('reset');
@@ -65,32 +66,33 @@
 				function openEditDelDialog(location, isPrint) {
 					$('#dialogEditForm').trigger('reset');
 					var url = '';
-					$("#editDelDialog").dialog({
-						// autoOpen: false,
-						show : {
-							effect : "blind",
-							duration : 1000
-						},
-						hide : {
-							effect : "explode",
-							duration : 1000
-						},
-						width : 400,
-						height : "auto",
-						resizable : false,
-						modal : true,
-						buttons : {
-							"Ok" : function() {
-								url = location + "?subject="
-								+ $('#subjectEdit').val();
-								window.location.href = url;
-								$(this).dialog("close");
-							},
-							Cancel : function() {
-								$(this).dialog("close");
-							}
-						}
-					});
+					$("#editDelDialog").dialog(
+							{
+								// autoOpen: false,
+								show : {
+									effect : "blind",
+									duration : 1000
+								},
+								hide : {
+									effect : "explode",
+									duration : 1000
+								},
+								width : 400,
+								height : "auto",
+								resizable : false,
+								modal : true,
+								buttons : {
+									"Ok" : function() {
+										url = location + "?subject="
+												+ $('#subjectEdit').val();
+										window.location.href = url;
+										$(this).dialog("close");
+									},
+									Cancel : function() {
+										$(this).dialog("close");
+									}
+								}
+							});
 				}
 
 			});
@@ -238,11 +240,21 @@ p {
 				<div class="service" id="editPersonView.do">
 					<i class="fa fa-pencil"></i>
 					<h4>Edit / Delete Personalities</h4>
-					<p style="font-size: 15px;">Click here to Edit/Delete Personalities</p>
+					<p style="font-size: 15px;">Click here to Edit/Delete
+						Personalities</p>
 				</div>
 			</div>
 			<!-- /service -->
 
+			<!-- service  -->
+			<div class="col-md-4 col-sm-6">
+				<div class="service" id="printPerson.pdf">
+					<i class="fa fa-pencil"></i>
+					<h4>Print Personalities</h4>
+					<p style="font-size: 15px;">Click here to print Personalities</p>
+				</div>
+			</div>
+			<!-- /service -->
 
 
 		</div>

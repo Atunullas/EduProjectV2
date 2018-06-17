@@ -113,6 +113,7 @@
 					</tbody>
 				</table>
 			</form>
+				<input type="button" value="Back" class="btn btn-default" onclick="window.location.href='service.do'"/>
 		</div>
 	</div>
 </div>

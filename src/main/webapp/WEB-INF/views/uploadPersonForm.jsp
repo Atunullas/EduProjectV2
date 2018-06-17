@@ -100,9 +100,9 @@
 				<div class="form-group">
 					<hr>
 					<div class="text-right">
-						<input type="reset" id="resetBtn" class="btn btn-warning"
-							value="Reset" /> <input type="submit" class="btn btn-primary"
-							value="Submit"> <input type="button"
+						<input type="reset" id="resetBtn" class="btn btn-default"
+							value="Reset" /> <input type="submit" class="btn btn-success"
+							value="Upload"> <input type="button"
 							class="btn btn-danger"
 							onclick="window.location.href ='service.do'" value="Cancel" />
 					</div>
