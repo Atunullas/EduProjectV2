@@ -42,11 +42,13 @@ public class UploadController {
 
 	private static final String upldQuestionHeader = "QUESTION,OPTION_1,OPTION_2,OPTION_3,OPTION_4,ANSWER,QUESTION_TYPE,QUESTION_SUBJECT";
 
-	private static final String upldPersonalityHeader = "PERSON_FIRST_NAME,PERSON_LAST_NAME,PERSON_SEX,PERSON_DOB,PERSON_DOE,PERSON_ABOUT,PERSON_SUBJECT";
+	private static final String upldPersonalityHeader = "SUBJECT_NAME";
 
 	private static final String PERSON_CSV_FILE = "csvTemplates/uploadPersonalityCSVTemplate.csv";
 
 	private static final String QUEST_CSV_FILE = "csvTemplates/uploadQuestionCSVTemplate.csv";
+	
+	private static final String SUBJECT_CSV_FILE = "csvTemplates/uploadSubjectCSVTemplate.csv";
 
 	@Autowired
 	private QuestAnsService questAnsService;
@@ -67,6 +69,9 @@ public class UploadController {
 
 		String view = "uploadQuestForm";
 		String[] ansOpts = request.getParameterValues("isAns");
+		String subject = request.getParameter("quesSubject");
+		Subject subjectObj = new Subject();
+		subjectObj.setSubjectName(subject);
 		if (null != ansOpts) {
 			String[] optionTxts = request.getParameterValues("optionTxt");
 			if (!StringUtils.isEmpty(dto.getQuestionType())
@@ -90,6 +95,7 @@ public class UploadController {
 					}
 				}
 				dto.setOptions(optDTOs);
+				dto.setQuestionSubject(subjectObj);
 				questAnsService.performSave(dto);
 			} else {
 				model.addAttribute("errorMessage", "Invalid Options chosen !");
@@ -101,6 +107,7 @@ public class UploadController {
 			model.addAttribute("showClose", true);
 			view = "error";
 		}
+		model.addAttribute("allSubjects", questAnsService.performFetchAllSubjects());
 		return view;
 	}
 
@@ -114,8 +121,8 @@ public class UploadController {
 	@RequestMapping(value = "/savePersonality.do")
 	public String saveUploadPersonality(Model model, PersonalityDTO dto) {
 		logger.info("Entering saveUploadPersonality method");
-		personalityService.performSave(dto);
-		model.addAttribute("saveSucess", true);
+		personalityService.performSave(dto, false);
+		model.addAttribute("allSubjects", questAnsService.performFetchAllSubjects());
 		return "uploadPersonForm";
 	}
 
@@ -125,7 +132,8 @@ public class UploadController {
 		try {
 			String limitStr = request.getParameter("count");
 			String subject = request.getParameter("subject");
-			model.addAttribute("personalities", personalityService.performFetchWithLimit(Long.valueOf(limitStr), subject));
+			model.addAttribute("personalities",
+					personalityService.performFetchWithLimit(Long.valueOf(limitStr), subject));
 		} catch (NumberFormatException e) {
 			model.addAttribute("errorMessage", "Invalid Count not a number!");
 			model.addAttribute("showClose", true);
@@ -134,7 +142,7 @@ public class UploadController {
 		}
 		return "printPerson";
 	}
-	
+
 	@RequestMapping(value = "/printQuest.pdf")
 	public String printQuest(HttpServletRequest request, Model model) {
 		logger.info("Entering printQuest method");
@@ -232,7 +240,6 @@ public class UploadController {
 	public String bulkUploadPersonality(@RequestParam("csvFile") MultipartFile csvFile, Model model) {
 		logger.info("Entering bulkUploadPersonality method");
 		BufferedReader br;
-		List<PersonalityDTO> personDTOList = new ArrayList<>();
 		int count = 0;
 		try {
 			String line;
@@ -254,8 +261,43 @@ public class UploadController {
 					subject.setSubjectName(fieldArray[6]);
 					persDTO.setPersonSubject(subject);
 					logger.info("Saving value to Personality Table -" + line);
-					personalityService.performSave(persDTO);
-					personDTOList.add(persDTO);
+					personalityService.performSave(persDTO, true);
+					++count;
+				} else {
+					// Check Header for the uploaded CSV
+					if (!line.equalsIgnoreCase(upldPersonalityHeader)) {
+						model.addAttribute("errorMessage", "Error Occurred : Invalid File Type uploaded");
+						logger.error("Error Occurred : Invalid File Type uploaded");
+						return "error";
+					}
+				}
+				isHeader = false;
+			}
+		} catch (IOException e) {
+			logger.error("error while reading csv and put to db : " + e.getMessage());
+		}
+		model.addAttribute("bulkUploadMessage", "File Processed, Number of rows Processed :" + count);
+		logger.info("Number of rows Processed " + count);
+		return "bulkUploadComplete";
+	}
+
+	@RequestMapping(value = "/bulkUploadSubject.do")
+	public String bulkUploadSubject(@RequestParam("csvFile") MultipartFile csvFile, Model model) {
+		logger.info("Entering bulkUploadSubject method");
+		BufferedReader br;
+		int count = 0;
+		try {
+			String line;
+			InputStream is = csvFile.getInputStream();
+			br = new BufferedReader(new InputStreamReader(is));
+			boolean isHeader = true;
+			while ((line = br.readLine()) != null) {
+				logger.info("line values -" + line);
+				if (!isHeader) {
+					Subject subject = new Subject();
+					subject.setSubjectName(line.toUpperCase());
+					logger.info("Saving value to Subject Table -" + line);
+					questAnsService.performSubjectSave(subject);
 					++count;
 				} else {
 					// Check Header for the uploaded CSV
@@ -309,6 +351,36 @@ public class UploadController {
 	public void downloadPersnCSVFile(HttpServletResponse response) {
 		logger.info("Entering downloadPersnCSVFile method");
 		File file = new File(getClass().getClassLoader().getResource(PERSON_CSV_FILE).getFile());
+		if (!file.exists()) {
+			String errorMessage = "Sorry. The file you are looking for does not exist";
+			System.out.println(errorMessage);
+			OutputStream outputStream;
+			try {
+				outputStream = response.getOutputStream();
+				outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+				outputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return;
+		}
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+		response.setContentLength((int) file.length());
+		InputStream inputStream;
+		try {
+			inputStream = new BufferedInputStream(new FileInputStream(file));
+			FileCopyUtils.copy(inputStream, response.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return;
+	}
+	
+	@RequestMapping(value = "/downloadSubjectCSVFile.do")
+	public void downloadSubjectCSVFile(HttpServletResponse response) {
+		logger.info("Entering downloadSubjectCSVFile method");
+		File file = new File(getClass().getClassLoader().getResource(SUBJECT_CSV_FILE).getFile());
 		if (!file.exists()) {
 			String errorMessage = "Sorry. The file you are looking for does not exist";
 			System.out.println(errorMessage);

@@ -87,10 +87,10 @@
 						</select>
 					</div>
 					<div class="col-sm-6">
-						<label>Subject :</label> <select name="persSubjectId"
+						<label>Subject :</label> <select name="persSubjectName"
 							class="form-control" required="required">
 							<option value="">Choose the Subject</option>
-							<option value="${personality.personSubject.subjectId}" selected="selected">${personality.personSubject.subjectName}</option>
+							<option value="${personality.personSubject.subjectName}" selected="selected">${personality.personSubject.subjectName}</option>
 							<c:forEach items="${allSubjects}" var="eachSubject">
 								<c:if test="${personality.personSubject.subjectName ne eachSubject}">
 									<option value="${eachSubject}">${eachSubject}</option>

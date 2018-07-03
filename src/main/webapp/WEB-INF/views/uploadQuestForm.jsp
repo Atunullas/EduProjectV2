@@ -1,40 +1,57 @@
 <jsp:include page="commons/header.jsp"></jsp:include>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script>
-	$(document).ready(function() {
+	$(document).ready(
+			function() {
 
-		$('#mulChoice').click(function() {
-			$('#mulChoice').addClass("active");
-			$('#choose').removeClass("active");
-			$('#trueFalse').removeClass("active");
-			$('#uploadQuestForm').show();
-			$('#uploadTFQuestForm').hide();
-			$('input[type="radio"][name="isAns"]').attr('type', 'checkbox');
-			$('#questionType').val('MUL_ANS');
-			$('#resetBtn').show();
-		});
+				$('#mulChoice').click(
+						function() {
+							$('#mulChoice').addClass("active");
+							$('#choose').removeClass("active");
+							$('#trueFalse').removeClass("active");
+							$('#uploadQuestForm').show();
+							$('#uploadTFQuestForm').hide();
+							$('input[type="radio"][name="isAns"]').attr('type',
+									'checkbox');
+							$('#questionType').val('MUL_ANS');
+							$('#resetBtn').show();
+						});
 
-		$('#choose').click(function() {
-			$('#choose').addClass("active");
-			$('#mulChoice').removeClass("active");
-			$('#trueFalse').removeClass("active");
-			$('#uploadQuestForm').show();
-			$('#uploadTFQuestForm').hide();
-			$('input[type="checkbox"][name="isAns"]').attr('type', 'radio');
-			$('#questionType').val('BEST_ANS');
-			$('#resetBtn').show();
-		});
+				$('#choose').click(
+						function() {
+							$('#choose').addClass("active");
+							$('#mulChoice').removeClass("active");
+							$('#trueFalse').removeClass("active");
+							$('#uploadQuestForm').show();
+							$('#uploadTFQuestForm').hide();
+							$('input[type="checkbox"][name="isAns"]').attr(
+									'type', 'radio');
+							$('#questionType').val('BEST_ANS');
+							$('#resetBtn').show();
+						});
 
-		$('#trueFalse').click(function() {
-			$('#trueFalse').addClass("active");
-			$('#mulChoice').removeClass("active");
-			$('#choose').removeClass("active");
-			$('#uploadQuestForm').hide();
-			$('#uploadTFQuestForm').show();
-			$('#resetBtn').show();
-		});
+				$('#trueFalse').click(function() {
+					$('#trueFalse').addClass("active");
+					$('#mulChoice').removeClass("active");
+					$('#choose').removeClass("active");
+					$('#uploadQuestForm').hide();
+					$('#uploadTFQuestForm').show();
+					$('#resetBtn').show();
+				});
 
-	});
+			});
+	function changeSubject() {
+		$('input[name="quesSubject"]').val($('select[name="subject"]').val());
+	}
+	function checkSubject() {
+		if($('select[name="subject"]').val() == ''){
+			alert('Please choose a subject from the Dropdown'); 
+		} else {
+			return true;
+		}
+		return false;
+	}
+	
 </script>
 <div class="container section" style="padding-top: 30px;">
 	<div class="section-header text-center">
@@ -44,13 +61,16 @@
 					Choice Question</a></li>
 			<li id="choose"><a href="#">Choose the best answer</a></li>
 			<li id="trueFalse"><a href="#">True or False Question</a></li>
-			<li style="float: right;"><select name="subject"
-				class="form-control">
+			<li style="float: right;">
+			<form id="subjectForm"><select name="subject" id="subjectId" required="required"
+				class="form-control" onchange="javaScript:changeSubject();">
 					<option selected="selected" value="">Choose the Subject</option>
 					<c:forEach items="${allSubjects}" var="eachSubject">
 						<option value="${eachSubject}">${eachSubject}</option>
 					</c:forEach>
-			</select></li>
+			</select>
+			</form>
+			</li>
 		</ul>
 	</div>
 
@@ -117,12 +137,15 @@
 		</div>
 
 		<input type="hidden" name="questionType" id="questionType"
-			value="MUL_ANS">
+			value="MUL_ANS"> <input type="hidden" name="quesSubject"
+			value="">
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<input type="reset" class="btn btn-default" id="resetBtn" value="Reset">
-				<button id="upload" class="btn btn-success">Upload</button>
-				<input type="button" class="btn btn-danger" Onclick="window.location.href ='service.do'" value="Cancel">
+				<input type="reset" class="btn btn-default" id="resetBtn"
+					value="Reset">
+				<button id="upload" class="btn btn-success" onclick="return checkSubject();">Upload</button>
+				<input type="button" class="btn btn-danger"
+					Onclick="window.location.href ='service.do'" value="Cancel">
 			</div>
 		</div>
 	</form>
@@ -142,16 +165,19 @@
 		<div class="form-group">
 			<div id="truFalDiv" class="white-text col-sm-offset-2 col-sm-10">
 				<input type="radio" name="isAns" value="True"> &nbsp; <label>True</label>
-				&nbsp; <input type="radio" name="False" value="B"> &nbsp; <label>False</label>
+				&nbsp; <input type="radio" name="isAns" value="B"> &nbsp; <label>False</label>
 			</div>
 		</div>
 
-		<input type="hidden" name="questionType" value="TRUE_FALSE">
+		<input type="hidden" name="questionType" value="TRUE_FALSE"> <input
+			type="hidden" name="quesSubject" value="">
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<input type="reset" class="btn btn-default" id="resetTFBtn"	value="Reset">
-				<button id="upload" class="btn btn-success">Upload</button>
-				<input type="button" class="btn btn-danger" onclick="window.location.href ='service.do'" value="Cancel">
+				<input type="reset" class="btn btn-default" id="resetTFBtn"
+					value="Reset">
+				<button id="upload" class="btn btn-success" onclick="return checkSubject();">Upload</button>
+				<input type="button" class="btn btn-danger"
+					onclick="window.location.href ='service.do'" value="Cancel">
 			</div>
 		</div>
 	</form>

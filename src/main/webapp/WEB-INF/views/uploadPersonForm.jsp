@@ -79,7 +79,7 @@
 						</select>
 					</div>
 					<div class="col-sm-6">
-						<label>Subject :</label> <select name="personSubject"
+						<label>Subject :</label> <select name="persSubject"
 							class="form-control" required="required">
 							<option selected="selected" value="">Choose the Subject</option>
 							<c:forEach items="${allSubjects}" var="eachSubject">

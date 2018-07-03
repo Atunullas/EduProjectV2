@@ -1,1 +1,6 @@
 QUESTION,OPTION_1,OPTION_2,OPTION_3,OPTION_4,ANSWER,QUESTION_TYPE,QUESTION_SUBJECT
+What is your Name ?,Atun,Arun,Dhana,Vignesh,1,BEST_ANS,GENERAL
+What is not your name?,Atun,Kukku,Ullas,Atul,4,BEST_ANS,GENERAL
+Are you Atun?,TRUE,FALSE,,,1,TRUE_FALSE,GENERAL
+Are you not Atun,TRUE,FALSE,,,2,TRUE_FALSE,GENERAL
+Places you visited in India?,Chennai,Bangalore,Kottayam,Delhi,"1,2,3",MUL_ANS,GENERAL

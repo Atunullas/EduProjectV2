@@ -17,14 +17,14 @@
 		<div class="row">
 			<div class="col-sm-3 text-center">
 				<div class="row">
-					<img src="data:image/jpeg;base64,${image}" alt="${person.personName}'s Pic" />
+					<img src="data:image/jpeg;base64,${image}" alt="No Pic Uploaded for ${person.firstName} ${person.lastName}" />
 				</div>
 			</div>
 			<div class="col-sm-9">
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="form-group">
-							<label for="fname">Name</label> <label class="form-control">${person.personName}</label>
+							<label for="fname">Name</label> <label class="form-control">${person.firstName} ${person.lastName}</label>
 						</div>
 					</div>
 					<div class="col-sm-6">

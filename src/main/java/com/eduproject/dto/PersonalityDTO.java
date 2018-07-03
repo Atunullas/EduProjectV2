@@ -30,6 +30,8 @@ public class PersonalityDTO {
 
 	private Subject personSubject;
 
+	private String persSubject;
+
 	public Long getPersonId() {
 		return personId;
 	}
@@ -118,12 +120,21 @@ public class PersonalityDTO {
 		this.personSubject = personSubject;
 	}
 
+	public String getPersSubject() {
+		return persSubject;
+	}
+
+	public void setPersSubject(String persSubject) {
+		this.persSubject = persSubject;
+	}
+
 	@Override
 	public String toString() {
 		return "PersonalityDTO [personId=" + personId + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", personAge=" + personAge + ", personGender=" + personGender + ", personDOB=" + personDOB
 				+ ", personDOE=" + personDOE + ", personAbout=" + personAbout + ", personPic=" + personPic
-				+ ", bytePersonPic=" + Arrays.toString(bytePersonPic) + ", personSubject=" + personSubject + "]";
+				+ ", bytePersonPic=" + Arrays.toString(bytePersonPic) + ", personSubject=" + personSubject
+				+ ", persSubject=" + persSubject + "]";
 	}
 
 }

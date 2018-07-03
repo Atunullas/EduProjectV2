@@ -34,10 +34,10 @@
 			$('#resetBtn').show();
 		});
 		
-		$('input[type="hidden"][name="quesSubjectId"]').val($('#quesSubjectId').val());
+		$('input[type="hidden"][name="quesSubjectName"]').val($('#quesSubjectName').val());
 		
-		$('#quesSubjectId').change(function(){
-			$('input[type="hidden"][name="quesSubjectId"]').val($('#quesSubjectId').val());
+		$('#quesSubjectName').change(function(){
+			$('input[type="hidden"][name="quesSubjectName"]').val($('#quesSubjectName').val());
 		});
 		
 		if ("${question.questionType}" == "MUL_ANS") {
@@ -57,10 +57,10 @@
 			<li id="mulChoice"><a href="#">Multiple Choice Question</a></li>
 			<li id="choose"><a href="#">Choose the best answer</a></li>
 			<li id="trueFalse"><a href="#">True or False Question</a></li>
-			<li style="float: right;"><select id="quesSubjectId"
+			<li style="float: right;"><select id="quesSubjectName"
 				class="form-control">
 					<option value="">Choose the Subject</option>
-					<option value="${question.questionSubject.subjectId}"
+					<option value="${question.questionSubject.subjectName}"
 						selected="selected">${question.questionSubject.subjectName}</option>
 					<c:forEach items="${allSubjects}" var="eachSubject">
 						<c:if
@@ -149,7 +149,7 @@
 		<input type="hidden" name="questionType" id="questionType"
 			value="${question.questionType}">
 		<input type="hidden" name="questionId" value="${question.questionId}">
-		<input type="hidden" name="quesSubjectId" value="">
+		<input type="hidden" name="quesSubjectName" value="">
 		<input type="hidden" name="allOptionIds" value="${question.options[0].optionId}">
 		<input type="hidden" name="allOptionIds" value="${question.options[1].optionId}">
 		<input type="hidden" name="allOptionIds" value="${question.options[2].optionId}">
@@ -186,7 +186,7 @@
 
 		<input type="hidden" name="questionType" value="TRUE_FALSE">
 		<input type="hidden" name="questionId" value="${question.questionId}">
-		<input type="hidden" name="quesSubjectId" value="">
+		<input type="hidden" name="quesSubjectName" value="">
 		<input type="hidden" name="allOptionIds" value="${question.options[0].optionId}">
 		<input type="hidden" name="allOptionIds" value="${question.options[1].optionId}">
 		<input type="hidden" name="subject" value="${subject}">

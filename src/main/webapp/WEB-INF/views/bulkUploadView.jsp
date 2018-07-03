@@ -9,6 +9,9 @@
 			} else if ($('#csvType').val() == 2) {
 				$("#uploadCSV").attr('action', "bulkUploadPersonality.do");
 				$("#uploadCSV").submit();
+			} else if ($('#csvType').val() == 3) {
+				$("#uploadCSV").attr('action', "bulkUploadSubject.do");
+				$("#uploadCSV").submit();
 			} else {
 				e.preventDefault();
 			}
@@ -28,6 +31,7 @@
 					Upload Type</option>
 				<option value="1">Upload Questions as CSV</option>
 				<option value="2">Upload Personalities as CSV</option>
+				<option value="3">Upload Subject as CSV</option>
 			</select>
 		</div>
 		<div class="form-group">
@@ -43,6 +47,7 @@
 			<li> <i class="fa fa-info-circle"></i> To get the CSV template click below</li>
 			<li> <i class="fa fa-file-excel-o"></i> <a href="downloadQuestCSVFile.do">Question CSV Template</a></li>
 			<li> <i class="fa fa-file-excel-o"></i> <a href="downloadPersnCSVFile.do">Noble Personality CSV Template</a></li>
+			<li> <i class="fa fa-file-excel-o"></i> <a href="downloadSubjectCSVFile.do">Subject CSV Template</a></li>
 		</ul>
 	</form>
 </div>

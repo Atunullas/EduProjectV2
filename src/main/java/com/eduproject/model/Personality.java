@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "personality")
@@ -35,9 +37,11 @@ public class Personality implements Serializable {
 	private String personGender;
 
 	@Column(name = "person_dob", nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date personDOB;
 
 	@Column(name = "person_doe")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date personDOE;
 
 	@Column(name = "person_about")

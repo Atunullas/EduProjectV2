@@ -46,6 +46,13 @@ public class QuestAnsService {
 		questAnsDao.performSave(question);
 		logger.info("Exiting performSave method");
 	}
+	
+	public void performSubjectSave(Subject sub) {
+		logger.info("Entering performSubjectSave Question method");
+		logger.info("Persisting Subjects to Database" + sub);
+		questAnsDao.performSubjectSave(sub);
+		logger.info("Exiting performSubjectSave method");
+	}
 
 	public QuestionDTO performFetch(Long questId) {
 		logger.info("Entering performFetch method by question Id " + questId);

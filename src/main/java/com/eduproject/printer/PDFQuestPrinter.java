@@ -27,7 +27,7 @@ public class PDFQuestPrinter extends AbstractITextPdfView {
 		Paragraph paragraph = new Paragraph();
 		addEmptyParagraph(paragraph, 0);
 		Font font = new Font();
-		font.setSize(12);
+		font.setSize(8);
 		paragraph.setFont(font);
 		paragraph.add(opt);
 		paragraph.setAlignment(Element.ALIGN_LEFT);
@@ -40,7 +40,7 @@ public class PDFQuestPrinter extends AbstractITextPdfView {
 		addEmptyParagraph(paragraph, 1);
 		Font font = new Font();
 		font.setStyle(Font.BOLD);
-		font.setSize(12);
+		font.setSize(8);
 		paragraph.setFont(font);
 		paragraph.add(quest);
 		paragraph.setAlignment(Element.ALIGN_LEFT);
@@ -51,7 +51,6 @@ public class PDFQuestPrinter extends AbstractITextPdfView {
 	private void setTitleOfDoc(Document document, String docTitle) throws DocumentException {
 		Paragraph preface = new Paragraph();
 		Paragraph title = new Paragraph(docTitle, titleFont);
-		addEmptyParagraph(preface, 2);
 		title.setAlignment(Element.ALIGN_CENTER);
 		preface.add(title);
 		document.add(preface);
@@ -71,7 +70,7 @@ public class PDFQuestPrinter extends AbstractITextPdfView {
 		if (questions.size() > 0) {
 			document.addTitle("Question Paper");
 			document.addAuthor("smartApp");
-			setTitleOfDoc(document,"Question Paper");
+			setTitleOfDoc(document, "Question Paper");
 			int i = 0;
 			for (QuestionDTO eachQuest : questions.values()) {
 				String questionType = "";
@@ -90,7 +89,7 @@ public class PDFQuestPrinter extends AbstractITextPdfView {
 				}
 			}
 		} else {
-			setTitleOfDoc(document,"No Questions Found, Please upload !");
+			setTitleOfDoc(document, "No Questions Found, Please upload !");
 		}
 	}
 }

@@ -231,8 +231,9 @@ public class QuestController {
 					count++;
 				}
 			}
-			String quesSubjectId = request.getParameter("quesSubjectId");
-			Subject quesSubject = questAnsService.performFetchSubjectById(Long.valueOf(quesSubjectId));
+			String quesSubjectName = request.getParameter("quesSubjectName");
+			Subject quesSubject = new Subject();
+			quesSubject.setSubjectName(quesSubjectName);
 			dto.setOptions(optDTOs);
 			dto.setQuestionSubject(quesSubject);
 			questAnsService.performUpdate(dto);
@@ -241,6 +242,7 @@ public class QuestController {
 		String subject = request.getParameter("subject");
 		List<QuestionDTO> allQuestions = questAnsService.performFetchListWithLimit(0L, subject);
 		model.addAttribute("allQuestions", allQuestions);
+		model.addAttribute("subject", subject);
 		logger.info("Exiting editQuestSave Method");
 		return "redirect:editQuestView.do?subject=" + subject;
 	}
@@ -253,6 +255,7 @@ public class QuestController {
 		String subject = request.getParameter("subject");
 		List<QuestionDTO> allQuestions = questAnsService.performFetchListWithLimit(0L, subject);
 		model.addAttribute("allQuestions", allQuestions);
+		model.addAttribute("subject", subject);
 		logger.info("Exiting deleteQuestConfirm Method");
 		return "redirect:editQuestView.do?subject=" + subject;
 	}

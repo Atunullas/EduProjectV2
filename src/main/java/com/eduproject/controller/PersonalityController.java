@@ -40,7 +40,7 @@ public class PersonalityController {
 	@RequestMapping(value = "/startPerson.do")
 	public String startPerson(HttpServletRequest request, Model model) {
 		logger.info("Enter startPerson method");
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat appSDF = new SimpleDateFormat("dd-MM-yyyy");
 		String view = "error";
 		String limit = request.getParameter("count");
 		String subject = request.getParameter("subject");
@@ -55,7 +55,8 @@ public class PersonalityController {
 			personBean.setCurQuestion(1);
 			PersonalityDTO personDTO = personBean.getAllPersons().get(0);
 			try {
-				personDTO.setPersonAge(calculateAge(sdf.parse(personDTO.getPersonDOB())));
+				personDTO.setPersonAge(
+						calculateAge(appSDF.parse(personDTO.getPersonDOB()), personDTO.getPersonDOE() != null));
 			} catch (ParseException e) {
 				logger.info("Parse Exception Occured while calculating Age");
 				return view;
@@ -85,7 +86,7 @@ public class PersonalityController {
 	@RequestMapping(value = "/nextPerson.do")
 	public String nextPerson(HttpServletRequest request, Model model) {
 		logger.info("Enter nextPerson method");
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat appSDF = new SimpleDateFormat("dd-MM-yyyy");
 		String personId = request.getParameter("id");
 		String view = "error";
 		int id = 1;
@@ -98,8 +99,10 @@ public class PersonalityController {
 		if (personBean.getAllPersons().size() > id) {
 			PersonalityDTO personDTO = personBean.getAllPersons().get(id);
 			try {
-				personDTO.setPersonAge(calculateAge(sdf.parse(personDTO.getPersonDOB())));
+				personDTO.setPersonAge(
+						calculateAge(appSDF.parse(personDTO.getPersonDOB()), personDTO.getPersonDOE() != null));
 			} catch (ParseException e) {
+				logger.info("ParseException Exception Occured while Parsing the Personality details" + e.getMessage());
 				return view;
 			}
 			model.addAttribute("person", personDTO);
@@ -150,14 +153,15 @@ public class PersonalityController {
 	public String editPersonSave(Model model, PersonalityDTO dto, HttpServletRequest request) {
 		logger.info("Entering editPersonSave Method");
 		String view = "editPersonView";
-		String persSubjectId = request.getParameter("persSubjectId");
-		Subject persSubject = questAnsService.performFetchSubjectById(Long.valueOf(persSubjectId));
+		String persSubjectName = request.getParameter("persSubjectName");
+		Subject persSubject = new Subject();
+		persSubject.setSubjectName(persSubjectName);
 		dto.setPersonSubject(persSubject);
 		personalityService.performUpdate(dto);
 		String subject = request.getParameter("subject");
 		List<PersonalityDTO> allPersonality = personalityService.performFetchWithLimit(0L, subject);
 		model.addAttribute("allPersonality", allPersonality);
-		model.addAttribute("editSucess", true);
+		model.addAttribute("subject", subject);
 		logger.info("Exiting editPersonSave Method");
 		return view;
 	}
@@ -172,17 +176,20 @@ public class PersonalityController {
 		List<PersonalityDTO> allPersonality = personalityService.performFetchWithLimit(0L, subject);
 		model.addAttribute("deleteSucess", true);
 		model.addAttribute("allPersonality", allPersonality);
+		model.addAttribute("subject", subject);
 		logger.info("Exiting deletePerson Method");
 		return view;
 	}
 
-	private int calculateAge(Date dob) {
+	private int calculateAge(Date dob, boolean isExpired) {
 		logger.info("Enter calculateAge method");
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dob);
 		Calendar today = Calendar.getInstance();
 		int curYear = today.get(Calendar.YEAR);
 		int dobYear = cal.get(Calendar.YEAR);
+		if (isExpired)
+			return 0;
 		int age = curYear - dobYear;
 		int curMonth = today.get(Calendar.MONTH);
 		int dobMonth = cal.get(Calendar.MONTH);

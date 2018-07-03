@@ -62,6 +62,11 @@ public class QuestAnsDao extends HibernateDaoSupport {
 		getHibernateTemplate().save(quest);
 	}
 
+	public void performSubjectSave(Subject sub) {
+		getHibernateTemplate().setCheckWriteOperations(false);
+		getHibernateTemplate().save(sub);
+	}
+
 	public void performUpdate(Question quest) {
 		getHibernateTemplate().saveOrUpdate(quest);
 	}
